@@ -49,6 +49,7 @@ class TokenManager:
         payload = {
             "userNameOrEmailAddress": user.movescout_username,
             "password": password,
+            "rememberClient": True,
         }
 
         async with httpx.AsyncClient(
@@ -73,17 +74,29 @@ class TokenManager:
                 ) from exc
 
         if response.status_code != 200:
+            body_preview = (response.text or "")[:300]
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail="MoveScout authentication failed for stored credentials",
+                detail=(
+                    f"MoveScout authentication failed (HTTP {response.status_code}). "
+                    f"Response: {body_preview or response.reason_phrase}"
+                ),
             )
 
         data = response.json()
+        if data.get("success") is False:
+            err = data.get("error") or {}
+            message = err.get("message") or err.get("details") or data.get("unAuthorizedRequest")
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"MoveScout rejected login: {message or data}",
+            )
+
         access_token = data.get("result", {}).get("accessToken")
         if not access_token:
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail="MoveScout authentication response missing access token",
+                detail=f"MoveScout authentication response missing access token: {data}",
             )
 
         expires_at = datetime.now(UTC) + timedelta(seconds=self.settings.token_expiry_seconds)
