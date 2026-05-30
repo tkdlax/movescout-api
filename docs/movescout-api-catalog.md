@@ -79,6 +79,12 @@ Internal sequence:
 2. `GET Inventory/GetEstimateByIdForInventoryTab?estimateId={id}`
 3. `GET Inventory/GetEstimateSummary?estimateId={id}` (optional)
 
+### Lead pricing (one call)
+
+`GET /leads/{leadId}/pricing` — resolves primary estimate, calls `GetEstimatePricingTotalJsonResponse`.
+
+Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, `estimateName`, plus MoveScout pricing fields.
+
 ### Inventory service
 
 | Upstream | Middleware |

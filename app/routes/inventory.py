@@ -26,7 +26,7 @@ from app.movescout.inventory import (
     get_estimate_summary,
 )
 from app.movescout.responses import parse_abp_response
-from app.services.inventory_service import fetch_inventory_by_lead
+from app.services.inventory_service import fetch_inventory_by_lead, fetch_pricing_by_lead
 from app.services.movescout_service import with_movescout_client
 
 router = APIRouter(tags=["inventory"])
@@ -53,6 +53,26 @@ async def get_lead_inventory(
             include_summary=include_summary,
             shipping_only=shipping_only,
         )
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/leads/{lead_id}/pricing")
+async def get_lead_pricing(
+    request: Request,
+    lead_id: str,
+    estimate_id: str | None = Query(default=None, alias="estimateId"),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Resolve primary estimate (or estimateId) and return pricing totals JSON."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        return await fetch_pricing_by_lead(client, lead_id, estimate_id=estimate_id)
 
     try:
         return await with_movescout_client(db, user, callback)

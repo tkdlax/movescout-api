@@ -1,7 +1,7 @@
 from typing import Any
 
 from app.movescout.client import MoveScoutClient, MoveScoutError
-from app.movescout.estimates import get_primary_estimate
+from app.movescout.estimates import get_estimate_pricing_total, get_primary_estimate
 from app.movescout.inventory import get_estimate_for_inventory_tab, get_estimate_summary
 from app.movescout.responses import parse_abp_response
 from app.services.inventory_transform import build_inventory_response
@@ -65,3 +65,34 @@ async def fetch_inventory_by_lead(
         summary_result=summary_result,
         shipping_only=shipping_only,
     )
+
+
+async def fetch_pricing_by_lead(
+    client: MoveScoutClient,
+    lead_id: str,
+    *,
+    estimate_id: str | None = None,
+) -> dict[str, Any]:
+    """Resolve primary estimate (unless estimateId given) and return pricing totals JSON."""
+    resolved_id, primary_meta = await resolve_estimate_id(client, lead_id, estimate_id)
+
+    pricing_response = await get_estimate_pricing_total(client, resolved_id)
+    pricing = parse_abp_response(pricing_response, action="get estimate pricing")
+
+    response: dict[str, Any] = {
+        "leadId": int(lead_id) if str(lead_id).isdigit() else lead_id,
+        "estimateId": int(resolved_id) if str(resolved_id).isdigit() else resolved_id,
+    }
+    if primary_meta:
+        if primary_meta.get("estimateName"):
+            response["estimateName"] = primary_meta["estimateName"]
+        response["isPrimaryEstimate"] = True
+    elif estimate_id:
+        response["isPrimaryEstimate"] = False
+
+    if isinstance(pricing, dict):
+        response.update(pricing)
+    else:
+        response["result"] = pricing
+
+    return response

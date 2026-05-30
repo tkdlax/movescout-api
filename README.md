@@ -132,6 +132,7 @@ Docker Compose services use `restart: unless-stopped`. Ensure the Docker service
 | GET | `/reference/transit-seasons` | Transit guide seasons (cached) |
 | GET | `/reference/price-classes` | Alliance price classes (`?bookerId=`) |
 | GET | `/leads/{id}/inventory` | **Primary estimate + room-grouped inventory (one call)** |
+| GET | `/leads/{id}/pricing` | **Primary estimate + pricing JSON (one call)** |
 | GET | `/leads/{id}/estimates` | List estimates for a lead |
 | GET | `/leads/{id}/estimates/primary` | Primary estimate summary |
 | GET | `/leads/{id}/estimates/{estimateId}` | Full estimate DTO (inventory tab) |
