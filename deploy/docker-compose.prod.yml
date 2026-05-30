@@ -1,10 +1,6 @@
 services:
   api:
     restart: unless-stopped
-    # Bind on all interfaces so Nginx Proxy Manager (Docker) can reach via LAN IP.
-    # Do not forward port 8000 on your router; only expose HTTPS via NPM.
-    ports:
-      - "8000:8000"
 
   postgres:
     restart: unless-stopped
