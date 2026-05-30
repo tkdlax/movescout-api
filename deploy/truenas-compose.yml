@@ -1,0 +1,46 @@
+# Compose file for TrueNAS Scale Custom App (Install via YAML + include).
+# Clone the repo to a dataset, e.g. /mnt/tank/apps/movescout-api
+# Create .env in the repo root (copy from .env.example).
+#
+# TrueNAS UI: Apps → Discover Apps → ⋮ → Install via YAML
+# Custom Config:
+#   include:
+#     - /mnt/tank/apps/movescout-api/deploy/truenas-compose.yml
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-movescout}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-movescout}
+    volumes:
+      # Host path: survives app redeploys; snapshot this dataset folder on TrueNAS
+      - ${APP_DATA_PATH:-/mnt/tank/apps/movescout-api}/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-movescout}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    # Prefer pre-built image (GitHub Actions publishes to GHCR on push to main).
+    # To build locally on TrueNAS instead, comment image/build lines and uncomment build block.
+    image: ghcr.io/tkdlax/movescout-api:latest
+    pull_policy: always
+    # build:
+    #   context: ..
+    #   dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-movescout}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-movescout}
+    ports:
+      # Expose on all host interfaces so nginx (same host or LAN) can reach the API.
+      # Restrict port 8000 in TrueNAS firewall if nginx is on another machine.
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy

@@ -1,0 +1,11 @@
+# Paste this into TrueNAS: Apps → Discover Apps → ⋮ → Install via YAML
+#
+# BEFORE saving:
+# 1. Clone https://github.com/tkdlax/movescout-api to a dataset (see TRUENAS-CUSTOM-APP.md)
+# 2. Replace the include path below with YOUR clone path
+# 3. Create .env in the repo root on TrueNAS
+#
+# App Name (in UI): movescout-api  (lowercase, no leading hyphen)
+
+include:
+  - /mnt/tank/apps/movescout-api/deploy/truenas-compose.yml

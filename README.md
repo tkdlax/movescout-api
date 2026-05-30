@@ -43,6 +43,10 @@ API docs (development only): http://localhost:8000/docs
 
 ## TrueNAS Scale Deployment
 
+**Recommended:** [deploy/TRUENAS-CUSTOM-APP.md](deploy/TRUENAS-CUSTOM-APP.md) — Custom App via **Install via YAML** (clone repo to dataset + `include` compose file).
+
+### Manual / CLI deployment
+
 ### 1. Prepare dataset
 
 Create a dataset on TrueNAS Scale, e.g. `/mnt/tank/apps/movescout-api/`:
