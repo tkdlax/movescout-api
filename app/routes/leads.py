@@ -30,6 +30,10 @@ from app.services.movescout_service import with_movescout_client
 router = APIRouter(prefix="/leads", tags=["leads"])
 
 
+def _json_response(data: Any, *, status_code: int = 200) -> JSONResponse:
+    return JSONResponse(status_code=status_code, content=jsonable_encoder(data))
+
+
 @router.get("")
 async def list_leads(
     request: Request,
@@ -126,10 +130,11 @@ async def get_lead(
 
     async def callback(client: Any) -> dict[str, Any]:
         response = await get_lead_by_id(client, lead_id)
-        return extract_single_lead(response)
+        return parse_abp_response(response, action="get lead")
 
     try:
-        return await with_movescout_client(db, user, callback)
+        result = await with_movescout_client(db, user, callback)
+        return _json_response(result)
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 
@@ -150,10 +155,7 @@ async def create_lead(
 
     try:
         result = await with_movescout_client(db, user, callback)
-        return JSONResponse(
-            status_code=status.HTTP_201_CREATED,
-            content=jsonable_encoder(result),
-        )
+        return _json_response(result, status_code=status.HTTP_201_CREATED)
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 
@@ -176,10 +178,11 @@ async def update_lead(
         merged = deep_merge(current, body)
         merged["id"] = current.get("id") or lead_id
         response = await create_or_update_lead(client, merged)
-        return response.get("result", response) if isinstance(response, dict) else response
+        return parse_abp_response(response, action="update lead")
 
     try:
-        return await with_movescout_client(db, user, callback)
+        result = await with_movescout_client(db, user, callback)
+        return _json_response(result)
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 
