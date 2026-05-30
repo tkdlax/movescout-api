@@ -63,7 +63,8 @@ class TokenManager:
                     headers={
                         "Content-Type": "application/json-patch+json",
                         "Accept": "text/plain",
-                        "Origin": self.settings.movescout_base_url,
+                        "Origin": self.settings.movescout_origin,
+                        "Referer": f"{self.settings.movescout_origin}/",
                         "User-Agent": MOVESCOUT_USER_AGENT,
                     },
                 )

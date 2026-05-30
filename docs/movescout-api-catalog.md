@@ -2,9 +2,18 @@
 
 Field lists and payload shapes for MoveScout Pro API endpoints. Expand this document with HAR captures as needed.
 
+## Hosts
+
+| Purpose | URL |
+|---------|-----|
+| Web UI (login) | `https://movescoutpro.sirva.com` |
+| **API** (all REST calls) | `https://movescoutproapi.sirva.com` |
+
+Set `MOVESCOUT_BASE_URL` to the API host. Set `MOVESCOUT_ORIGIN` to the web UI host.
+
 ## Authentication
 
-`POST /api/TokenAuth/Authenticate`
+`POST https://movescoutproapi.sirva.com/api/TokenAuth/Authenticate`
 
 ```json
 {

@@ -7,6 +7,8 @@ import sys
 
 import httpx
 
+from app.config import get_settings
+
 MOVESCOUT_USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
@@ -14,10 +16,12 @@ MOVESCOUT_USER_AGENT = (
 
 
 def main() -> None:
+    settings = get_settings()
     parser = argparse.ArgumentParser(description="Test MoveScout TokenAuth/Authenticate")
     parser.add_argument("--username", required=True)
     parser.add_argument("--password", required=True)
-    parser.add_argument("--base-url", default="https://movescoutpro.sirva.com")
+    parser.add_argument("--base-url", default=settings.movescout_base_url)
+    parser.add_argument("--origin", default=settings.movescout_origin)
     args = parser.parse_args()
 
     payload = {
@@ -29,13 +33,15 @@ def main() -> None:
     headers = {
         "Content-Type": "application/json-patch+json",
         "Accept": "text/plain",
-        "Origin": args.base_url,
+        "Origin": args.origin,
+        "Referer": f"{args.origin.rstrip('/')}/",
         "User-Agent": MOVESCOUT_USER_AGENT,
     }
 
     url = f"{args.base_url.rstrip('/')}/api/TokenAuth/Authenticate"
     print(f"POST {url}")
     print(f"User: {args.username}")
+    print(f"Origin: {args.origin}")
 
     try:
         response = httpx.post(url, json=payload, headers=headers, timeout=30.0)
@@ -50,6 +56,7 @@ def main() -> None:
         print(json.dumps(data, indent=2)[:2000])
     except ValueError:
         print((response.text or "")[:2000])
+        data = {}
 
     if response.status_code == 200:
         token = (data if isinstance(data, dict) else {}).get("result", {}).get("accessToken")

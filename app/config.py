@@ -8,7 +8,10 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://movescout:changeme@localhost:5432/movescout"
     encryption_key: str = ""
-    movescout_base_url: str = "https://movescoutpro.sirva.com"
+    # API host (not the web UI at movescoutpro.sirva.com)
+    movescout_base_url: str = "https://movescoutproapi.sirva.com"
+    # Browser Origin header expected by MoveScout (SPA login site)
+    movescout_origin: str = "https://movescoutpro.sirva.com"
     log_level: str = "info"
     api_host: str = "0.0.0.0"
     api_port: int = 8000
