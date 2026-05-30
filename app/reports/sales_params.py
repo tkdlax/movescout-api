@@ -12,6 +12,7 @@ class SalesReportParams:
     sales_rep_name: str | None
     default_filter: int
     fiscal_year: int
+    callback_url: str | None = None
 
 
 def _format_report_date(value: date) -> str:
@@ -35,6 +36,7 @@ def normalize_sales_report_params(
     goal: float = 0.40,
     sales_rep_name: str | None = None,
     default_filter: int = 3,
+    callback_url: str | None = None,
 ) -> SalesReportParams:
     today = date.today()
     resolved_start = start or f"Jan 1, {today.year}"
@@ -49,6 +51,7 @@ def normalize_sales_report_params(
         sales_rep_name=sales_rep_name,
         default_filter=default_filter,
         fiscal_year=fiscal_year,
+        callback_url=callback_url,
     )
 
 
@@ -66,6 +69,7 @@ def sales_report_params_from_dict(data: dict) -> SalesReportParams:
         sales_rep_name=data.get("sales_rep_name"),
         default_filter=int(data.get("default_filter", 3)),
         fiscal_year=int(data["fiscal_year"]),
+        callback_url=data.get("callback_url"),
     )
 
 

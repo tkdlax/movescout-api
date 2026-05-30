@@ -171,32 +171,58 @@ All endpoints except `/health` require `X-API-Key` header.
 
 Reports run as background jobs so generation is not limited by HTTP/proxy timeouts.
 
-1. **`POST /reports/sales`** — enqueue job, returns **202** with `{ reportId, status, expiresAt }`
+1. **`POST /reports/sales`** — enqueue job with JSON body, returns **202** with `{ reportId, status, expiresAt }`
 2. **`GET /reports/sales/{reportId}`** — poll until **200** HTML download (`409` while pending/running)
 
-Query params (POST): `move_type`, `start`, `end`, `location`, `goal`, optional `salesRepName`, `defaultFilter`.
+JSON body (POST):
+
+| Field | Default | Notes |
+|-------|---------|-------|
+| `moveType` | `Interstate` | |
+| `start` | Jan 1 of current year | |
+| `end` | Today | |
+| `location` | Bailey's Moving & Storage | |
+| `goal` | `0.40` | |
+| `salesRepName` | (none) | Optional filter |
+| `defaultFilter` | `3` | |
+| `callbackUrl` | (none) | Per-client webhook; middleware POSTs JSON when job completes |
+
+When the job finishes (`ready` or `failed`), the middleware POSTs to `callbackUrl`:
+
+```json
+{
+  "reportId": "...",
+  "status": "ready",
+  "expiresAt": "...",
+  "filename": "sales-interstate-20260530.html",
+  "error": null
+}
+```
+
+Use your API key to `GET /reports/sales/{reportId}` and download the HTML. Optional env `REPORT_CALLBACK_SECRET` adds `Authorization: Bearer ...` on outbound webhooks.
 
 Files expire after **1 hour** (`REPORT_TTL_SECONDS`, default 3600). Metadata in Postgres; HTML on disk (`REPORT_STORAGE_DIR`).
 
 After deploy, run `alembic upgrade head` once to create the `report_jobs` table.
 
 ```powershell
-$job = Invoke-RestMethod -Method POST `
-  -Uri "https://mspapi.jbeckstead.com/reports/sales?move_type=Interstate&start=Jan+1,+2026&end=May+29,+2026" `
-  -Headers @{ "X-API-Key" = $apiKey }
+$body = @{
+  moveType = "Interstate"
+  start = "Jan 1, 2026"
+  end = "May 29, 2026"
+  callbackUrl = "https://your-client-flow.webhook.office.com/..."
+} | ConvertTo-Json
 
-do {
-  Start-Sleep -Seconds 5
-  try {
-    Invoke-WebRequest `
-      -Uri "https://mspapi.jbeckstead.com/reports/sales/$($job.reportId)" `
-      -Headers @{ "X-API-Key" = $apiKey } `
-      -OutFile "report.html"
-    break
-  } catch {
-    if ($_.Exception.Response.StatusCode.value__ -ne 409) { throw }
-  }
-} while ($true)
+$job = Invoke-RestMethod -Method POST `
+  -Uri "https://mspapi.jbeckstead.com/reports/sales" `
+  -Headers @{ "X-API-Key" = $apiKey; "Content-Type" = "application/json" } `
+  -Body $body
+
+# Optional: poll if not using callbackUrl
+Invoke-WebRequest `
+  -Uri "https://mspapi.jbeckstead.com/reports/sales/$($job.reportId)" `
+  -Headers @{ "X-API-Key" = $apiKey } `
+  -OutFile "report.html"
 ```
 
 Optional env `REPORT_MAX_LEADS` fails the job if the probe count exceeds the cap.

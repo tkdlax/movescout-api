@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     report_storage_dir: str = "/tmp/movescout-reports"
     report_ttl_seconds: int = 3600
     report_sweep_interval_seconds: int = 900
+    report_callback_timeout_seconds: int = 10
+    report_callback_secret: str | None = None
 
     @property
     def is_production(self) -> bool:

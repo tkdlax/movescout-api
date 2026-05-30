@@ -70,3 +70,16 @@ class SalesReportJobStatusResponse(BaseModel):
     error: str | None = None
 
     model_config = {"populate_by_name": True}
+
+
+class SalesReportCreateRequest(BaseModel):
+    move_type: str = Field(default="Interstate", alias="moveType")
+    start: str | None = None
+    end: str | None = None
+    location: str = Field(default="Bailey's Moving & Storage")
+    goal: float = Field(default=0.40, ge=0.0, le=1.0)
+    sales_rep_name: str | None = Field(default=None, alias="salesRepName")
+    default_filter: int = Field(default=3, alias="defaultFilter", ge=0, le=12)
+    callback_url: str | None = Field(default=None, alias="callbackUrl")
+
+    model_config = {"populate_by_name": True}

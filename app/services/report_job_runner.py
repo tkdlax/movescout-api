@@ -18,9 +18,24 @@ from app.reports.sales_data import (
 from app.reports.sales_params import sales_report_params_from_dict
 from app.reports.sales_report import build_html
 from app.services.movescout_service import with_movescout_client
+from app.services.report_callback import notify_report_callback
 from app.services.report_storage import delete_report_file, write_report_file
 
 logger = logging.getLogger(__name__)
+
+
+async def _notify_if_configured(job: ReportJob) -> None:
+    callback_url = job.params.get("callback_url") if job.params else None
+    if not callback_url:
+        return
+    await notify_report_callback(
+        callback_url=callback_url,
+        report_id=job.id,
+        status=job.status,
+        expires_at=job.expires_at,
+        filename=job.filename,
+        error=job.error_message,
+    )
 
 
 async def _mark_failed(db, job: ReportJob, message: str) -> None:
@@ -30,6 +45,7 @@ async def _mark_failed(db, job: ReportJob, message: str) -> None:
     delete_report_file(job.file_path)
     job.file_path = None
     await db.commit()
+    await _notify_if_configured(job)
 
 
 async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None:
@@ -112,6 +128,7 @@ async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None
         job.error_message = None
         await db.commit()
         logger.info("Report job %s ready at %s", report_id, path)
+        await _notify_if_configured(job)
 
 
 def spawn_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None:

@@ -1,5 +1,6 @@
 import uuid
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -12,6 +13,7 @@ from app.main import app
 from app.models.db import ReportJob
 from app.reports.sales_data import ReportTooManyLeadsError
 from app.reports.sales_params import normalize_sales_report_params
+from app.services.report_callback import validate_callback_url
 from app.services.report_job_runner import run_sales_report_job
 from app.services.report_storage import sweep_expired_jobs, write_report_file
 
@@ -62,7 +64,7 @@ async def test_create_report_job_returns_202(override_auth, test_user_id):
                 response = await client.post(
                     "/reports/sales",
                     headers={"X-API-Key": "test-key"},
-                    params={"move_type": "Interstate"},
+                    json={"moveType": "Interstate"},
                 )
 
     assert response.status_code == 202
@@ -79,7 +81,7 @@ async def test_create_report_job_invalid_move_type(override_auth):
         response = await client.post(
             "/reports/sales",
             headers={"X-API-Key": "test-key"},
-            params={"move_type": "Residential"},
+            json={"moveType": "Residential"},
         )
     assert response.status_code == 400
 
@@ -243,3 +245,91 @@ def test_write_report_file(tmp_path):
         path = write_report_file(report_id, "<html>test</html>")
     assert path.exists()
     assert path.read_text(encoding="utf-8") == "<html>test</html>"
+
+
+def test_validate_callback_url_rejects_localhost():
+    with pytest.raises(ValueError, match="localhost"):
+        validate_callback_url("https://localhost/hook")
+
+
+def test_validate_callback_url_rejects_private_ip():
+    with pytest.raises(ValueError, match="private"):
+        validate_callback_url("https://192.168.1.10/hook")
+
+
+def test_validate_callback_url_accepts_https_host():
+    assert validate_callback_url("https://example.webhook.office.com/abc") == (
+        "https://example.webhook.office.com/abc"
+    )
+
+
+@pytest.mark.asyncio
+async def test_create_report_job_rejects_bad_callback(override_auth):
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.post(
+            "/reports/sales",
+            headers={"X-API-Key": "test-key"},
+            json={"moveType": "Interstate", "callbackUrl": "https://127.0.0.1/hook"},
+        )
+    assert response.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_runner_notifies_callback_on_ready(test_user_id):
+    report_id = uuid.uuid4()
+    job = ReportJob(
+        id=report_id,
+        user_id=test_user_id,
+        status="pending",
+        params={
+            "move_type": "Interstate",
+            "start": "Jan 1, 2026",
+            "end": "May 29, 2026",
+            "location": "Test",
+            "goal": 0.4,
+            "sales_rep_name": None,
+            "default_filter": 3,
+            "fiscal_year": 2026,
+            "callback_url": "https://hooks.example.com/report-done",
+        },
+        filename="sales-interstate-20260529.html",
+        expires_at=datetime.now(UTC) + timedelta(hours=1),
+    )
+    user = SimpleNamespace(id=test_user_id, is_active=True)
+
+    mock_db = AsyncMock()
+    job_result = MagicMock()
+    job_result.scalar_one_or_none.return_value = job
+    user_result = MagicMock()
+    user_result.scalar_one_or_none.return_value = user
+    mock_db.execute = AsyncMock(side_effect=[job_result, user_result])
+    mock_db.commit = AsyncMock()
+    mock_db.refresh = AsyncMock()
+
+    lead = {
+        "moveTypeId": 119,
+        "dispositionId": 38,
+        "creationTime": "2026-03-10T12:00:00Z",
+        "salesRepName": "Alice",
+    }
+
+    with patch("app.services.report_job_runner.async_session_factory") as factory:
+        factory.return_value.__aenter__.return_value = mock_db
+        with patch(
+            "app.services.report_job_runner.with_movescout_client",
+            new=AsyncMock(return_value=([lead], 1)),
+        ):
+            with patch(
+                "app.services.report_job_runner.write_report_file",
+                return_value=Path("/tmp/x.html"),
+            ):
+                with patch(
+                    "app.services.report_job_runner._notify_if_configured",
+                    new=AsyncMock(),
+                ) as notify:
+                    await run_sales_report_job(report_id, test_user_id)
+
+    assert job.status == "ready"
+    notify.assert_awaited_once()
+

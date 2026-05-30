@@ -1,7 +1,7 @@
 import uuid
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,9 +9,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth.api_key import get_current_user
 from app.database import get_db
 from app.models.db import User
-from app.models.schemas import SalesReportJobCreatedResponse, SalesReportJobStatusResponse
+from app.models.schemas import (
+    SalesReportCreateRequest,
+    SalesReportJobCreatedResponse,
+    SalesReportJobStatusResponse,
+)
 from app.reports.lead_filters import validate_move_type
 from app.reports.sales_params import normalize_sales_report_params
+from app.services.report_callback import validate_callback_url
 from app.services.report_job_runner import spawn_sales_report_job
 from app.services.report_storage import create_report_job, delete_report_job, get_report_job
 
@@ -31,13 +36,7 @@ def _job_status_response(job, *, status_code: int, error: str | None = None) -> 
 @router.post("/sales", status_code=status.HTTP_202_ACCEPTED)
 async def create_sales_report(
     request: Request,
-    move_type: str = Query(default="Interstate"),
-    start: str | None = Query(default=None),
-    end: str | None = Query(default=None),
-    location: str = Query(default="Bailey's Moving & Storage"),
-    goal: float = Query(default=0.40, ge=0.0, le=1.0),
-    sales_rep_name: str | None = Query(default=None, alias="salesRepName"),
-    default_filter: int = Query(default=3, alias="defaultFilter", ge=0, le=12),
+    body: SalesReportCreateRequest,
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> JSONResponse:
@@ -45,28 +44,39 @@ async def create_sales_report(
     request.state.user_id = user.id
 
     try:
-        validate_move_type(move_type)
+        validate_move_type(body.move_type)
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
+    callback_url: str | None = None
+    if body.callback_url is not None:
+        try:
+            callback_url = validate_callback_url(body.callback_url)
+        except ValueError as exc:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+
     params = normalize_sales_report_params(
-        move_type=move_type,
-        start=start,
-        end=end,
-        location=location,
-        goal=goal,
-        sales_rep_name=sales_rep_name,
-        default_filter=default_filter,
+        move_type=body.move_type,
+        start=body.start,
+        end=body.end,
+        location=body.location,
+        goal=body.goal,
+        sales_rep_name=body.sales_rep_name,
+        default_filter=body.default_filter,
+        callback_url=callback_url,
     )
     job = await create_report_job(db, user_id=user.id, params=params)
     spawn_sales_report_job(job.id, user.id)
 
-    body = SalesReportJobCreatedResponse(
+    response_body = SalesReportJobCreatedResponse(
         reportId=job.id,
         status=job.status,
         expiresAt=job.expires_at,
     )
-    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content=jsonable_encoder(body))
+    return JSONResponse(
+        status_code=status.HTTP_202_ACCEPTED,
+        content=jsonable_encoder(response_body),
+    )
 
 
 @router.get("/sales/{report_id}")

@@ -139,11 +139,11 @@ Async two-step flow — generation runs in a background task (not tied to HTTP t
 | Enqueue | POST | `/reports/sales` | **202** `{ reportId, status, expiresAt }` |
 | Poll/download | GET | `/reports/sales/{reportId}` | **200** HTML file, **409** pending/running, **410** expired, **500** failed |
 
-Query params (POST): same as before — `move_type`, `start`, `end`, `location`, `goal`, optional `salesRepName`, `defaultFilter`.
+POST JSON body: `moveType`, `start`, `end`, `location`, `goal`, optional `salesRepName`, `defaultFilter`, optional **`callbackUrl`** (per-client webhook notified on `ready`/`failed`).
 
 Requires `X-API-Key` on both calls. Job metadata in Postgres (`report_jobs` table); HTML on disk until `REPORT_TTL_SECONDS` (default 1h). Deploy: `alembic upgrade head`.
 
-Optional env: `REPORT_MAX_LEADS`, `REPORT_STORAGE_DIR`, `REPORT_TTL_SECONDS`, `REPORT_SWEEP_INTERVAL_SECONDS`.
+Optional env: `REPORT_MAX_LEADS`, `REPORT_STORAGE_DIR`, `REPORT_TTL_SECONDS`, `REPORT_SWEEP_INTERVAL_SECONDS`, `REPORT_CALLBACK_SECRET`, `REPORT_CALLBACK_TIMEOUT_SECONDS`.
 
 ## Filterable Lead Fields
 
