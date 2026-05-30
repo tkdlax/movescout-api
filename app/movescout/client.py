@@ -3,7 +3,7 @@ from typing import Any
 import httpx
 
 from app.config import get_settings
-from app.movescout.headers import MOVESCOUT_USER_AGENT, movescout_request_headers
+from app.movescout.headers import movescout_request_headers
 
 
 class MoveScoutError(Exception):
