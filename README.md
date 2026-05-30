@@ -36,7 +36,7 @@ docker compose -f deploy/docker-compose.yml run --rm api python scripts/create_u
 
 # Test
 curl http://localhost:8000/health
-curl -H "X-API-Key: YOUR_KEY" "http://localhost:8000/leads?pageSize=1"
+curl -H "X-API-Key: YOUR_KEY" "http://localhost:8000/leads"
 ```
 
 API docs (development only): http://localhost:8000/docs
@@ -124,12 +124,14 @@ Docker Compose services use `restart: unless-stopped`. Ensure the Docker service
 | Method | Path | Description |
 |---|---|---|
 | GET | `/health` | Health check (no auth) |
-| GET | `/leads` | Paginated lead list |
+| GET | `/leads/page-count` | Total rows + page count for a query (probe only) |
+| GET | `/leads` | One page of leads (`page`, `maxResultSize`) |
 | GET | `/leads/export` | CSV export |
 | GET | `/leads/{id}` | Single lead |
 | POST | `/leads` | Create lead |
 | PUT | `/leads/{id}` | Update lead (fetch-merge-update) |
-| POST | `/leads/query` | Generic filter query |
+| POST | `/leads/query/page-count` | Page count for a POST filter query |
+| POST | `/leads/query` | One page of a filter query (`page`, `maxResultSize`) |
 | GET | `/leads/{id}/appointments` | Lead appointments |
 | POST | `/leads/{id}/appointments` | Create survey appointment |
 | GET | `/appointments` | Cross-lead activity search |

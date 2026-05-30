@@ -2,6 +2,7 @@ from typing import Any
 
 from app.movescout.client import MoveScoutClient
 from app.movescout.filters import build_kendo_filter, current_http_date
+from app.movescout.paging import movescout_skip_count
 
 
 async def get_activities(
@@ -13,8 +14,8 @@ async def get_activities(
     page_size: int = 500,
 ) -> Any:
     payload: dict[str, Any] = {
-        "page": page,
-        "pageSize": page_size,
+        "skipCount": movescout_skip_count(page, page_size),
+        "maxResultCount": page_size,
         "compositeFilterDescriptorObj": {
             "logic": "and",
             "filters": filters or [],

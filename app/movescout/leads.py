@@ -1,6 +1,7 @@
 from typing import Any
 
 from app.movescout.client import MoveScoutClient
+from app.movescout.paging import movescout_skip_count
 
 
 async def get_all_leads(
@@ -16,8 +17,8 @@ async def get_all_leads(
     payload: dict[str, Any] = {
         "defaultFilterLead": default_filter,
         "filters": filters or [],
-        "page": page,
-        "pageSize": page_size,
+        "skipCount": movescout_skip_count(page, page_size),
+        "maxResultCount": page_size,
         "sortField": sort_field or "",
         "sortDir": sort_dir,
     }

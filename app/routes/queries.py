@@ -11,8 +11,7 @@ from app.database import get_db
 from app.models.db import User
 from app.movescout.client import MoveScoutError
 from app.movescout.filters import build_date_range_filter, build_filters, build_kendo_filter
-from app.movescout.leads import extract_lead_list, get_all_leads
-from app.movescout.pagination import fetch_all_leads_paginated
+from app.movescout.pagination import fetch_all_leads_paginated, list_leads_page_response
 from app.services.csv_export import generate_csv_content, leads_to_csv_rows
 from app.services.movescout_service import with_movescout_client
 
@@ -31,18 +30,22 @@ async def _run_named_query(
     filters: list[dict[str, Any]],
     format: str,
     page: int = 1,
-    page_size: int = 500,
+    max_result_size: int = 500,
+    sort_field: str | None = None,
+    sort_dir: str = "desc",
 ) -> Any:
     request.state.user_id = user.id
     settings = get_settings()
 
     if format == "csv":
         async def export_callback(client: Any) -> StreamingResponse:
-            leads = await fetch_all_leads_paginated(
+            leads, _total = await fetch_all_leads_paginated(
                 client,
                 default_filter=default_filter,
                 filters=filters,
                 page_size=settings.export_page_size,
+                sort_field=sort_field,
+                sort_dir=sort_dir,
             )
             fieldnames, rows = leads_to_csv_rows(leads)
             content = generate_csv_content(fieldnames, rows)
@@ -59,16 +62,18 @@ async def _run_named_query(
         except MoveScoutError as exc:
             raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 
+    batch = min(max_result_size, settings.max_page_size)
+
     async def callback(client: Any) -> dict[str, Any]:
-        response = await get_all_leads(
+        return await list_leads_page_response(
             client,
             default_filter=default_filter,
             filters=filters,
             page=page,
-            page_size=page_size,
+            max_result_size=batch,
+            sort_field=sort_field,
+            sort_dir=sort_dir,
         )
-        items, total = extract_lead_list(response)
-        return {"items": items, "total": total, "page": page, "pageSize": page_size}
 
     try:
         return await with_movescout_client(db, user, callback)
@@ -82,7 +87,7 @@ async def booked_no_reg(
     sales_rep_name: str | None = Query(default=None, alias="salesRepName"),
     format: str = Query(default="json"),
     page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=500, alias="pageSize", ge=1, le=1000),
+    max_result_size: int = Query(default=500, alias="maxResultSize", ge=1, le=1000),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -100,7 +105,7 @@ async def booked_no_reg(
         filters=filters,
         format=format,
         page=page,
-        page_size=page_size,
+        max_result_size=max_result_size,
     )
 
 
@@ -111,7 +116,7 @@ async def scheduled_surveys(
     end: str = Query(),
     format: str = Query(default="json"),
     page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=500, alias="pageSize", ge=1, le=1000),
+    max_result_size: int = Query(default=500, alias="maxResultSize", ge=1, le=1000),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -125,7 +130,7 @@ async def scheduled_surveys(
         filters=filters,
         format=format,
         page=page,
-        page_size=page_size,
+        max_result_size=max_result_size,
     )
 
 
@@ -134,7 +139,7 @@ async def unassigned_leads(
     request: Request,
     format: str = Query(default="json"),
     page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=500, alias="pageSize", ge=1, le=1000),
+    max_result_size: int = Query(default=500, alias="maxResultSize", ge=1, le=1000),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -147,7 +152,7 @@ async def unassigned_leads(
         filters=filters,
         format=format,
         page=page,
-        page_size=page_size,
+        max_result_size=max_result_size,
     )
 
 
@@ -156,7 +161,7 @@ async def my_leads(
     request: Request,
     format: str = Query(default="json"),
     page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=500, alias="pageSize", ge=1, le=1000),
+    max_result_size: int = Query(default=500, alias="maxResultSize", ge=1, le=1000),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -175,5 +180,5 @@ async def my_leads(
         filters=filters,
         format=format,
         page=page,
-        page_size=page_size,
+        max_result_size=max_result_size,
     )

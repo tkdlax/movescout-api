@@ -22,17 +22,22 @@ class FilterSpec(BaseModel):
     value: Any = None
 
 
-class LeadQueryRequest(BaseModel):
+class LeadListRequest(BaseModel):
+    """Shared filter/sort params for lead list, page-count, and query endpoints."""
+
     default_filter: int = Field(default=3, alias="defaultFilter")
     filters: list[FilterSpec] = Field(default_factory=list)
     logic: str = "and"
-    page_size: int = Field(default=500, alias="pageSize", ge=1, le=1000)
-    page: int = Field(default=1, ge=1)
-    export: bool = False
+    max_result_size: int = Field(default=500, alias="maxResultSize", ge=1, le=1000)
     sort_field: str | None = Field(default=None, alias="sortField")
     sort_dir: str = Field(default="desc", alias="sortDir")
 
     model_config = {"populate_by_name": True}
+
+
+class LeadQueryRequest(LeadListRequest):
+    page: int = Field(default=1, ge=1)
+    export: bool = False
 
 
 class CreateAppointmentRequest(BaseModel):

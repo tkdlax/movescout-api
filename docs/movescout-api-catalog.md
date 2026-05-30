@@ -30,7 +30,13 @@ Response: `{ "result": { "accessToken": "..." } }`
 
 `POST /api/services/app/Lead/GetAllLead`
 
-Key request fields: `defaultFilterLead`, `filters`, `page`, `pageSize`, `sortField`, `sortDir`
+Key request fields: `defaultFilterLead`, `filters`, `skipCount`, `maxResultCount`, `sortField`, `sortDir`
+
+`GET /leads/page-count` (or `POST /leads/query/page-count`): probe with `maxResultCount=1`,
+returns `totalCount` and `pageCount = ceil(totalCount / maxResultSize)`.
+
+`GET /leads?page=N&maxResultSize=500`: one page only (`skipCount = (N-1) * maxResultSize`).
+CSV export still auto-fetches all pages server-side.
 
 ### GetLeadById
 

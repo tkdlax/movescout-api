@@ -4,6 +4,7 @@ from httpx import ASGITransport, AsyncClient
 from app.auth.api_key import generate_api_key, hash_api_key, verify_api_key
 from app.main import app
 from app.movescout.filters import build_filters, build_kendo_filter
+from app.movescout.paging import movescout_page_count, movescout_skip_count
 from app.services.dedup import deduplicate_latest_per_lead
 from app.services.lead_merge import deep_merge
 
@@ -30,6 +31,20 @@ def test_api_key_hash_and_verify():
     hashed = hash_api_key(key)
     assert verify_api_key(key, hashed)
     assert not verify_api_key("wrong-key", hashed)
+
+
+def test_movescout_skip_count():
+    assert movescout_skip_count(1, 100) == 0
+    assert movescout_skip_count(2, 100) == 100
+    assert movescout_skip_count(3, 50) == 100
+
+
+def test_movescout_page_count():
+    assert movescout_page_count(0, 500) == 0
+    assert movescout_page_count(1, 500) == 1
+    assert movescout_page_count(500, 500) == 1
+    assert movescout_page_count(501, 500) == 2
+    assert movescout_page_count(1500, 500) == 3
 
 
 def test_build_kendo_filter():

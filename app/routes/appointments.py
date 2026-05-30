@@ -17,6 +17,7 @@ from app.movescout.activities import (
     extract_activity_list,
     get_activities,
 )
+from app.movescout.pagination import fetch_all_activities_paginated
 from app.movescout.client import MoveScoutError
 from app.movescout.leads import extract_single_lead, get_lead_by_id, update_lead_from_appointment
 from app.services.csv_export import generate_csv_content
@@ -95,23 +96,20 @@ async def list_appointments(
     end_date: str | None = Query(default=None, alias="endDate"),
     activity_type: int | None = Query(default=None, alias="type"),
     lead_id: str | None = Query(default=None, alias="leadId"),
-    page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=500, alias="pageSize", ge=1, le=1000),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
     request.state.user_id = user.id
+    settings = get_settings()
     filters = build_activity_date_filters(start_date, end_date, activity_type, lead_id)
 
     async def callback(client: Any) -> dict[str, Any]:
-        response = await get_activities(
+        items, total = await fetch_all_activities_paginated(
             client,
             filters=filters,
-            page=page,
-            page_size=page_size,
+            page_size=settings.export_page_size,
         )
-        items, total = extract_activity_list(response)
-        return {"items": items, "total": total, "page": page, "pageSize": page_size}
+        return {"items": items, "total": total}
 
     try:
         return await with_movescout_client(db, user, callback)
@@ -133,22 +131,11 @@ async def latest_appointment_per_lead(
     filters = build_activity_date_filters(start_date, end_date, activity_type=1)
 
     async def callback(client: Any) -> Any:
-        all_items: list[dict[str, Any]] = []
-        page = 1
-
-        while True:
-            response = await get_activities(
-                client,
-                filters=filters,
-                page=page,
-                page_size=settings.export_page_size,
-            )
-            items, total = extract_activity_list(response)
-            all_items.extend(items)
-            if len(all_items) >= total or not items:
-                break
-            page += 1
-
+        all_items, _total = await fetch_all_activities_paginated(
+            client,
+            filters=filters,
+            page_size=settings.export_page_size,
+        )
         deduped = deduplicate_latest_per_lead(all_items)
 
         if format == "csv":
