@@ -125,6 +125,26 @@ Docker Compose services use `restart: unless-stopped`. Ensure the Docker service
 |---|---|---|
 | GET | `/health` | Health check (no auth) |
 | GET | `/lov` | List-of-value enums from MoveScout (cached, `?refresh=true` to bypass) |
+| GET | `/reference/service-items` | Alliance item master (482 items, cached) |
+| GET | `/reference/service-item-types` | Alliance item types (cached) |
+| GET | `/reference/service-item-categories` | Alliance categories (cached) |
+| GET | `/reference/vehicles` | Auto make/model reference (cached) |
+| GET | `/reference/transit-seasons` | Transit guide seasons (cached) |
+| GET | `/reference/price-classes` | Alliance price classes (`?bookerId=`) |
+| GET | `/leads/{id}/inventory` | **Primary estimate + room-grouped inventory (one call)** |
+| GET | `/leads/{id}/estimates` | List estimates for a lead |
+| GET | `/leads/{id}/estimates/primary` | Primary estimate summary |
+| GET | `/leads/{id}/estimates/{estimateId}` | Full estimate DTO (inventory tab) |
+| GET | `/leads/{id}/estimates/{estimateId}/summary` | Room/segment inventory totals |
+| GET | `/leads/{id}/estimates/{estimateId}/rooms` | Room reference list |
+| GET | `/leads/{id}/estimates/{estimateId}/segments` | Estimate segments |
+| GET | `/leads/{id}/estimates/{estimateId}/accessorials` | Accessorial charges |
+| GET | `/leads/{id}/estimates/{estimateId}/pricing` | Pricing engine response |
+| GET | `/leads/{id}/estimates/{estimateId}/tariffs` | Available tariffs |
+| GET | `/leads/{id}/estimates/{estimateId}/auto-spot` | Auto spot details |
+| GET | `/leads/{id}/estimates/{estimateId}/notes` | Customer-facing notes |
+| GET | `/leads/{id}/estimates/{estimateId}/alliance` | Alliance quote record |
+| GET | `/leads/{id}/estimates/{estimateId}/booker-id` | Booker/agency ID |
 | GET | `/leads/page-count` | Total rows + page count for a query (probe only) |
 | GET | `/leads` | One page of leads (`page`, `maxResultSize`) |
 | GET | `/leads/export` | CSV export |
@@ -152,6 +172,9 @@ python scripts/create_user.py --name "User" --movescout-username "..." --movesco
 
 # Rotate API key
 python scripts/rotate_api_key.py --user-id "<uuid>"
+
+# Smoke-test inventory for a lead
+python scripts/test_inventory_by_lead.py --lead-id 1553516 --api-key YOUR_KEY
 ```
 
 ## Cloud Migration

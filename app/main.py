@@ -10,7 +10,7 @@ from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.request import AuditLogMiddleware, RequestIdMiddleware
 from app.models.schemas import ErrorResponse
 from app.movescout.client import MoveScoutError
-from app.routes import appointments, health, leads, lov, queries
+from app.routes import appointments, health, inventory, leads, lov, queries, reference
 
 logger = logging.getLogger(__name__)
 
@@ -105,6 +105,8 @@ def create_app() -> FastAPI:
 
     app.include_router(health.router)
     app.include_router(lov.router)
+    app.include_router(reference.router)
+    app.include_router(inventory.router)
     app.include_router(leads.router)
     app.include_router(appointments.router)
     app.include_router(queries.router)

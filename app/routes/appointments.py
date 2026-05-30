@@ -17,9 +17,9 @@ from app.movescout.activities import (
     extract_activity_list,
     get_activities,
 )
-from app.movescout.pagination import fetch_all_activities_paginated
 from app.movescout.client import MoveScoutError
 from app.movescout.leads import extract_single_lead, get_lead_by_id, update_lead_from_appointment
+from app.movescout.pagination import fetch_all_activities_paginated
 from app.services.csv_export import generate_csv_content
 from app.services.dedup import deduplicate_latest_per_lead
 from app.services.movescout_service import with_movescout_client

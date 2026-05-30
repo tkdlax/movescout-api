@@ -6,9 +6,11 @@ from app.main import app
 from app.movescout.filters import build_filters, build_kendo_filter
 from app.movescout.paging import movescout_page_count, movescout_skip_count
 from app.routes.lov import _normalize_lov_result
-from app.services.lov_cache import clear_cache, get_or_load
 from app.services.dedup import deduplicate_latest_per_lead
+from app.services.inventory_transform import build_inventory_response, group_survey_by_room
 from app.services.lead_merge import deep_merge
+from app.services.reference_cache import clear_cache as clear_reference_cache
+from app.services.reference_cache import get_or_load as ref_get_or_load
 
 
 @pytest.mark.asyncio
@@ -43,7 +45,7 @@ def test_movescout_skip_count():
 
 @pytest.mark.asyncio
 async def test_lov_cache_reuses_loader():
-    clear_cache()
+    clear_reference_cache()
     calls = 0
 
     async def loader() -> dict[str, str]:
@@ -54,12 +56,104 @@ async def test_lov_cache_reuses_loader():
     from uuid import uuid4
 
     user_id = uuid4()
-    first = await get_or_load(user_id, loader)
-    second = await get_or_load(user_id, loader)
+    first = await ref_get_or_load(user_id, "lov", loader)
+    second = await ref_get_or_load(user_id, "lov", loader)
     assert first == {"n": 1}
     assert second == {"n": 1}
     assert calls == 1
-    clear_cache(user_id)
+    clear_reference_cache(user_id, "lov")
+
+
+@pytest.mark.asyncio
+async def test_reference_cache_namespace_isolation():
+    clear_reference_cache()
+    from uuid import uuid4
+
+    user_id = uuid4()
+
+    async def loader_a() -> str:
+        return "a"
+
+    async def loader_b() -> str:
+        return "b"
+
+    assert await ref_get_or_load(user_id, "ns_a", loader_a) == "a"
+    assert await ref_get_or_load(user_id, "ns_b", loader_b) == "b"
+    clear_reference_cache()
+
+
+def test_group_survey_by_room():
+    survey = [
+        {
+            "id": 1,
+            "roomId": 37,
+            "roomName": "Living Room",
+            "articleName": "Sofa",
+            "shippingQty": 1,
+            "weight": 350,
+            "cube": 50,
+            "shippingTotal": 350,
+        },
+        {
+            "id": 2,
+            "roomId": 37,
+            "roomName": "Living Room",
+            "articleName": "Chair",
+            "shippingQty": 2,
+            "weight": 84,
+            "cube": 12,
+            "shippingTotal": 168,
+        },
+        {
+            "id": 3,
+            "roomId": 39,
+            "roomName": "Master Bedroom",
+            "articleName": "Bed",
+            "shippingQty": 1,
+            "weight": 35,
+            "cube": 5,
+            "shippingTotal": 35,
+        },
+    ]
+    summaries = [
+        {
+            "roomId": 37,
+            "roomName": "Living Room",
+            "sumShippingQuantity": 3,
+            "sumWeight": 434.0,
+            "sumCube": 62.0,
+            "sumShippingTotal": 518.0,
+        }
+    ]
+    rooms, warnings, grand = group_survey_by_room(survey, room_summaries=summaries)
+    assert len(rooms) == 2
+    assert grand["itemCount"] == 3
+    assert grand["shippingQty"] == 4
+    living = next(r for r in rooms if r["roomId"] == 37)
+    assert living["itemCount"] == 2
+    assert living["totals"]["weight"] == 434.0
+    assert not warnings
+
+
+def test_group_survey_shipping_only():
+    survey = [
+        {"roomId": 1, "roomName": "Kitchen", "shippingQty": 0, "weight": 350, "cube": 50},
+        {"roomId": 1, "roomName": "Kitchen", "shippingQty": 1, "weight": 10, "cube": 2},
+    ]
+    rooms, _, grand = group_survey_by_room(survey, shipping_only=True)
+    assert grand["itemCount"] == 1
+    assert rooms[0]["items"][0]["weight"] == 10
+
+
+def test_build_inventory_response_empty_survey():
+    result = build_inventory_response(
+        lead_id="1553516",
+        estimate_dto={"id": 2192413, "estimateName": "Test", "leadSurveyDto": []},
+        primary_meta={"estimateId": 2192413},
+    )
+    assert result["rooms"] == []
+    assert result["grandTotals"]["itemCount"] == 0
+    assert result["isEstimateWithInventory"] is False
 
 
 def test_normalize_lov_result_list():
