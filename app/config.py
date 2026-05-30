@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     export_page_size: int = 500
     default_page_size: int = 100
     max_page_size: int = 1000
+    lov_cache_ttl_seconds: int = 86400
 
     @property
     def is_production(self) -> bool:

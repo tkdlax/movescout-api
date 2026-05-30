@@ -58,6 +58,14 @@ Minimum create fields (TBD — confirm via HAR): firstName, lastName, phone, dis
 
 `POST /api/services/app/Activity/CreateOrUpdateActivity`
 
+## List of Values
+
+### GetAllListofvalues
+
+`POST /api/services/app/ListOfValue/GetAllListofvalues`
+
+Middleware: `GET /lov` (cached per API user, default 24h TTL).
+
 ## Filterable Lead Fields
 
 - agencyCode

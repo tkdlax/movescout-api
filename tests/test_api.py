@@ -5,6 +5,8 @@ from app.auth.api_key import generate_api_key, hash_api_key, verify_api_key
 from app.main import app
 from app.movescout.filters import build_filters, build_kendo_filter
 from app.movescout.paging import movescout_page_count, movescout_skip_count
+from app.routes.lov import _normalize_lov_result
+from app.services.lov_cache import clear_cache, get_or_load
 from app.services.dedup import deduplicate_latest_per_lead
 from app.services.lead_merge import deep_merge
 
@@ -37,6 +39,33 @@ def test_movescout_skip_count():
     assert movescout_skip_count(1, 100) == 0
     assert movescout_skip_count(2, 100) == 100
     assert movescout_skip_count(3, 50) == 100
+
+
+@pytest.mark.asyncio
+async def test_lov_cache_reuses_loader():
+    clear_cache()
+    calls = 0
+
+    async def loader() -> dict[str, str]:
+        nonlocal calls
+        calls += 1
+        return {"n": calls}
+
+    from uuid import uuid4
+
+    user_id = uuid4()
+    first = await get_or_load(user_id, loader)
+    second = await get_or_load(user_id, loader)
+    assert first == {"n": 1}
+    assert second == {"n": 1}
+    assert calls == 1
+    clear_cache(user_id)
+
+
+def test_normalize_lov_result_list():
+    out = _normalize_lov_result([{"id": 1}, {"id": 2}])
+    assert out["count"] == 2
+    assert len(out["items"]) == 2
 
 
 def test_movescout_page_count():

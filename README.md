@@ -124,6 +124,7 @@ Docker Compose services use `restart: unless-stopped`. Ensure the Docker service
 | Method | Path | Description |
 |---|---|---|
 | GET | `/health` | Health check (no auth) |
+| GET | `/lov` | List-of-value enums from MoveScout (cached, `?refresh=true` to bypass) |
 | GET | `/leads/page-count` | Total rows + page count for a query (probe only) |
 | GET | `/leads` | One page of leads (`page`, `maxResultSize`) |
 | GET | `/leads/export` | CSV export |
