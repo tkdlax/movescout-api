@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth.encryption import EncryptionService
 from app.config import get_settings
 from app.models.db import TokenCache, User
-from app.movescout.client import MOVESCOUT_USER_AGENT
+from app.movescout.headers import movescout_request_headers
 
 
 class TokenManager:
@@ -60,13 +60,7 @@ class TokenManager:
                 response = await client.post(
                     "/api/TokenAuth/Authenticate",
                     json=payload,
-                    headers={
-                        "Content-Type": "application/json-patch+json",
-                        "Accept": "text/plain",
-                        "Origin": self.settings.movescout_origin,
-                        "Referer": f"{self.settings.movescout_origin}/",
-                        "User-Agent": MOVESCOUT_USER_AGENT,
-                    },
+                    headers=movescout_request_headers(),
                 )
             except httpx.HTTPError as exc:
                 raise HTTPException(

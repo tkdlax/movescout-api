@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     movescout_origin: str = "https://movescoutpro.sirva.com"
     # Only sent on create/update if set (omit if your tenant does not use tenantId)
     movescout_tenant_id: int | None = None
+    movescout_user_agent: str = (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    )
     log_level: str = "info"
     api_host: str = "0.0.0.0"
     api_port: int = 8000

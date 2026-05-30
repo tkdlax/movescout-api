@@ -3,11 +3,7 @@ from typing import Any
 import httpx
 
 from app.config import get_settings
-
-MOVESCOUT_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
-)
+from app.movescout.headers import MOVESCOUT_USER_AGENT, movescout_request_headers
 
 
 class MoveScoutError(Exception):
@@ -37,14 +33,7 @@ class MoveScoutClient:
             await self._client.aclose()
 
     def _base_headers(self) -> dict[str, str]:
-        return {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json-patch+json",
-            "Accept": "text/plain",
-            "Origin": self.settings.movescout_origin,
-            "Referer": f"{self.settings.movescout_origin}/",
-            "User-Agent": MOVESCOUT_USER_AGENT,
-        }
+        return movescout_request_headers(access_token=self.access_token)
 
     async def request(
         self,
