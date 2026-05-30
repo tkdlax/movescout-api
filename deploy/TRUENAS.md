@@ -133,6 +133,7 @@ curl http://127.0.0.1:8000/health
 | Symptom | Check |
 |---|---|
 | 502 from nginx | `docker compose logs api` — is the container running? |
+| Report job failed | Check `docker compose logs api`; narrow date range or set `REPORT_MAX_LEADS` |
 | Auth failures | Verify MoveScout credentials via `create_user.py` |
 | DB connection errors | `docker compose logs postgres` — is Postgres healthy? |
 | Token expiry mid-export | Normal — middleware auto-refreshes; check MoveScout connectivity |

@@ -53,3 +53,20 @@ class ErrorResponse(BaseModel):
     error: str
     code: str
     request_id: str | None = None
+
+
+class SalesReportJobCreatedResponse(BaseModel):
+    report_id: UUID = Field(alias="reportId")
+    status: str
+    expires_at: datetime = Field(alias="expiresAt")
+
+    model_config = {"populate_by_name": True}
+
+
+class SalesReportJobStatusResponse(BaseModel):
+    report_id: UUID = Field(alias="reportId")
+    status: str
+    expires_at: datetime = Field(alias="expiresAt")
+    error: str | None = None
+
+    model_config = {"populate_by_name": True}

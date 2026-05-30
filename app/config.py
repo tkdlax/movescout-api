@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     default_page_size: int = 100
     max_page_size: int = 1000
     lov_cache_ttl_seconds: int = 86400
+    report_max_leads: int | None = None
+    report_storage_dir: str = "/tmp/movescout-reports"
+    report_ttl_seconds: int = 3600
+    report_sweep_interval_seconds: int = 900
 
     @property
     def is_production(self) -> bool:

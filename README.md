@@ -162,8 +162,44 @@ Docker Compose services use `restart: unless-stopped`. Ensure the Docker service
 | GET | `/queries/scheduled-surveys` | Survey scheduled leads |
 | GET | `/queries/unassigned` | Unassigned qualified leads |
 | GET | `/queries/my-leads` | Leads for user's sales rep |
+| POST | `/reports/sales` | Enqueue async sales report job (returns `reportId`) |
+| GET | `/reports/sales/{reportId}` | Poll/download completed report (`409` while running) |
 
 All endpoints except `/health` require `X-API-Key` header.
+
+### Sales report
+
+Reports run as background jobs so generation is not limited by HTTP/proxy timeouts.
+
+1. **`POST /reports/sales`** — enqueue job, returns **202** with `{ reportId, status, expiresAt }`
+2. **`GET /reports/sales/{reportId}`** — poll until **200** HTML download (`409` while pending/running)
+
+Query params (POST): `move_type`, `start`, `end`, `location`, `goal`, optional `salesRepName`, `defaultFilter`.
+
+Files expire after **1 hour** (`REPORT_TTL_SECONDS`, default 3600). Metadata in Postgres; HTML on disk (`REPORT_STORAGE_DIR`).
+
+After deploy, run `alembic upgrade head` once to create the `report_jobs` table.
+
+```powershell
+$job = Invoke-RestMethod -Method POST `
+  -Uri "https://mspapi.jbeckstead.com/reports/sales?move_type=Interstate&start=Jan+1,+2026&end=May+29,+2026" `
+  -Headers @{ "X-API-Key" = $apiKey }
+
+do {
+  Start-Sleep -Seconds 5
+  try {
+    Invoke-WebRequest `
+      -Uri "https://mspapi.jbeckstead.com/reports/sales/$($job.reportId)" `
+      -Headers @{ "X-API-Key" = $apiKey } `
+      -OutFile "report.html"
+    break
+  } catch {
+    if ($_.Exception.Response.StatusCode.value__ -ne 409) { throw }
+  }
+} while ($true)
+```
+
+Optional env `REPORT_MAX_LEADS` fails the job if the probe count exceeds the cap.
 
 ## Admin Scripts
 

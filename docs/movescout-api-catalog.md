@@ -128,10 +128,28 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 
 `id`, `articleId`, `articleName`, `articleCode`, `roomId`, `roomName`, `shippingQty`, `notShippingQty`, `weight`, `cube`, `shippingTotal`, `articleNotes`, `length`, `width`, `height`, `packing`, `unpacking`, `bulky`, `carton`, `pbo`, `crateFlag`, `isCustomArticle`, `make`, `year`, `model`, `segmentId`, and more — see HAR4 doc.
 
+## Reports
+
+### Sales performance report
+
+Async two-step flow — generation runs in a background task (not tied to HTTP timeouts).
+
+| Step | Method | Path | Response |
+|------|--------|------|----------|
+| Enqueue | POST | `/reports/sales` | **202** `{ reportId, status, expiresAt }` |
+| Poll/download | GET | `/reports/sales/{reportId}` | **200** HTML file, **409** pending/running, **410** expired, **500** failed |
+
+Query params (POST): same as before — `move_type`, `start`, `end`, `location`, `goal`, optional `salesRepName`, `defaultFilter`.
+
+Requires `X-API-Key` on both calls. Job metadata in Postgres (`report_jobs` table); HTML on disk until `REPORT_TTL_SECONDS` (default 1h). Deploy: `alembic upgrade head`.
+
+Optional env: `REPORT_MAX_LEADS`, `REPORT_STORAGE_DIR`, `REPORT_TTL_SECONDS`, `REPORT_SWEEP_INTERVAL_SECONDS`.
+
 ## Filterable Lead Fields
 
 - agencyCode
 - dispositionId
+- moveTypeId
 - salesRepName
 - creationTime
 - registrationNumber

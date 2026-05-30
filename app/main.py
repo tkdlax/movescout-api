@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 
@@ -10,9 +11,19 @@ from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.request import AuditLogMiddleware, RequestIdMiddleware
 from app.models.schemas import ErrorResponse
 from app.movescout.client import MoveScoutError
-from app.routes import appointments, health, inventory, leads, lov, queries, reference
+from app.routes import appointments, health, inventory, leads, lov, queries, reference, reports
+from app.services.report_storage import sweep_expired_jobs_batch
 
 logger = logging.getLogger(__name__)
+
+
+async def _report_sweep_loop(interval_seconds: int) -> None:
+    while True:
+        await asyncio.sleep(interval_seconds)
+        try:
+            await sweep_expired_jobs_batch()
+        except Exception:
+            logger.exception("Report job sweep failed")
 
 
 @asynccontextmanager
@@ -20,7 +31,15 @@ async def lifespan(app: FastAPI):
     settings = get_settings()
     logging.basicConfig(level=getattr(logging, settings.log_level.upper(), logging.INFO))
     logger.info("Starting MoveScout Middleware API (env=%s)", settings.environment)
+    sweep_task = asyncio.create_task(
+        _report_sweep_loop(settings.report_sweep_interval_seconds)
+    )
     yield
+    sweep_task.cancel()
+    try:
+        await sweep_task
+    except asyncio.CancelledError:
+        pass
     logger.info("Shutting down MoveScout Middleware API")
 
 
@@ -110,6 +129,7 @@ def create_app() -> FastAPI:
     app.include_router(leads.router)
     app.include_router(appointments.router)
     app.include_router(queries.router)
+    app.include_router(reports.router)
 
     return app
 

@@ -5,6 +5,7 @@ from typing import Any
 ALLOWED_FILTER_FIELDS = {
     "agencyCode",
     "dispositionId",
+    "moveTypeId",
     "salesRepName",
     "creationTime",
     "registrationNumber",
