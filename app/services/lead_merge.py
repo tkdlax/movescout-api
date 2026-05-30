@@ -1,5 +1,7 @@
 from typing import Any
 
+from app.config import get_settings
+
 
 def deep_merge(base: dict[str, Any], updates: dict[str, Any]) -> dict[str, Any]:
     merged = dict(base)
@@ -16,8 +18,8 @@ def deep_merge(base: dict[str, Any], updates: dict[str, Any]) -> dict[str, Any]:
 
 
 def apply_lead_defaults(lead: dict[str, Any]) -> dict[str, Any]:
-    defaults = {
-        "mobileSyncFlag": True,
-        "tenantId": 1,
-    }
+    defaults: dict[str, Any] = {"mobileSyncFlag": True}
+    tenant_id = get_settings().movescout_tenant_id
+    if tenant_id is not None:
+        defaults["tenantId"] = tenant_id
     return deep_merge(defaults, lead)

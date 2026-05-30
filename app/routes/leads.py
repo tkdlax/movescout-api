@@ -2,7 +2,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
-from fastapi.responses import StreamingResponse
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse, StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.api_key import get_current_user
@@ -21,6 +22,7 @@ from app.movescout.leads import (
     get_lead_by_id,
 )
 from app.movescout.pagination import fetch_all_leads_paginated
+from app.movescout.responses import parse_abp_response
 from app.services.csv_export import generate_csv_content, leads_to_csv_rows
 from app.services.lead_merge import apply_lead_defaults, deep_merge
 from app.services.movescout_service import with_movescout_client
@@ -144,10 +146,14 @@ async def create_lead(
 
     async def callback(client: Any) -> dict[str, Any]:
         response = await create_or_update_lead(client, payload)
-        return response.get("result", response) if isinstance(response, dict) else response
+        return parse_abp_response(response, action="create lead")
 
     try:
-        return await with_movescout_client(db, user, callback)
+        result = await with_movescout_client(db, user, callback)
+        return JSONResponse(
+            status_code=status.HTTP_201_CREATED,
+            content=jsonable_encoder(result),
+        )
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 

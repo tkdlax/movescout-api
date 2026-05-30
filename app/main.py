@@ -1,7 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
@@ -71,14 +71,33 @@ def create_app() -> FastAPI:
             ).model_dump(),
         )
 
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
+        request_id = getattr(request.state, "request_id", None)
+        detail = exc.detail
+        if not isinstance(detail, str):
+            detail = str(detail)
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=ErrorResponse(
+                error=detail,
+                code="HTTP_ERROR",
+                request_id=request_id,
+            ).model_dump(),
+        )
+
     @app.exception_handler(Exception)
     async def generic_error_handler(request: Request, exc: Exception) -> JSONResponse:
-        logger.exception("Unhandled error")
+        logger.exception("Unhandled error: %s", exc)
         request_id = getattr(request.state, "request_id", None)
+        settings = get_settings()
+        message = "Internal server error"
+        if not settings.is_production:
+            message = f"{type(exc).__name__}: {exc}"
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content=ErrorResponse(
-                error="Internal server error",
+                error=message,
                 code="INTERNAL_ERROR",
                 request_id=request_id,
             ).model_dump(),

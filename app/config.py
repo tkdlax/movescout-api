@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     movescout_base_url: str = "https://movescoutproapi.sirva.com"
     # Browser Origin header expected by MoveScout (SPA login site)
     movescout_origin: str = "https://movescoutpro.sirva.com"
+    # Only sent on create/update if set (omit if your tenant does not use tenantId)
+    movescout_tenant_id: int | None = None
     log_level: str = "info"
     api_host: str = "0.0.0.0"
     api_port: int = 8000

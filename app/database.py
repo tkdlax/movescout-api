@@ -1,5 +1,6 @@
 from collections.abc import AsyncGenerator
 
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
@@ -20,6 +21,9 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
         try:
             yield session
             await session.commit()
+        except HTTPException:
+            await session.rollback()
+            raise
         except Exception:
             await session.rollback()
             raise
