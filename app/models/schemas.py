@@ -59,6 +59,7 @@ class SalesReportJobCreatedResponse(BaseModel):
     report_id: UUID = Field(alias="reportId")
     status: str
     expires_at: datetime = Field(alias="expiresAt")
+    download_url: str = Field(alias="downloadUrl")
 
     model_config = {"populate_by_name": True}
 
@@ -68,6 +69,7 @@ class SalesReportJobStatusResponse(BaseModel):
     status: str
     expires_at: datetime = Field(alias="expiresAt")
     error: str | None = None
+    download_url: str | None = Field(default=None, alias="downloadUrl")
 
     model_config = {"populate_by_name": True}
 

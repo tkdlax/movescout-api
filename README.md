@@ -193,13 +193,24 @@ When the job finishes (`ready` or `failed`), the middleware POSTs to `callbackUr
 {
   "reportId": "...",
   "status": "ready",
+  "downloadUrl": "https://mspapi.jbeckstead.com/reports/sales/...",
   "expiresAt": "...",
   "filename": "sales-interstate-20260530.html",
   "error": null
 }
 ```
 
-Use your API key to `GET /reports/sales/{reportId}` and download the HTML. Optional env `REPORT_CALLBACK_SECRET` adds `Authorization: Bearer ...` on outbound webhooks.
+Set `API_PUBLIC_BASE_URL=https://mspapi.jbeckstead.com` in `.env` so `downloadUrl` is absolute.
+
+**Zapier / URL-based fetch:** append your API key as a query param (same auth as the header):
+
+```text
+{{downloadUrl}}?X-API-Key=YOUR_KEY
+```
+
+Use that full URL as the email attachment source or any HTTP GET step. The download endpoint also accepts `X-API-Key` as a header.
+
+Optional env `REPORT_CALLBACK_SECRET` adds `Authorization: Bearer ...` on outbound webhooks.
 
 Files expire after **1 hour** (`REPORT_TTL_SECONDS`, default 3600). Metadata in Postgres; HTML on disk (`REPORT_STORAGE_DIR`).
 

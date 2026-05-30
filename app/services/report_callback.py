@@ -12,6 +12,16 @@ logger = logging.getLogger(__name__)
 _BLOCKED_HOSTS = frozenset({"localhost"})
 
 
+def build_report_download_url(report_id: UUID) -> str:
+    """Absolute URL for GET /reports/sales/{reportId} (append ?X-API-Key= for URL fetch)."""
+    settings = get_settings()
+    path = f"/reports/sales/{report_id}"
+    base = settings.api_public_base_url.rstrip("/")
+    if not base:
+        return path
+    return f"{base}{path}"
+
+
 def validate_callback_url(url: str) -> str:
     """Validate a client-supplied webhook URL (SSRF-safe enough for v1)."""
     cleaned = url.strip()
@@ -59,6 +69,7 @@ async def notify_report_callback(
         "expiresAt": expires_at.isoformat(),
         "filename": filename,
         "error": error,
+        "downloadUrl": build_report_download_url(report_id) if status == "ready" else None,
     }
     headers = {"Content-Type": "application/json"}
     if settings.report_callback_secret:

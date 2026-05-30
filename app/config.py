@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     report_sweep_interval_seconds: int = 900
     report_callback_timeout_seconds: int = 10
     report_callback_secret: str | None = None
+    api_public_base_url: str = ""
 
     @property
     def is_production(self) -> bool:

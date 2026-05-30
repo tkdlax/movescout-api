@@ -7,13 +7,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from app.auth.api_key import get_current_user
+from app.auth.api_key import get_current_user, get_current_user_header_or_query
 from app.database import get_db
 from app.main import app
 from app.models.db import ReportJob
 from app.reports.sales_data import ReportTooManyLeadsError
 from app.reports.sales_params import normalize_sales_report_params
-from app.services.report_callback import validate_callback_url
+from app.services.report_callback import build_report_download_url, validate_callback_url
 from app.services.report_job_runner import run_sales_report_job
 from app.services.report_storage import sweep_expired_jobs, write_report_file
 
@@ -35,6 +35,7 @@ def override_auth(test_user_id):
         yield session
 
     app.dependency_overrides[get_current_user] = _override_user
+    app.dependency_overrides[get_current_user_header_or_query] = _override_user
     app.dependency_overrides[get_db] = _override_db
     yield user
     app.dependency_overrides.clear()
@@ -255,6 +256,14 @@ def test_validate_callback_url_rejects_localhost():
 def test_validate_callback_url_rejects_private_ip():
     with pytest.raises(ValueError, match="private"):
         validate_callback_url("https://192.168.1.10/hook")
+
+
+def test_build_report_download_url_uses_public_base():
+    report_id = uuid.uuid4()
+    with patch("app.services.report_callback.get_settings") as settings:
+        settings.return_value.api_public_base_url = "https://mspapi.jbeckstead.com"
+        url = build_report_download_url(report_id)
+    assert url == f"https://mspapi.jbeckstead.com/reports/sales/{report_id}"
 
 
 def test_validate_callback_url_accepts_https_host():

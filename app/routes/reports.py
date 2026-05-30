@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.auth.api_key import get_current_user
+from app.auth.api_key import get_current_user, get_current_user_header_or_query
 from app.database import get_db
 from app.models.db import User
 from app.models.schemas import (
@@ -16,7 +16,7 @@ from app.models.schemas import (
 )
 from app.reports.lead_filters import validate_move_type
 from app.reports.sales_params import normalize_sales_report_params
-from app.services.report_callback import validate_callback_url
+from app.services.report_callback import build_report_download_url, validate_callback_url
 from app.services.report_job_runner import spawn_sales_report_job
 from app.services.report_storage import create_report_job, delete_report_job, get_report_job
 
@@ -29,6 +29,7 @@ def _job_status_response(job, *, status_code: int, error: str | None = None) -> 
         status=job.status,
         expiresAt=job.expires_at,
         error=error or job.error_message,
+        downloadUrl=build_report_download_url(job.id) if job.status == "ready" else None,
     )
     return JSONResponse(status_code=status_code, content=jsonable_encoder(body))
 
@@ -72,6 +73,7 @@ async def create_sales_report(
         reportId=job.id,
         status=job.status,
         expiresAt=job.expires_at,
+        downloadUrl=build_report_download_url(job.id),
     )
     return JSONResponse(
         status_code=status.HTTP_202_ACCEPTED,
@@ -83,10 +85,10 @@ async def create_sales_report(
 async def get_sales_report(
     request: Request,
     report_id: uuid.UUID,
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_current_user_header_or_query),
     db: AsyncSession = Depends(get_db),
 ):
-    """Download a ready report or receive status while the job is still running."""
+    """Download a ready report. Accepts X-API-Key header or ?X-API-Key= query param."""
     request.state.user_id = user.id
 
     job = await get_report_job(db, report_id, user_id=user.id)
