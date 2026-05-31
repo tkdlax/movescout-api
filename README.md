@@ -1,227 +1,319 @@
 # MoveScout Middleware API
 
-REST API proxy for [MoveScout Pro](https://movescoutpro.sirva.com). Callers authenticate with an API key; the middleware handles MoveScout token management transparently.
+REST proxy for [MoveScout Pro](https://movescoutpro.sirva.com). External tools (PowerShell, Zapier, custom apps) call **this** API with an `X-API-Key`. The middleware stores each caller’s MoveScout credentials, manages OAuth-style tokens, and forwards requests to the MoveScout Pro API (`movescoutproapi.sirva.com`).
 
-## Features
+**Production example:** `https://mspapi.jbeckstead.com`
 
-- API key authentication (`X-API-Key` header)
-- Encrypted MoveScout credential storage
-- Per-user MoveScout token caching (24h expiry with 5-minute buffer)
-- Lead CRUD, CSV export, appointments, and named queries
-- Docker Compose deployment for TrueNAS Scale
-- Cloud-ready (same image for AWS ECS / Azure Container Apps)
+---
 
-## Quick Start (Development)
+## Table of contents
 
-```bash
-# Copy and configure environment
-cp .env.example .env
+1. [Why this exists](#why-this-exists)
+2. [Architecture](#architecture)
+3. [Authentication](#authentication)
+4. [API surface](#api-surface)
+5. [Sales performance reports](#sales-performance-reports)
+6. [Configuration](#configuration)
+7. [Deployment (TrueNAS)](#deployment-truenas)
+8. [Private GitHub repo + SSH deploy key](#private-github-repo--ssh-deploy-key)
+9. [Upgrades and operations](#upgrades-and-operations)
+10. [Admin scripts](#admin-scripts)
+11. [Development](#development)
+12. [Project layout](#project-layout)
+13. [Further reading](#further-reading)
 
-# Generate encryption key
-python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
-# Add the output to ENCRYPTION_KEY in .env
+---
 
-# Start stack
-docker compose -f deploy/docker-compose.yml up -d --build
+## Why this exists
 
-# Run migrations
-docker compose -f deploy/docker-compose.yml run --rm api alembic upgrade head
+MoveScout Pro’s API is designed for their web app: session tokens, Kendo-style filters, multi-step estimate/inventory flows, and paginated `GetAllLead` calls. This middleware:
 
-# Create first user
-docker compose -f deploy/docker-compose.yml run --rm api python scripts/create_user.py \
-  --name "Admin" \
-  --movescout-username "your@email.com" \
-  --movescout-password "your-password" \
-  --sales-rep-name "Your Name"
+- Exposes a **stable REST surface** with API-key auth for automation
+- **Caches MoveScout tokens** per user (24h, refresh buffer) so callers don’t handle login
+- **Encrypts MoveScout passwords** at rest in Postgres
+- Adds **hero endpoints** (inventory, pricing, sales reports) that combine many upstream calls into one middleware request
+- Runs as **Docker Compose** on TrueNAS (Postgres + API) behind nginx/NPM
 
-# Test
-curl http://localhost:8000/health
-curl -H "X-API-Key: YOUR_KEY" "http://localhost:8000/leads"
+Callers never send MoveScout username/password after initial user setup—only `X-API-Key`.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph callers [Callers]
+        PS[PowerShell]
+        ZAP[Zapier]
+        APP[Other clients]
+    end
+
+    subgraph edge [Edge]
+        NPM[Nginx Proxy Manager]
+    end
+
+    subgraph truenas [TrueNAS Docker]
+        API[FastAPI middleware]
+        PG[(Postgres)]
+        DISK[Report HTML files]
+    end
+
+    subgraph upstream [MoveScout Pro]
+        MSP[movescoutproapi.sirva.com]
+    end
+
+    PS --> NPM
+    ZAP --> NPM
+    APP --> NPM
+    NPM --> API
+    API --> PG
+    API --> DISK
+    API --> MSP
 ```
 
-API docs (development only): http://localhost:8000/docs
+**Request path (typical):**
 
-## TrueNAS Scale Deployment
+1. Client sends `X-API-Key` to middleware
+2. Middleware resolves `User` row, decrypts MoveScout password if needed, obtains/refreshes `accessToken`
+3. Middleware calls MoveScout with correct headers (`Origin`, `User-Agent`, bearer token)
+4. Response is transformed (JSON, CSV, HTML, or file download) and returned
 
-**Recommended:** [deploy/TRUENAS-CUSTOM-APP.md](deploy/TRUENAS-CUSTOM-APP.md) — Custom App via **Install via YAML** (clone repo to dataset + `include` compose file).
+**Stack:**
 
-### Manual / CLI deployment
+| Component | Role |
+|-----------|------|
+| **FastAPI** | HTTP API, routing, validation |
+| **Postgres** | Users, API key hashes, encrypted MoveScout creds, token cache, audit log, report job metadata |
+| **Alembic** | Schema migrations |
+| **Docker Compose** | `postgres` + `api` services |
+| **nginx / NPM** | TLS termination, reverse proxy to port 8000 |
 
-### 1. Prepare dataset
+---
 
-Create a dataset on TrueNAS Scale, e.g. `/mnt/tank/apps/movescout-api/`:
+## Authentication
 
-```bash
-mkdir -p /mnt/tank/apps/movescout-api
-cd /mnt/tank/apps/movescout-api
-git clone <your-repo-url> .
-cp .env.example .env
-chmod 600 .env
+### Middleware (callers → this API)
+
+Every route except `GET /health` requires:
+
+```http
+X-API-Key: <your-api-key>
 ```
 
-Edit `.env` with production values:
-- Set `ENVIRONMENT=production`
-- Set `DISABLE_PUBLIC_DOCS=true`
-- Generate and set `ENCRYPTION_KEY`
-- Set strong `POSTGRES_PASSWORD`
+Each **User** in Postgres has:
 
-### 2. Start production stack
+- `api_key_hash` — bcrypt hash of the issued key (plain key shown once at creation)
+- `movescout_username` / `movescout_password_enc` — Fernet-encrypted MoveScout login
+- Optional `sales_rep_name` — used by named queries like `GET /queries/my-leads`
 
-```bash
-docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.prod.yml up -d --build
-docker compose -f deploy/docker-compose.yml run --rm api alembic upgrade head
-docker compose -f deploy/docker-compose.yml run --rm api python scripts/create_user.py \
-  --name "Admin" --movescout-username "..." --movescout-password "..."
-```
+Create users with [`scripts/create_user.py`](scripts/create_user.py). Rotate keys with [`scripts/rotate_api_key.py`](scripts/rotate_api_key.py).
 
-The API binds to `127.0.0.1:8000` only — not exposed directly to the network.
+### MoveScout (middleware → Sirva)
 
-### 3. Configure nginx reverse proxy
+Handled internally by [`app/services/movescout_service.py`](app/services/movescout_service.py):
 
-Copy [deploy/nginx/movescout-api.conf.example](deploy/nginx/movescout-api.conf.example) to your nginx host. Update:
-- `server_name` to your domain
-- `upstream` to point at TrueNAS IP (`http://<truenas-ip>:8000`)
-- SSL certificate paths
+- `POST /api/TokenAuth/Authenticate` when no valid cached token
+- Token stored in `token_cache` with expiry
+- On upstream `401`, token is invalidated and refreshed automatically
 
-Reload nginx after placing the config.
+Callers **never** pass MoveScout tokens.
 
-### 4. Firewall
+### Report download (URL fetch / Zapier)
 
-- Allow inbound 443 to nginx only
-- Block inbound 8000 from WAN
-- Allow outbound HTTPS from TrueNAS to `movescoutpro.sirva.com`
+`GET /reports/sales/{reportId}` accepts the API key as:
 
-### 5. Backups
+- Header: `X-API-Key: ...` (normal), or
+- Query param: `?X-API-Key=...` (for URL-based attachment fetch in Zapier)
 
-Schedule TrueNAS dataset snapshots for the Postgres volume. Manual backup:
+Same key as POST; no separate download token.
 
-```bash
-docker compose -f deploy/docker-compose.yml exec postgres \
-  pg_dump -U movescout movescout > backup_$(date +%Y%m%d).sql
-```
+---
 
-Restore:
+## API surface
 
-```bash
-cat backup.sql | docker compose -f deploy/docker-compose.yml exec -T postgres \
-  psql -U movescout movescout
-```
+All routes require `X-API-Key` unless noted. OpenAPI docs: `/docs` when `DISABLE_PUBLIC_DOCS=false`.
 
-### 6. Upgrades
-
-```bash
-git pull
-docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.prod.yml up -d --build
-docker compose -f deploy/docker-compose.yml run --rm api alembic upgrade head
-```
-
-### 7. Autostart
-
-Docker Compose services use `restart: unless-stopped`. Ensure the Docker service is enabled on TrueNAS Scale boot (default for custom apps).
-
-## API Endpoints
+### Health
 
 | Method | Path | Description |
-|---|---|---|
-| GET | `/health` | Health check (no auth) |
-| GET | `/lov` | List-of-value enums from MoveScout (cached, `?refresh=true` to bypass) |
-| GET | `/reference/service-items` | Alliance item master (482 items, cached) |
-| GET | `/reference/service-item-types` | Alliance item types (cached) |
-| GET | `/reference/service-item-categories` | Alliance categories (cached) |
-| GET | `/reference/vehicles` | Auto make/model reference (cached) |
-| GET | `/reference/transit-seasons` | Transit guide seasons (cached) |
+|--------|------|-------------|
+| GET | `/health` | Liveness check (**no auth**) |
+
+### List of values & reference data
+
+Cached per API user (TTL configurable).
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/lov` | MoveScout list-of-value enums (`?refresh=true` bypasses cache) |
+| GET | `/reference/service-items` | Alliance item master |
+| GET | `/reference/service-item-types` | Alliance item types |
+| GET | `/reference/service-item-categories` | Alliance categories |
+| GET | `/reference/vehicles` | Auto make/model reference |
+| GET | `/reference/transit-seasons` | Transit guide seasons |
 | GET | `/reference/price-classes` | Alliance price classes (`?bookerId=`) |
-| GET | `/leads/{id}/inventory` | **Primary estimate + room-grouped inventory (one call)** |
-| GET | `/leads/{id}/pricing` | **Primary estimate + pricing JSON (one call)** |
-| GET | `/leads/{id}/estimates` | List estimates for a lead |
-| GET | `/leads/{id}/estimates/primary` | Primary estimate summary |
-| GET | `/leads/{id}/estimates/{estimateId}` | Full estimate DTO (inventory tab) |
-| GET | `/leads/{id}/estimates/{estimateId}/summary` | Room/segment inventory totals |
-| GET | `/leads/{id}/estimates/{estimateId}/rooms` | Room reference list |
-| GET | `/leads/{id}/estimates/{estimateId}/segments` | Estimate segments |
-| GET | `/leads/{id}/estimates/{estimateId}/accessorials` | Accessorial charges |
-| GET | `/leads/{id}/estimates/{estimateId}/pricing` | Pricing engine response |
-| GET | `/leads/{id}/estimates/{estimateId}/tariffs` | Available tariffs |
-| GET | `/leads/{id}/estimates/{estimateId}/auto-spot` | Auto spot details |
-| GET | `/leads/{id}/estimates/{estimateId}/notes` | Customer-facing notes |
-| GET | `/leads/{id}/estimates/{estimateId}/alliance` | Alliance quote record |
-| GET | `/leads/{id}/estimates/{estimateId}/booker-id` | Booker/agency ID |
-| GET | `/leads/page-count` | Total rows + page count for a query (probe only) |
-| GET | `/leads` | One page of leads (`page`, `maxResultSize`) |
-| GET | `/leads/export` | CSV export |
+
+### Leads
+
+Client-driven pagination: call **page-count** first, then fetch pages. CSV export loads all pages server-side.
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/leads/page-count` | Probe `totalCount` + `pageCount` |
+| GET | `/leads` | One page (`page`, `maxResultSize`, `filter`, …) |
+| GET | `/leads/export` | Full CSV export |
 | GET | `/leads/{id}` | Single lead |
 | POST | `/leads` | Create lead |
-| PUT | `/leads/{id}` | Update lead (fetch-merge-update) |
-| POST | `/leads/query/page-count` | Page count for a POST filter query |
-| POST | `/leads/query` | One page of a filter query (`page`, `maxResultSize`) |
-| GET | `/leads/{id}/appointments` | Lead appointments |
+| PUT | `/leads/{id}` | Update (fetch → merge → write) |
+| POST | `/leads/query/page-count` | Page count for POST body filters |
+| POST | `/leads/query` | One page or CSV (`export=true`) |
+
+MoveScout pagination uses `skipCount` + `maxResultCount`, not a `page` field upstream—the middleware maps `page` for callers.
+
+**Filterable fields** include: `agencyCode`, `dispositionId`, `moveTypeId`, `salesRepName`, `creationTime`, `registrationNumber`, name/location fields, etc. See [`docs/movescout-api-catalog.md`](docs/movescout-api-catalog.md).
+
+### Inventory & estimates (hero + pass-through)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/leads/{id}/inventory` | **Hero:** primary estimate + room-grouped inventory |
+| GET | `/leads/{id}/pricing` | **Hero:** primary estimate + pricing JSON |
+| GET | `/leads/{id}/estimates` | List estimates |
+| GET | `/leads/{id}/estimates/primary` | Primary estimate summary |
+| GET | `/leads/{id}/estimates/{estimateId}` | Full estimate DTO |
+| GET | `/leads/{id}/estimates/{estimateId}/summary` | Room/segment totals |
+| GET | `/leads/{id}/estimates/{estimateId}/rooms` | Room list |
+| GET | `/leads/{id}/estimates/{estimateId}/segments` | Segments |
+| GET | `/leads/{id}/estimates/{estimateId}/accessorials` | Accessorials |
+| GET | `/leads/{id}/estimates/{estimateId}/pricing` | Pricing engine response |
+| GET | `/leads/{id}/estimates/{estimateId}/tariffs` | Tariffs |
+| GET | `/leads/{id}/estimates/{estimateId}/auto-spot` | Auto spot |
+| GET | `/leads/{id}/estimates/{estimateId}/notes` | Customer notes |
+| GET | `/leads/{id}/estimates/{estimateId}/alliance` | Alliance quote |
+| GET | `/leads/{id}/estimates/{estimateId}/booker-id` | Booker/agency ID |
+
+### Appointments
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/leads/{id}/appointments` | Appointments for a lead |
 | POST | `/leads/{id}/appointments` | Create survey appointment |
 | GET | `/appointments` | Cross-lead activity search |
-| GET | `/appointments/latest-per-lead` | Deduplicated appointments |
+| GET | `/appointments/latest-per-lead` | Latest activity per lead |
+
+### Named queries
+
+Pre-built filters (booked-no-reg, scheduled surveys, unassigned, my-leads).
+
+| Method | Path | Description |
+|--------|------|-------------|
 | GET | `/queries/booked-no-reg` | Booked leads without reg number |
-| GET | `/queries/scheduled-surveys` | Survey scheduled leads |
+| GET | `/queries/scheduled-surveys` | Survey scheduled |
 | GET | `/queries/unassigned` | Unassigned qualified leads |
-| GET | `/queries/my-leads` | Leads for user's sales rep |
-| POST | `/reports/sales` | Enqueue async sales report job (returns `reportId`) |
-| GET | `/reports/sales/{reportId}` | Poll/download completed report (`409` while running) |
+| GET | `/queries/my-leads` | Leads for user’s `sales_rep_name` |
 
-All endpoints except `/health` require `X-API-Key` header.
+### Reports
 
-### Sales report
+See [Sales performance reports](#sales-performance-reports).
 
-Reports run as background jobs so generation is not limited by HTTP/proxy timeouts.
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/reports/sales` | Enqueue async report job → **202** |
+| GET | `/reports/sales/{reportId}` | Download HTML or poll status |
 
-1. **`POST /reports/sales`** — enqueue job with JSON body, returns **202** with `{ reportId, status, expiresAt }`
-2. **`GET /reports/sales/{reportId}`** — poll until **200** HTML download (`409` while pending/running)
+---
 
-JSON body (POST):
+## Sales performance reports
+
+Bailey’s **Interstate sales performance HTML report** (weekly rep metrics, closing rates, disposition buckets). Generation runs **in the background** so HTTP/proxy timeouts are not an issue.
+
+### Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant POST as POST_reports_sales
+    participant Job as Background job
+    participant Webhook as callbackUrl
+    participant GET as GET_reports_sales_id
+
+    Client->>POST: JSON body + X-API-Key
+    POST-->>Client: 202 reportId downloadUrl expiresAt
+    Job->>Job: Paginate GetAllLead + build HTML
+    Job->>Webhook: POST ready + downloadUrl
+    Client->>GET: X-API-Key header or query
+    GET-->>Client: HTML file
+```
+
+### Step 1 — Enqueue (`POST /reports/sales`)
+
+**Content-Type:** `application/json`
 
 | Field | Default | Notes |
 |-------|---------|-------|
-| `moveType` | `Interstate` | |
-| `start` | Jan 1 of current year | |
-| `end` | Today | |
-| `location` | Bailey's Moving & Storage | |
-| `goal` | `0.40` | |
-| `salesRepName` | (none) | Optional filter |
-| `defaultFilter` | `3` | |
-| `callbackUrl` | (none) | Per-client webhook; middleware POSTs JSON when job completes |
+| `moveType` | `Interstate` | Also filtered upstream via `moveTypeId` |
+| `start` | Jan 1 of current year | MoveScout date format, e.g. `Jan 1, 2026` |
+| `end` | Today | e.g. `May 29, 2026` |
+| `location` | Bailey's Moving & Storage | Report header only |
+| `goal` | `0.40` | Closing rate goal (0–1) |
+| `salesRepName` | (none) | Optional `contains` filter on leads |
+| `defaultFilter` | `3` | Maps to MoveScout `defaultFilterLead` |
+| `callbackUrl` | (none) | **Per-client** webhook URL; notified when job completes |
 
-When the job finishes (`ready` or `failed`), the middleware POSTs to `callbackUrl`:
+**Response 202:**
 
 ```json
 {
-  "reportId": "...",
+  "reportId": "uuid",
+  "status": "pending",
+  "expiresAt": "2026-05-30T22:00:00Z",
+  "downloadUrl": "https://mspapi.jbeckstead.com/reports/sales/uuid"
+}
+```
+
+### Step 2 — Webhook (optional)
+
+When the job finishes, if `callbackUrl` was provided, the middleware **POSTs JSON**:
+
+```json
+{
+  "reportId": "uuid",
   "status": "ready",
-  "downloadUrl": "https://mspapi.jbeckstead.com/reports/sales/...",
+  "downloadUrl": "https://mspapi.jbeckstead.com/reports/sales/uuid",
   "expiresAt": "...",
   "filename": "sales-interstate-20260530.html",
   "error": null
 }
 ```
 
-Set `API_PUBLIC_BASE_URL=https://mspapi.jbeckstead.com` in `.env` so `downloadUrl` is absolute.
+On failure, `status` is `"failed"` and `downloadUrl` is `null`; `error` has the message.
 
-**Zapier / URL-based fetch:** append your API key as a query param (same auth as the header):
+Optional env `REPORT_CALLBACK_SECRET` sends `Authorization: Bearer ...` on outbound webhooks.
+
+### Step 3 — Download (`GET /reports/sales/{reportId}`)
+
+| Status | Meaning |
+|--------|---------|
+| **200** | HTML file (`Content-Disposition` attachment) |
+| **409** | Still `pending` / `running` (JSON body) |
+| **404** | Unknown id or wrong user |
+| **410** | Expired (default TTL 1 hour) |
+| **500** | Job failed (JSON with error) |
+
+**Zapier email attachment:** use URL with query-param auth:
 
 ```text
 {{downloadUrl}}?X-API-Key=YOUR_KEY
 ```
 
-Use that full URL as the email attachment source or any HTTP GET step. The download endpoint also accepts `X-API-Key` as a header.
-
-Optional env `REPORT_CALLBACK_SECRET` adds `Authorization: Bearer ...` on outbound webhooks.
-
-Files expire after **1 hour** (`REPORT_TTL_SECONDS`, default 3600). Metadata in Postgres; HTML on disk (`REPORT_STORAGE_DIR`).
-
-After deploy, run `alembic upgrade head` once to create the `report_jobs` table.
+### PowerShell example
 
 ```powershell
 $body = @{
   moveType = "Interstate"
   start = "Jan 1, 2026"
   end = "May 29, 2026"
-  callbackUrl = "https://your-client-flow.webhook.office.com/..."
+  callbackUrl = "https://your-flow.webhook.office.com/..."
 } | ConvertTo-Json
 
 $job = Invoke-RestMethod -Method POST `
@@ -229,41 +321,234 @@ $job = Invoke-RestMethod -Method POST `
   -Headers @{ "X-API-Key" = $apiKey; "Content-Type" = "application/json" } `
   -Body $body
 
-# Optional: poll if not using callbackUrl
+# Download (or let Zapier use downloadUrl + ?X-API-Key=)
 Invoke-WebRequest `
-  -Uri "https://mspapi.jbeckstead.com/reports/sales/$($job.reportId)" `
-  -Headers @{ "X-API-Key" = $apiKey } `
+  -Uri "$($job.downloadUrl)?X-API-Key=$apiKey" `
   -OutFile "report.html"
 ```
 
-Optional env `REPORT_MAX_LEADS` fails the job if the probe count exceeds the cap.
+### Report storage
 
-## Admin Scripts
+| What | Where |
+|------|--------|
+| Job metadata (`status`, params, paths) | Postgres `report_jobs` table |
+| HTML files | Disk (`REPORT_STORAGE_DIR`, default `/tmp/movescout-reports`) |
+| Expiry | `REPORT_TTL_SECONDS` (default 3600); background sweeper every 15 min |
+
+Requires migration: `alembic upgrade head` (revision `002_report_jobs`).
+
+---
+
+## Configuration
+
+Copy [`.env.example`](.env.example) to `.env`. Key variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Postgres connection (async) |
+| `ENCRYPTION_KEY` | Fernet key for MoveScout passwords (**required**) |
+| `MOVESCOUT_BASE_URL` | API host (default `movescoutproapi.sirva.com`) |
+| `MOVESCOUT_ORIGIN` | Browser origin header (default `movescoutpro.sirva.com`) |
+| `ENVIRONMENT` | `production` disables verbose errors |
+| `DISABLE_PUBLIC_DOCS` | `true` hides `/docs` in prod |
+| `RATE_LIMIT_PER_MINUTE` | Per API key (default 60) |
+| `API_PUBLIC_BASE_URL` | **Required in prod** for absolute `downloadUrl` in webhooks |
+| `REPORT_TTL_SECONDS` | Report file lifetime (default 3600) |
+| `REPORT_MAX_LEADS` | Optional cap; job fails if probe exceeds |
+| `REPORT_CALLBACK_SECRET` | Optional Bearer token on outbound webhooks |
+
+Generate encryption key:
 
 ```bash
-# Create user
-python scripts/create_user.py --name "User" --movescout-username "..." --movescout-password "..."
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+---
+
+## Deployment (TrueNAS)
+
+**Recommended guide:** [deploy/TRUENAS-CUSTOM-APP.md](deploy/TRUENAS-CUSTOM-APP.md)
+
+Summary:
+
+1. Dataset with git clone (e.g. `/mnt/RJMSA_Nas/movescout-api` or `/mnt/tank/apps/movescout-api`)
+2. `.env` with production secrets + `API_PUBLIC_BASE_URL`
+3. Custom App via YAML → `deploy/truenas-compose.yml`
+4. `alembic upgrade head` + `create_user.py`
+5. Nginx Proxy Manager → proxy to TrueNAS `:8000`, TLS
+
+Production `.env` minimum:
+
+```env
+ENVIRONMENT=production
+DISABLE_PUBLIC_DOCS=true
+ENCRYPTION_KEY=<fernet-key>
+POSTGRES_PASSWORD=<strong-password>
+API_PUBLIC_BASE_URL=https://mspapi.jbeckstead.com
+```
+
+Firewall: allow **443 → NPM only**; block WAN → 8000; allow outbound HTTPS to Sirva.
+
+---
+
+## Private GitHub repo + SSH deploy key
+
+If the repo is **private**, TrueNAS needs a **read-only deploy key** for `git pull`.
+
+### One-time setup (TrueNAS shell)
+
+```bash
+# Generate key
+ssh-keygen -t ed25519 -C "truenas-movescout-api-deploy" \
+  -f ~/.ssh/movescout_api_deploy -N ""
+
+# SSH config
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+cat >> ~/.ssh/config << 'EOF'
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/movescout_api_deploy
+  IdentitiesOnly yes
+EOF
+chmod 600 ~/.ssh/config
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+# Show public key → add to GitHub repo Settings → Deploy keys (read-only)
+cat ~/.ssh/movescout_api_deploy.pub
+
+# Test
+ssh -T git@github.com
+
+# Ensure remote is SSH
+cd /mnt/RJMSA_Nas/movescout-api   # your path
+git remote set-url origin git@github.com:tkdlax/movescout-api.git
+git pull
+```
+
+Then make the repo private on GitHub; `git pull` should still work.
+
+---
+
+## Upgrades and operations
+
+```bash
+cd /mnt/RJMSA_Nas/movescout-api   # your dataset path
+git pull
+
+docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.prod.yml up -d --build
+docker compose -f deploy/docker-compose.yml run --rm api alembic upgrade head
+```
+
+Redeploy/restart the Custom App in TrueNAS UI if needed.
+
+**Postgres backup:**
+
+```bash
+docker compose -f deploy/docker-compose.yml exec postgres \
+  pg_dump -U movescout movescout | gzip > backup_$(date +%Y%m%d).sql.gz
+```
+
+**Restore:**
+
+```bash
+gunzip -c backup.sql.gz | docker compose -f deploy/docker-compose.yml exec -T postgres \
+  psql -U movescout movescout
+```
+
+---
+
+## Admin scripts
+
+```bash
+# Create API user (prints X-API-Key once)
+docker compose -f deploy/docker-compose.yml run --rm api python scripts/create_user.py \
+  --name "Admin" \
+  --movescout-username "user@example.com" \
+  --movescout-password "secret" \
+  --sales-rep-name "Your Name"
 
 # Rotate API key
 python scripts/rotate_api_key.py --user-id "<uuid>"
 
-# Smoke-test inventory for a lead
+# Smoke-test inventory hero endpoint
 python scripts/test_inventory_by_lead.py --lead-id 1553516 --api-key YOUR_KEY
 ```
 
-## Cloud Migration
-
-See [deploy/terraform/README.md](deploy/terraform/README.md) for AWS/Azure migration runbook. The same Docker image and environment variables work across all hosts.
+---
 
 ## Development
 
 ```bash
+cp .env.example .env
+# Set ENCRYPTION_KEY
+
 pip install -e ".[dev]"
+
+docker compose -f deploy/docker-compose.yml up -d --build
+docker compose -f deploy/docker-compose.yml run --rm api alembic upgrade head
+docker compose -f deploy/docker-compose.yml run --rm api python scripts/create_user.py ...
+
 pytest
 ruff check app tests scripts
 uvicorn app.main:app --reload
 ```
 
-## Project Structure
+Docs: http://localhost:8000/docs
 
-See [movescout-middleware-project-plan.md](movescout-middleware-project-plan.md) for the full API specification and filter mapping reference.
+---
+
+## Project layout
+
+```
+app/
+  auth/           API key verification, Fernet encryption
+  middleware/     Rate limit, audit log, request ID
+  models/         SQLAlchemy models + Pydantic schemas
+  movescout/      MoveScout client, filters, pagination, upstream modules
+  reports/        Sales report filters, data transform, HTML builder
+  routes/         FastAPI routers (leads, inventory, reports, …)
+  services/       Token manager, caches, report jobs, webhooks
+alembic/          Database migrations
+deploy/           Docker Compose, TrueNAS guides, nginx example
+docs/             API catalog (MoveScout field reference)
+scripts/          create_user, rotate_api_key, smoke tests
+tests/            pytest suite
+```
+
+**Important modules:**
+
+| Path | Role |
+|------|------|
+| [`app/services/movescout_service.py`](app/services/movescout_service.py) | Token + client wrapper for all upstream calls |
+| [`app/movescout/pagination.py`](app/movescout/pagination.py) | Probe + page loop for GetAllLead |
+| [`app/services/report_job_runner.py`](app/services/report_job_runner.py) | Background sales report generation |
+| [`app/services/report_callback.py`](app/services/report_callback.py) | Webhook + `downloadUrl` builder |
+
+---
+
+## Further reading
+
+| Document | Contents |
+|----------|----------|
+| [deploy/TRUENAS-CUSTOM-APP.md](deploy/TRUENAS-CUSTOM-APP.md) | TrueNAS Custom App install |
+| [deploy/TRUENAS.md](deploy/TRUENAS.md) | Manual TrueNAS / nginx notes |
+| [docs/movescout-api-catalog.md](docs/movescout-api-catalog.md) | MoveScout upstream mapping |
+| [deploy/terraform/README.md](deploy/terraform/README.md) | AWS/Azure migration |
+| [deploy/nginx/movescout-api.conf.example](deploy/nginx/movescout-api.conf.example) | nginx reverse proxy example |
+
+---
+
+## Error responses
+
+JSON errors use shape:
+
+```json
+{
+  "error": "message",
+  "code": "HTTP_ERROR",
+  "request_id": "uuid"
+}
+```
+
+MoveScout upstream failures map to `502`/`401` with `MOVESCOUT_ERROR` where applicable.
