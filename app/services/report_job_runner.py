@@ -51,18 +51,25 @@ async def _mark_failed(db, job: ReportJob, message: str) -> None:
 async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None:
     async with async_session_factory() as db:
         job = None
-        for attempt in range(5):
+        for attempt in range(10):
             result = await db.execute(select(ReportJob).where(ReportJob.id == report_id))
             job = result.scalar_one_or_none()
             if job is not None:
                 break
-            if attempt < 4:
-                await asyncio.sleep(0.2)
+            if attempt < 9:
+                await asyncio.sleep(0.5)
 
-        if job is None or job.user_id != user_id:
+        if job is None:
             logger.error(
-                "Report job %s not found for user %s; job may stay pending forever",
+                "Report job %s not found in database; job may stay pending forever",
                 report_id,
+            )
+            return
+        if job.user_id != user_id:
+            logger.error(
+                "Report job %s belongs to user %s, not %s",
+                report_id,
+                job.user_id,
                 user_id,
             )
             return

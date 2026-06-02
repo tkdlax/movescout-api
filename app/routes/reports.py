@@ -68,7 +68,8 @@ async def create_sales_report(
         callback_url=callback_url,
     )
     job = await create_report_job(db, user_id=user.id, params=params)
-    # Run after response + DB commit so the job row is visible (see run_sales_report_job).
+    # Commit before background work: BackgroundTasks can run before get_db's exit commit.
+    await db.commit()
     background_tasks.add_task(run_sales_report_job, job.id, user.id)
 
     response_body = SalesReportJobCreatedResponse(
