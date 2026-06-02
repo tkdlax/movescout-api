@@ -1,7 +1,7 @@
 import uuid
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,7 +17,7 @@ from app.models.schemas import (
 from app.reports.lead_filters import validate_move_type
 from app.reports.sales_params import normalize_sales_report_params
 from app.services.report_callback import build_report_download_url, validate_callback_url
-from app.services.report_job_runner import spawn_sales_report_job
+from app.services.report_job_runner import run_sales_report_job
 from app.services.report_storage import create_report_job, delete_report_job, get_report_job
 
 router = APIRouter(prefix="/reports", tags=["reports"])
@@ -38,6 +38,7 @@ def _job_status_response(job, *, status_code: int, error: str | None = None) -> 
 async def create_sales_report(
     request: Request,
     body: SalesReportCreateRequest,
+    background_tasks: BackgroundTasks,
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> JSONResponse:
@@ -67,7 +68,8 @@ async def create_sales_report(
         callback_url=callback_url,
     )
     job = await create_report_job(db, user_id=user.id, params=params)
-    spawn_sales_report_job(job.id, user.id)
+    # Run after response + DB commit so the job row is visible (see run_sales_report_job).
+    background_tasks.add_task(run_sales_report_job, job.id, user.id)
 
     response_body = SalesReportJobCreatedResponse(
         reportId=job.id,

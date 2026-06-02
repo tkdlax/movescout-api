@@ -50,10 +50,21 @@ async def _mark_failed(db, job: ReportJob, message: str) -> None:
 
 async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None:
     async with async_session_factory() as db:
-        result = await db.execute(select(ReportJob).where(ReportJob.id == report_id))
-        job = result.scalar_one_or_none()
+        job = None
+        for attempt in range(5):
+            result = await db.execute(select(ReportJob).where(ReportJob.id == report_id))
+            job = result.scalar_one_or_none()
+            if job is not None:
+                break
+            if attempt < 4:
+                await asyncio.sleep(0.2)
+
         if job is None or job.user_id != user_id:
-            logger.warning("Report job %s not found for user %s", report_id, user_id)
+            logger.error(
+                "Report job %s not found for user %s; job may stay pending forever",
+                report_id,
+                user_id,
+            )
             return
 
         job.status = "running"
@@ -132,6 +143,7 @@ async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None
 
 
 def spawn_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None:
+    """Deprecated: use FastAPI BackgroundTasks from the route to avoid commit races."""
     task = asyncio.create_task(run_sales_report_job(report_id, user_id))
 
     def _log_task_result(finished: asyncio.Task) -> None:

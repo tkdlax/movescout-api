@@ -59,7 +59,7 @@ async def test_create_report_job_returns_202(override_auth, test_user_id):
     )
 
     with patch("app.routes.reports.create_report_job", new=AsyncMock(return_value=mock_job)):
-        with patch("app.routes.reports.spawn_sales_report_job") as spawn:
+        with patch("app.routes.reports.run_sales_report_job", new=AsyncMock()) as run_job:
             transport = ASGITransport(app=app)
             async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
@@ -72,7 +72,7 @@ async def test_create_report_job_returns_202(override_auth, test_user_id):
     body = response.json()
     assert body["reportId"] == str(report_id)
     assert body["status"] == "pending"
-    spawn.assert_called_once_with(report_id, test_user_id)
+    run_job.assert_awaited_once_with(report_id, test_user_id)
 
 
 @pytest.mark.asyncio
