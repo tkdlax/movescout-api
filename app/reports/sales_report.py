@@ -1,6 +1,8 @@
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import date
 from typing import Any
+
+from app.reports.fiscal_week import fiscal_week_end_label
 
 DISPOSITION_MAP = {
     37: "Attempted Contact",
@@ -90,11 +92,9 @@ def pct_td(rate: float | None, css_extra: str = "") -> str:
     return f'<td class="rate {css_extra}">{rate:.0%}</td>'
 
 
-def week_start(iso_week: int, year: int) -> str:
-    jan4 = date(year, 1, 4)
-    monday = jan4 - timedelta(days=jan4.weekday())
-    week_date = monday + timedelta(weeks=iso_week - 1)
-    return f"{week_date.month}/{week_date.day}/{week_date.strftime('%y')}"
+def week_start(week: int, fiscal_year: int) -> str:
+    """Week-ending Saturday label for column headers (Bailey report format)."""
+    return fiscal_week_end_label(week, fiscal_year)
 
 
 CSS = """
@@ -200,8 +200,6 @@ def build_html(
     if fiscal_year is None:
         fiscal_year = max(row["year"] for row in rows)
 
-    week_years = {row["week"]: row["year"] for row in rows}
-
     t = tally(rows)
     all_weeks = sorted({row["week"] for row in rows})
     max_w = all_weeks[-1]
@@ -230,7 +228,7 @@ def build_html(
     wk_hdrs = "".join(
         f'<th rowspan="2">Wk {week}<br>'
         f'<span style="font-weight:300;font-size:8.5px">'
-        f"{week_start(week, week_years.get(week, fiscal_year))}"
+        f"{week_start(week, fiscal_year)}"
         f"</span></th>"
         for week in recent3
     )

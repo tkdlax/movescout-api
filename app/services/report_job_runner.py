@@ -119,7 +119,9 @@ async def run_sales_report_job(report_id: uuid.UUID, user_id: uuid.UUID) -> None
             await _mark_failed(db, job, f"{type(exc).__name__}: {exc}")
             return
 
-        rows = transform_leads_to_rows(leads, params.move_type)
+        rows = transform_leads_to_rows(
+            leads, params.move_type, fiscal_year=params.fiscal_year
+        )
         if not rows:
             await _mark_failed(db, job, "No leads found for the given filters and move type")
             return

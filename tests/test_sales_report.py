@@ -13,6 +13,7 @@ from app.reports.sales_data import (
     fetch_leads_for_report,
     transform_leads_to_rows,
 )
+from app.reports.fiscal_week import fiscal_week_end_label, fiscal_week_number, week_ending_saturday
 from app.reports.sales_report import bucket, build_html, tally, week_start
 
 
@@ -51,11 +52,11 @@ def test_transform_leads_to_rows_filters_by_move_type():
             "creationTime": "2026-03-11T12:00:00Z",
         },
     ]
-    rows = transform_leads_to_rows(leads, "Interstate")
+    rows = transform_leads_to_rows(leads, "Interstate", fiscal_year=2026)
     assert len(rows) == 1
     assert rows[0]["rep"] == "Alice"
     assert rows[0]["bucket"] == "Booked"
-    assert rows[0]["week"] == datetime(2026, 3, 10, tzinfo=UTC).isocalendar()[1]
+    assert rows[0]["week"] == 11
 
 
 def test_transform_leads_unassigned_rep():
@@ -79,9 +80,20 @@ def test_bucket_mapping():
     assert bucket("New") == "Pending"
 
 
-def test_week_start_cross_platform():
-    assert week_start(1, 2026) == "12/29/25"
-    assert week_start(10, 2026) == "3/2/26"
+def test_fiscal_week_end_label_matches_bailey_format():
+    assert fiscal_week_end_label(19, 2026) == "5/9/26"
+    assert fiscal_week_end_label(20, 2026) == "5/16/26"
+    assert fiscal_week_end_label(21, 2026) == "5/23/26"
+    assert week_start(1, 2026) == "1/3/26"
+    assert week_start(10, 2026) == "3/7/26"
+
+
+def test_fiscal_week_number_sunday_starts_new_week():
+    # ISO would put this Sunday in week 19; Bailey week 20 ends 5/16.
+    assert fiscal_week_number(datetime(2026, 5, 10, tzinfo=UTC).date(), 2026) == 20
+    assert week_ending_saturday(datetime(2026, 5, 10, tzinfo=UTC).date()) == datetime(
+        2026, 5, 16
+    ).date()
 
 
 def test_build_html_contains_fiscal_year_and_rep():

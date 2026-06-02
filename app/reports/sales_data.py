@@ -4,6 +4,7 @@ from typing import Any
 from app.movescout.client import MoveScoutClient
 from app.movescout.pagination import fetch_all_leads_paginated, probe_leads_total_count
 from app.reports.lead_filters import MOVE_TYPE_LABEL_TO_ID, build_report_lead_filters
+from app.reports.fiscal_week import fiscal_week_number
 from app.reports.sales_report import DISPOSITION_MAP, MOVE_TYPE_MAP, bucket
 
 
@@ -49,7 +50,12 @@ def _resolve_disposition_label(lead: dict[str, Any]) -> str:
     return raw.strip() if isinstance(raw, str) else ""
 
 
-def transform_leads_to_rows(leads: list[dict[str, Any]], move_type: str) -> list[dict[str, Any]]:
+def transform_leads_to_rows(
+    leads: list[dict[str, Any]],
+    move_type: str,
+    *,
+    fiscal_year: int | None = None,
+) -> list[dict[str, Any]]:
     """Resolve IDs, apply post-fetch move_type safety net, and shape rows for build_html."""
     expected_id = MOVE_TYPE_LABEL_TO_ID.get(move_type)
     rows: list[dict[str, Any]] = []
@@ -75,12 +81,14 @@ def transform_leads_to_rows(leads: list[dict[str, Any]], move_type: str) -> list
         dt = _parse_creation_time(creation)
         disp = _resolve_disposition_label(lead)
         rep = (lead.get("salesRepName") or lead.get("salesRep") or "").strip() or "Unassigned"
+        fy = fiscal_year if fiscal_year is not None else dt.year
+        lead_date = dt.date()
 
         rows.append(
             {
                 "rep": rep,
-                "week": dt.isocalendar()[1],
-                "year": dt.year,
+                "week": fiscal_week_number(lead_date, fy),
+                "year": fy,
                 "disp": disp,
                 "bucket": bucket(disp),
             }
