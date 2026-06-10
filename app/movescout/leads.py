@@ -4,6 +4,32 @@ from app.movescout.client import MoveScoutClient
 from app.movescout.paging import movescout_skip_count
 
 
+def build_get_all_lead_payload(
+    *,
+    default_filter: int = 3,
+    filters: list[dict[str, Any]] | None = None,
+    page: int = 1,
+    page_size: int = 100,
+    sort_field: str | None = None,
+    sort_dir: str = "desc",
+    logic: str = "and",
+) -> dict[str, Any]:
+    """Body for POST /api/services/app/Lead/GetAllLead (MoveScout SPA shape)."""
+    payload: dict[str, Any] = {
+        "name": "",
+        "bulkList": [],
+        "filters": filters or [],
+        "sortField": sort_field or "",
+        "sortDir": sort_dir,
+        "defaultFilterLead": default_filter,
+        "maxResultCount": page_size,
+        "skipCount": movescout_skip_count(page, page_size),
+    }
+    if logic:
+        payload["logic"] = logic
+    return payload
+
+
 async def get_all_leads(
     client: MoveScoutClient,
     *,
@@ -13,15 +39,17 @@ async def get_all_leads(
     page_size: int = 100,
     sort_field: str | None = None,
     sort_dir: str = "desc",
+    logic: str = "and",
 ) -> Any:
-    payload: dict[str, Any] = {
-        "defaultFilterLead": default_filter,
-        "filters": filters or [],
-        "skipCount": movescout_skip_count(page, page_size),
-        "maxResultCount": page_size,
-        "sortField": sort_field or "",
-        "sortDir": sort_dir,
-    }
+    payload = build_get_all_lead_payload(
+        default_filter=default_filter,
+        filters=filters,
+        page=page,
+        page_size=page_size,
+        sort_field=sort_field,
+        sort_dir=sort_dir,
+        logic=logic,
+    )
     return await client.request("POST", "/api/services/app/Lead/GetAllLead", json=payload)
 
 

@@ -13,8 +13,9 @@ from app.middleware.request import parse_filter_param
 from app.models.db import User
 from app.models.schemas import LeadListRequest, LeadQueryRequest
 from app.movescout.client import MoveScoutError
-from app.movescout.filters import build_filters
+from app.movescout.filters import build_filters, prepare_lead_filters
 from app.movescout.leads import (
+    build_get_all_lead_payload,
     create_or_update_lead,
     extract_single_lead,
     get_lead_by_id,
@@ -48,6 +49,7 @@ async def leads_page_count(
     sort_field: str | None = Query(default=None, alias="sortField"),
     sort_dir: str = Query(default="desc", alias="sortDir"),
     filter_param: str | None = Query(default=None, alias="filter"),
+    debug_upstream: bool = Query(default=False, alias="debugUpstream"),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
@@ -58,12 +60,12 @@ async def leads_page_count(
 
     raw_filters = parse_filter_param(filter_param)
     try:
-        filters = build_filters(raw_filters) if raw_filters else []
+        filters = prepare_lead_filters(raw_filters) if raw_filters else []
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     async def callback(client: Any) -> dict[str, Any]:
-        return await leads_page_count_response(
+        response = await leads_page_count_response(
             client,
             default_filter=default_filter,
             filters=filters,
@@ -71,6 +73,17 @@ async def leads_page_count(
             sort_field=sort_field,
             sort_dir=sort_dir,
         )
+        if debug_upstream:
+            response = dict(response)
+            response["upstreamPayload"] = build_get_all_lead_payload(
+                default_filter=default_filter,
+                filters=filters,
+                page=1,
+                page_size=batch,
+                sort_field=sort_field,
+                sort_dir=sort_dir,
+            )
+        return response
 
     try:
         return await with_movescout_client(db, user, callback)
@@ -97,7 +110,7 @@ async def list_leads(
 
     raw_filters = parse_filter_param(filter_param)
     try:
-        filters = build_filters(raw_filters) if raw_filters else []
+        filters = prepare_lead_filters(raw_filters) if raw_filters else []
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
@@ -133,7 +146,7 @@ async def export_leads(
 
     raw_filters = parse_filter_param(filter_param)
     try:
-        filters = build_filters(raw_filters) if raw_filters else []
+        filters = prepare_lead_filters(raw_filters) if raw_filters else []
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 

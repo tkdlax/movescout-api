@@ -35,7 +35,14 @@ def current_http_date() -> str:
     return format_datetime(datetime.now(UTC), usegmt=True)
 
 
-def build_kendo_filter(field: str, op: str, value: Any, condition: str = "and") -> dict[str, Any]:
+def build_kendo_filter(
+    field: str,
+    op: str,
+    value: Any,
+    condition: str = "and",
+    *,
+    date: str | None = None,
+) -> dict[str, Any]:
     if field not in ALLOWED_FILTER_FIELDS:
         raise ValueError(f"Filter field '{field}' is not allowed")
 
@@ -47,7 +54,7 @@ def build_kendo_filter(field: str, op: str, value: Any, condition: str = "and") 
         "field": field,
         "operator": operator,
         "condition": condition,
-        "date": current_http_date(),
+        "date": date or current_http_date(),
     }
 
     if operator == "isnull":
@@ -60,22 +67,48 @@ def build_kendo_filter(field: str, op: str, value: Any, condition: str = "and") 
     return filter_obj
 
 
-def build_filters(filters: list[dict[str, Any]], logic: str = "and") -> list[dict[str, Any]]:
+def prepare_lead_filters(filters: list[dict[str, Any]], logic: str = "and") -> list[dict[str, Any]]:
+    """Normalize caller filters to the exact GetAllLead filter objects MoveScout expects."""
     if not filters:
         return []
 
     result: list[dict[str, Any]] = []
-    for i, f in enumerate(filters):
+    for i, raw in enumerate(filters):
         condition = logic if i > 0 else "and"
+
+        if "operator" in raw:
+            field = raw.get("field")
+            if field not in ALLOWED_FILTER_FIELDS:
+                raise ValueError(f"Filter field '{field}' is not allowed")
+            upstream = {
+                "field": field,
+                "operator": raw["operator"],
+                "value": raw.get("value"),
+                "condition": raw.get("condition", condition),
+                "date": raw.get("date") or current_http_date(),
+            }
+            result.append(upstream)
+            continue
+
+        field = raw.get("field")
+        op = raw.get("op")
+        if not field or not op:
+            raise ValueError("Each filter requires field and op (or operator for passthrough)")
+
         result.append(
             build_kendo_filter(
-                field=f["field"],
-                op=f["op"],
-                value=f.get("value"),
-                condition=condition,
+                field,
+                op,
+                raw.get("value"),
+                raw.get("condition", condition),
+                date=raw.get("date"),
             )
         )
     return result
+
+
+def build_filters(filters: list[dict[str, Any]], logic: str = "and") -> list[dict[str, Any]]:
+    return prepare_lead_filters(filters, logic)
 
 
 def build_date_range_filter(field: str, start: str, end: str) -> dict[str, Any]:
@@ -92,10 +125,11 @@ def build_date_range_filter(field: str, start: str, end: str) -> dict[str, Any]:
 
 
 def build_last_n_days_filter(field: str, days: int) -> dict[str, Any]:
+    """Relative 'last N days' preset (MoveScout UI uses id=8, string value)."""
     return {
         "field": field,
         "operator": "eq",
-        "value": {"id": 6, "value": days},
+        "value": {"id": 8, "value": str(days)},
         "condition": "and",
         "date": current_http_date(),
     }
