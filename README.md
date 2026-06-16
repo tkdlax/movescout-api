@@ -13,14 +13,15 @@ REST proxy for [MoveScout Pro](https://movescoutpro.sirva.com). External tools (
 3. [Authentication](#authentication)
 4. [API surface](#api-surface)
 5. [Sales performance reports](#sales-performance-reports)
-6. [Configuration](#configuration)
-7. [Deployment (TrueNAS)](#deployment-truenas)
-8. [Private GitHub repo + SSH deploy key](#private-github-repo--ssh-deploy-key)
-9. [Upgrades and operations](#upgrades-and-operations)
-10. [Admin scripts](#admin-scripts)
-11. [Development](#development)
-12. [Project layout](#project-layout)
-13. [Further reading](#further-reading)
+6. [Leads enriched export](#leads-enriched-export)
+7. [Configuration](#configuration)
+8. [Deployment (TrueNAS)](#deployment-truenas)
+9. [Private GitHub repo + SSH deploy key](#private-github-repo--ssh-deploy-key)
+10. [Upgrades and operations](#upgrades-and-operations)
+11. [Admin scripts](#admin-scripts)
+12. [Development](#development)
+13. [Project layout](#project-layout)
+14. [Further reading](#further-reading)
 
 ---
 
@@ -151,6 +152,7 @@ Cached per API user (TTL configurable).
 | GET | `/reference/service-item-categories` | Alliance categories |
 | GET | `/reference/vehicles` | Auto make/model reference |
 | GET | `/reference/transit-seasons` | Transit guide seasons |
+| GET | `/reference/agents` | All Sirva network agents (`Dropdown/GetAllAgentList`) |
 | GET | `/reference/price-classes` | Alliance price classes (`?bookerId=`) |
 
 ### Leads
@@ -339,6 +341,57 @@ Requires migration: `alembic upgrade head` (revision `002_report_jobs`).
 
 ---
 
+## Leads enriched export
+
+Standalone script for **sales analysis**: one wide CSV row per qualified lead, with all GetAllLead fields plus primary-estimate pricing summary columns (Shape A). Downstream tools (pandas, Excel, Power BI) can answer questions like booked rate by rep, average line haul, packing uptake, and selected valuation.
+
+### Usage
+
+```bash
+python scripts/export_leads_enriched.py \
+  --api-key YOUR_KEY \
+  --base-url https://mspapi.jbeckstead.com \
+  --start 2026-01-01 \
+  --end 2026-05-29 \
+  --output leads_enriched_jan-may-2026.csv
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--start` / `--end` | (required) | `creationTime` range (`YYYY-MM-DD` or `Jan 1, 2026`) |
+| `--default-filter` | `3` | Qualified leads only (`defaultFilterLead`) |
+| `--page-size` | `500` | Lead list pagination (max 1000) |
+| `--concurrency` | `8` | Parallel `GET /leads/{id}/pricing` calls |
+| `--timeout` | `120` | HTTP read timeout (seconds) |
+| `--retries` | `3` | Retries on 502/503/timeout |
+
+Environment variables: `MSPAPI_KEY`, `MSPAPI_BASE_URL`.
+
+### Output columns
+
+- **All lead fields** from GetAllLead, with LOV-resolved `*Name` fields filled where IDs are present
+- **Pricing metadata:** `hasPrimaryEstimate`, `estimateId`, `estimateName`, `pricingFetchError`
+- **Category net totals:** `totalTransportationNet`, `totalPackingNet`, `totalContainersNet`, etc.
+- **Sub-fields:** `lineHaulNet`, `totalWeight`, `smfPercentage`, `selectedValuation`, `totalEstimatePriceNet`
+- **Dynamic columns:** if an estimate exposes an unknown `*Net` field, a new `total…Net` column is added for the whole file
+
+### Null vs zero
+
+| Situation | Pricing cells |
+|-----------|----------------|
+| No primary estimate | **Empty** (null) — `hasPrimaryEstimate=false` |
+| Has estimate, category absent or zero | **`0`** |
+
+This keeps averages honest: null means “no quote,” zero means “quoted at $0.”
+
+### Runtime
+
+Expect **minutes** for thousands of leads (one pricing call per lead). Progress logs to stderr every 50 pricing fetches. A JSON summary (row counts, elapsed time) prints when complete.
+
+Logic lives in [`app/reports/pricing_summary.py`](app/reports/pricing_summary.py); orchestration in [`scripts/export_leads_enriched.py`](scripts/export_leads_enriched.py).
+
+---
+
 ## Configuration
 
 Copy [`.env.example`](.env.example) to `.env`. Key variables:
@@ -473,7 +526,17 @@ python scripts/rotate_api_key.py --user-id "<uuid>"
 
 # Smoke-test inventory hero endpoint
 python scripts/test_inventory_by_lead.py --lead-id 1553516 --api-key YOUR_KEY
+
+# Export leads enriched with primary-estimate pricing (Shape A wide CSV)
+python scripts/export_leads_enriched.py \
+  --api-key YOUR_KEY \
+  --base-url https://mspapi.jbeckstead.com \
+  --start 2026-01-01 \
+  --end 2026-05-29 \
+  --output leads_enriched_jan-may-2026.csv
 ```
+
+See [Leads enriched export](#leads-enriched-export) for column semantics and runtime expectations.
 
 ---
 

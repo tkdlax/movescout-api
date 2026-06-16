@@ -64,7 +64,7 @@ Minimum create fields (TBD — confirm via HAR): firstName, lastName, phone, dis
 
 `POST /api/services/app/ListOfValue/GetAllListofvalues`
 
-Middleware: `GET /lov` (cached per API user, default 24h TTL).
+`GET /lov` (cached per API user, default 24h TTL). Upstream is **GET** `ListOfValue/GetAllListofvalues` (not POST). Items use `tableName`, `id`, and `name`.
 
 ## Inventory and Estimates (HAR4)
 
@@ -123,6 +123,7 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 |---|---|
 | `GET AutoMakeModel/GetAllMakeModelDetails` | `GET /reference/vehicles` |
 | `GET TransitGuideSeasonConfiguration/GetAllTransitGuideSeasonConfiguration` | `GET /reference/transit-seasons` |
+| `GET Dropdown/GetAllAgentList` | `GET /reference/agents` |
 
 ### leadSurveyDto line item fields (inventory items)
 

@@ -14,6 +14,7 @@ from app.movescout.alliance import (
 )
 from app.movescout.client import MoveScoutError
 from app.movescout.reference_data import (
+    get_agent_list,
     get_all_make_model_details,
     get_all_transit_guide_season_configuration,
 )
@@ -28,6 +29,7 @@ CACHE_SERVICE_ITEM_TYPES = "service_item_types"
 CACHE_SERVICE_ITEM_CATEGORIES = "service_item_categories"
 CACHE_VEHICLES = "vehicles"
 CACHE_TRANSIT_SEASONS = "transit_seasons"
+CACHE_AGENTS = "agents"
 
 
 def _normalize_list_result(result: Any) -> dict[str, Any]:
@@ -135,6 +137,19 @@ async def reference_transit_seasons(
         CACHE_TRANSIT_SEASONS,
         get_all_transit_guide_season_configuration,
         refresh=refresh,
+    )
+
+
+@router.get("/agents")
+async def reference_agents(
+    request: Request,
+    refresh: bool = Query(default=False),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """All Sirva network agents (origin/destination/booker dropdowns)."""
+    return await _cached_reference(
+        request, user, db, CACHE_AGENTS, get_agent_list, refresh=refresh
     )
 
 

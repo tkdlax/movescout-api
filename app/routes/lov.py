@@ -9,7 +9,7 @@ from app.models.db import User
 from app.movescout.client import MoveScoutError
 from app.movescout.lov import get_all_list_of_values
 from app.movescout.responses import parse_abp_response
-from app.services.lov_cache import get_or_load
+from app.services.lov_cache import clear_cache, get_or_load
 from app.services.movescout_service import with_movescout_client
 
 router = APIRouter(tags=["lov"])
@@ -25,7 +25,16 @@ def _normalize_lov_result(result: Any) -> dict[str, Any]:
                 **result,
                 "count": result.get("count") or result.get("totalCount") or len(items),
             }
-    return {"items": result, "count": 1 if result is not None else 0}
+        if not items:
+            return {"items": [], "count": 0}
+    return {"items": [], "count": 0}
+
+
+def _lov_has_items(data: Any) -> bool:
+    if not isinstance(data, dict):
+        return False
+    items = data.get("items")
+    return isinstance(items, list) and len(items) > 0
 
 
 @router.get("/lov")
@@ -41,13 +50,28 @@ async def list_of_values(
     async def load(client: Any) -> dict[str, Any]:
         response = await get_all_list_of_values(client)
         result = parse_abp_response(response, action="get list of values")
-        return _normalize_lov_result(result)
+        normalized = _normalize_lov_result(result)
+        if not _lov_has_items(normalized):
+            raise MoveScoutError(
+                "MoveScout returned no list-of-values items",
+                status_code=502,
+                code="MOVESCOUT_LOV_EMPTY",
+            )
+        return normalized
 
     async def callback(client: Any) -> dict[str, Any]:
         async def loader() -> dict[str, Any]:
             return await load(client)
 
-        return await get_or_load(user.id, loader, force_refresh=refresh)
+        if refresh:
+            clear_cache(user.id)
+
+        data = await get_or_load(user.id, loader, force_refresh=refresh)
+        # Recover from pre-fix caches that stored empty LOV payloads.
+        if not _lov_has_items(data):
+            clear_cache(user.id)
+            data = await get_or_load(user.id, loader, force_refresh=True)
+        return data
 
     try:
         return await with_movescout_client(db, user, callback)

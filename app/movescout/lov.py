@@ -5,7 +5,6 @@ from app.movescout.client import MoveScoutClient
 
 async def get_all_list_of_values(client: MoveScoutClient) -> Any:
     return await client.request(
-        "POST",
+        "GET",
         "/api/services/app/ListOfValue/GetAllListofvalues",
-        json={},
     )

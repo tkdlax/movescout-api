@@ -162,6 +162,24 @@ def test_normalize_lov_result_list():
     assert len(out["items"]) == 2
 
 
+def test_normalize_lov_result_empty_dict():
+    out = _normalize_lov_result({})
+    assert out == {"items": [], "count": 0}
+
+
+def test_normalize_lov_result_paged_upstream():
+    out = _normalize_lov_result(
+        {
+            "totalCount": 2,
+            "items": [
+                {"tableName": "Move_Type", "id": 119, "name": "Interstate"},
+            ],
+        }
+    )
+    assert out["count"] == 2
+    assert len(out["items"]) == 1
+
+
 def test_movescout_page_count():
     assert movescout_page_count(0, 500) == 0
     assert movescout_page_count(1, 500) == 1
