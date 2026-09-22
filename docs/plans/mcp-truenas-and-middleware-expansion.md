@@ -273,7 +273,10 @@ Every PR that adds or modifies middleware routes must include:
 |------------|-----|------------|
 | ~~Create estimate without inventory~~ | ~~Request body lost (Flow 01/015)~~ | **P2 CLOSED** |
 | ~~Stock article add to inventory~~ | ~~P1 in progress~~ | **P1 CLOSED** |
-| Pricing variants (classes/levels/dates) | P3 planned | Explorer starting |
+| ~~Price class variants~~ | ~~P3-A~~ | **CAPTURED WITH CAVEAT** — Totals identical; `priceClassId: null` |
+| Price class persistence | UpdateLeadEstimate with priceClassId | Needs re-capture |
+| Price level variants | P3-B | Explorer continuing |
+| Load/deliver date variants | P3-C | Queued |
 | Lead lifecycle updates | P4 planned | Await probing |
 | Alliance/accessorial writes | P8 planned | Await probing |
 
@@ -350,11 +353,42 @@ The `POST /leads/{id}/estimates` route passes `isEstimateWithInventory` as-is to
 
 ---
 
-## P3–P10 (Queued)
+## P3-A — Price Class Variants (CAPTURED WITH CAVEAT 2026-09-22)
+
+### Test Matrix
+
+Four `CalculateEstimationPricing` runs on estimate 2395896:
+
+| priceClassId | Description | totalEstimationPriceNet | totalSMFPriceNet | HTTP |
+|---:|---|---:|---:|---|
+| 3976 | Bailey's Consumer 2019 | 2771.90 | 336.44 | 200 |
+| 346 | Baileys Moving & Storage | 2771.90 | 336.44 | 200 |
+| 4235 | BGRS - Canada | 2771.90 | 336.44 | 200 |
+| 4257 | BGRS - Domestic - General Motors | 2771.90 | 336.44 | 200 |
+
+### Caveat — Class Persistence Not Confirmed
+
+**Critical limitation:** All four runs returned identical totals despite different UI class selections.
+
+- `allianceDto.priceClassId: null` in every request AND response
+- No `UpdateLeadEstimate` captured — class persistence mechanism unknown
+- Totals may reflect default/stored class, not UI picker selection
+
+**Do not claim** the middleware can persist price class selections until `UpdateLeadEstimate` with `allianceDto.priceClassId` is captured.
+
+### Documentation
+
+- Full matrix: `docs/pricing-variants/P3A-price-class-matrix.md`
+- Middleware route: `POST .../estimates/{eid}/calculate-pricing` (existing, no changes needed)
+
+---
+
+## P3-B–P10 (Queued)
 
 | Phase | Capability | Status |
 |-------|------------|--------|
-| P3 | Pricing variants (classes/levels/dates) | Explorer starting |
+| P3-B | Price levels | Explorer continuing |
+| P3-C | Load/deliver dates | Queued |
 | P4 | Lead lifecycle updates | Queued |
 | P5 | Document/attachment uploads | Queued |
 | P6 | Notes and comments | Queued |
@@ -363,7 +397,7 @@ The `POST /leads/{id}/estimates` route passes `isEstimateWithInventory` as-is to
 | P9 | Auto-spot details | Queued |
 | P10 | Customer-facing notes | Queued |
 
-P3 pricing variants exploration is starting. Updates will follow as captures land.
+P3-B price level variants exploration continuing. Updates will follow as captures land.
 
 ---
 
@@ -380,5 +414,6 @@ This plan does not estimate calendar time. Implementation involves:
 - Flows 01–03 middleware routes + MCP scaffold: **Implemented**
 - P1 (stock article add): **CLOSED** — Request body captured and fixture added
 - P2 (create estimate without inventory): **CLOSED** — Request body captured, quirk documented
-- P3 (pricing variants): Explorer starting
+- P3-A (price classes): **CAPTURED WITH CAVEAT** — All 4 runs return identical totals; `allianceDto.priceClassId: null`; class persistence not confirmed
+- P3-B (price levels): Explorer continuing
 - P4–P10: Queued for Explorer probing

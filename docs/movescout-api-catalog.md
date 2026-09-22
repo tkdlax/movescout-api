@@ -168,6 +168,25 @@ This appears to be a MoveScout Pro UI/API inconsistency. The middleware **passes
 
 Do not attempt to "fix" or invert this flag based on UI intent — the middleware faithfully proxies the observed upstream behavior.
 
+### CalculateEstimationPricing — Price Class Caveat (P3-A Documented)
+
+`POST /api/services/app/Estimate/CalculateEstimationPricing` accepts a large (~90KB) estimate body and returns pricing totals.
+
+**P3-A test matrix** (estimate 2395896, 4 price class variants):
+
+| priceClassId | totalEstimationPriceNet | totalSMFPriceNet |
+|---:|---:|---:|
+| 3976 | 2771.90 | 336.44 |
+| 346 | 2771.90 | 336.44 |
+| 4235 | 2771.90 | 336.44 |
+| 4257 | 2771.90 | 336.44 |
+
+**Key limitation:** All four runs returned identical totals. Both request and response have `allianceDto.priceClassId: null`. No `UpdateLeadEstimate` was captured.
+
+**Do not claim** the middleware can persist price class selections. The mechanism for persisting `allianceDto.priceClassId` (likely via `UpdateLeadEstimate`) is not yet captured.
+
+See `docs/pricing-variants/P3A-price-class-matrix.md` for full details.
+
 ## Inventory Write Operations
 
 | Upstream | Middleware | Notes |
