@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-09-22T15:27:00Z",
+  "method": "GET",
+  "url": "https://movescoutproapi.sirva.com//api/services/app/Inventory/GetEstimateByIdForInventoryTab?estimateId=2395896",
+  "status": 200,
+  "scope": {
+    "leadId": 1674404,
+    "estimateId": 2395896
+  },
+  "headers": "redacted; no auth/cookie values captured"
+}

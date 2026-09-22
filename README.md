@@ -590,6 +590,70 @@ tests/            pytest suite
 
 ---
 
+## MCP Server
+
+An MCP (Model Context Protocol) server is included for AI assistant integration. The MCP server provides tools that map 1:1 to middleware routes, allowing Cursor, Claude, and other MCP clients to interact with MoveScout.
+
+### Architecture
+
+```
+AI Assistant (Cursor/Claude) → MCP Server → Middleware API → MoveScout Pro
+```
+
+### Deployment
+
+The MCP service is included in Docker Compose:
+
+```yaml
+services:
+  mcp:
+    build:
+      context: ./mcp
+    environment:
+      MIDDLEWARE_URL: http://api:8000
+      MIDDLEWARE_API_KEY: ${MCP_API_KEY}
+    depends_on:
+      - api
+```
+
+Create a dedicated API key for MCP:
+
+```bash
+python scripts/create_user.py --name "MCP Server" \
+  --movescout-username "user@example.com" \
+  --movescout-password "secret"
+```
+
+### Cursor Configuration
+
+Add to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "movescout": {
+      "command": "docker",
+      "args": ["exec", "-i", "movescout-mcp", "python", "server.py"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+### Available Tools
+
+The MCP server provides tools for:
+
+- **Leads**: list, get, create, update, move type lookup
+- **Activities**: list, get, create
+- **Estimates**: list, get, create, update, pricing, tariffs
+- **Inventory**: rooms, articles, lines, save
+- **Reference data**: LOV, price classes, coordinators, tariffs, agents
+
+See [mcp/README.md](mcp/README.md) for the complete tool list.
+
+---
+
 ## Further reading
 
 | Document | Contents |
@@ -597,6 +661,8 @@ tests/            pytest suite
 | [deploy/TRUENAS-CUSTOM-APP.md](deploy/TRUENAS-CUSTOM-APP.md) | TrueNAS Custom App install |
 | [deploy/TRUENAS.md](deploy/TRUENAS.md) | Manual TrueNAS / nginx notes |
 | [docs/movescout-api-catalog.md](docs/movescout-api-catalog.md) | MoveScout upstream mapping |
+| [docs/plans/mcp-truenas-and-middleware-expansion.md](docs/plans/mcp-truenas-and-middleware-expansion.md) | MCP + middleware expansion plan |
+| [mcp/README.md](mcp/README.md) | MCP server documentation |
 | [deploy/terraform/README.md](deploy/terraform/README.md) | AWS/Azure migration |
 | [deploy/nginx/movescout-api.conf.example](deploy/nginx/movescout-api.conf.example) | nginx reverse proxy example |
 

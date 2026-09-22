@@ -1,8 +1,9 @@
 """Add report_jobs table for async sales reports."""
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision = "002_report_jobs"
 down_revision = "001_initial"

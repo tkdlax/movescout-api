@@ -31,11 +31,27 @@ async def get_activities(
     )
 
 
-async def create_or_update_activity(client: MoveScoutClient, activity: dict[str, Any]) -> Any:
+async def create_or_update_activity(
+    client: MoveScoutClient,
+    activity: dict[str, Any],
+    *,
+    trigger_wf: bool = True,
+) -> Any:
+    """Create or update an activity (survey, appointment, etc.)."""
     return await client.request(
         "POST",
         "/api/services/app/Activity/CreateOrUpdateActivity",
+        params={"triggerWF": str(trigger_wf).lower()},
         json=activity,
+    )
+
+
+async def get_activity_by_id(client: MoveScoutClient, activity_id: str) -> Any:
+    """Get a single activity by its ID."""
+    return await client.request(
+        "GET",
+        "/api/services/app/Activity/GetActivityById",
+        params={"Id": activity_id},
     )
 
 

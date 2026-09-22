@@ -1,0 +1,9 @@
+{
+  "name": "Chair",
+  "tenantId": 1,
+  "roomId": 78845,
+  "isGlobalArticle": false,
+  "domestic": true,
+  "canada": false,
+  "crateFlag": false
+}

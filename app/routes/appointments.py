@@ -16,6 +16,7 @@ from app.movescout.activities import (
     create_or_update_activity,
     extract_activity_list,
     get_activities,
+    get_activity_by_id,
 )
 from app.movescout.client import MoveScoutError
 from app.movescout.leads import extract_single_lead, get_lead_by_id, update_lead_from_appointment
@@ -154,6 +155,50 @@ async def latest_appointment_per_lead(
             )
 
         return {"items": deduped, "total": len(deduped)}
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/activities/{activity_id}")
+async def get_activity(
+    request: Request,
+    activity_id: str,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Get a single activity by ID."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_activity_by_id(client, activity_id)
+        result = response.get("result", response) if isinstance(response, dict) else response
+        return result
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/leads/{lead_id}/activities", status_code=status.HTTP_201_CREATED)
+async def create_activity(
+    request: Request,
+    lead_id: str,
+    body: dict[str, Any],
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Create or update an activity for a lead."""
+    request.state.user_id = user.id
+    body["leadId"] = int(lead_id) if lead_id.isdigit() else lead_id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await create_or_update_activity(client, body)
+        result = response.get("result", response) if isinstance(response, dict) else response
+        return result
 
     try:
         return await with_movescout_client(db, user, callback)

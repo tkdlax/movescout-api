@@ -1,0 +1,166 @@
+{
+  "request": [
+    {
+      "name": "Accept",
+      "value": "text/plain"
+    },
+    {
+      "name": "Accept-Encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "Accept-Language",
+      "value": "en-US,en;q=0.9"
+    },
+    {
+      "name": "Cache-Control",
+      "value": "no-cache"
+    },
+    {
+      "name": "Connection",
+      "value": "keep-alive"
+    },
+    {
+      "name": "Content-Length",
+      "value": "74817"
+    },
+    {
+      "name": "Content-Type",
+      "value": "application/json-patch+json"
+    },
+    {
+      "name": "Expires",
+      "value": "Sat, 01 Jan 2000 00:00:00 GMT"
+    },
+    {
+      "name": "Host",
+      "value": "movescoutproapi.sirva.com"
+    },
+    {
+      "name": "Origin",
+      "value": "https://movescoutpro.sirva.com"
+    },
+    {
+      "name": "Pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "Sec-Fetch-Dest",
+      "value": "empty"
+    },
+    {
+      "name": "Sec-Fetch-Mode",
+      "value": "cors"
+    },
+    {
+      "name": "Sec-Fetch-Site",
+      "value": "same-site"
+    },
+    {
+      "name": "Signature",
+      "value": "sig1=:lJ0iE/Cv3NpooxPlpY4SkN2jGXIZlRUQ5LjT4OQd03gGho3cTxCMzGeNM1pTWCkpIcaUFzNRL1qzQp/I1JSiDw==:"
+    },
+    {
+      "name": "Signature-Agent",
+      "value": "\"https://cursorusercontent.com\""
+    },
+    {
+      "name": "Signature-Input",
+      "value": "sig1=(\"@authority\" \"signature-agent\");created=1790094404;expires=1790094494;keyid=\"Vuxu4khgzIe0b30Nd6hq2envAuVBFMTDqorSNIUb_Oo\";alg=\"ed25519\";nonce=\"7atir7aV_xlCadTyBVMENA\";tag=\"web-bot-auth\""
+    },
+    {
+      "name": "User-Agent",
+      "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "X-Requested-With",
+      "value": "XMLHttpRequest"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Linux\""
+    }
+  ],
+  "response": [
+    {
+      "name": "Access-Control-Allow-Credentials",
+      "value": "true"
+    },
+    {
+      "name": "Access-Control-Allow-Origin",
+      "value": "https://movescoutpro.sirva.com"
+    },
+    {
+      "name": "Cache-Control",
+      "value": "no-cache"
+    },
+    {
+      "name": "Connection",
+      "value": "keep-alive"
+    },
+    {
+      "name": "Content-Encoding",
+      "value": "gzip"
+    },
+    {
+      "name": "Content-Type",
+      "value": "application/json; charset=utf-8"
+    },
+    {
+      "name": "Date",
+      "value": "Tue, 22 Sep 2026 16:27:19 GMT"
+    },
+    {
+      "name": "Permissions-Policy",
+      "value": "camera=*,geolocation=*,microphone=*,autoplay=*,fullscreen=*,picture-in-picture=*,sync-xhr=*,encrypted-media=*,oversized-images=*"
+    },
+    {
+      "name": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "name": "Request-Context",
+      "value": "appId=cid-v1:6509c38a-eccf-4f18-9bc4-a3cf36f9212e"
+    },
+    {
+      "name": "Server",
+      "value": "Microsoft-IIS/10.0"
+    },
+    {
+      "name": "Strict-Transport-Security",
+      "value": "max-age=31536000; includeSubDomains;"
+    },
+    {
+      "name": "Transfer-Encoding",
+      "value": "chunked"
+    },
+    {
+      "name": "Vary",
+      "value": "Origin,Accept-Encoding"
+    },
+    {
+      "name": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "name": "X-Frame-Options",
+      "value": "deny"
+    },
+    {
+      "name": "X-Powered-By",
+      "value": "ASP.NET"
+    },
+    {
+      "name": "X-XSS-Protection",
+      "value": "1; mode=block"
+    }
+  ]
+}

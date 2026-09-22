@@ -1,0 +1,2 @@
+Observed create response result is lead id 1674404. Request Content-Type was application/json-patch+json. Note the destination streetAddress1 value includes a leading space exactly as sent by the UI.
+HAR did not expose an Authorization header value on the POST; the corresponding preflight advertises an `authorization` request header. Signature, Signature-Agent, and Signature-Input values were redacted per capture policy.

@@ -1,0 +1,12 @@
+{
+  "capturedAt": "2026-09-22T15:27:00Z",
+  "method": "POST",
+  "url": "https://movescoutproapi.sirva.com//api/services/app/Inventory/SaveEstimateDataToTempTableWithBackgroundJob?estimateId=2395896",
+  "status": 0,
+  "scope": {
+    "leadId": 1674404,
+    "estimateId": 2395896
+  },
+  "source": "previous sanitized same-estimate HAR in Flow 02; reused because current UI session did not expose CalculateEstimationPricing request in resource list",
+  "headers": "redacted; no auth/cookie values retained"
+}
