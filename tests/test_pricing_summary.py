@@ -63,7 +63,6 @@ def test_empty_pricing_summary_uses_nulls():
 
 
 def test_resolve_pricing_payload_from_string_json():
-    inner = _sample_pricing()
     response = {"pricingResponseJson": '{"totalEstimatinPriceNet": 100}'}
     payload = resolve_pricing_payload(response)
     assert payload["totalEstimatinPriceNet"] == 100
