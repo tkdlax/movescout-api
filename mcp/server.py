@@ -21,16 +21,14 @@ import uvicorn
 from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
-    CallToolResult,
     CallToolRequestParams,
+    CallToolResult,
     ListToolsResult,
     TextContent,
 )
 from mcp_types._types import PaginatedRequestParams
-from starlette.routing import Route
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-
 from tools import TOOLS, execute_tool
 
 logger = logging.getLogger(__name__)

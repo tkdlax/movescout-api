@@ -45,7 +45,13 @@ def get_mcp_tools() -> list[tuple[str, str]]:
     sys.path.insert(0, str(Path(__file__).parent.parent / "mcp"))
     from tools import TOOLS
 
-    return [(tool.name, tool.description[:80] + "..." if len(tool.description) > 80 else tool.description) for tool in TOOLS]
+    result = []
+    for tool in TOOLS:
+        desc = tool.description
+        if len(desc) > 80:
+            desc = desc[:80] + "..."
+        result.append((tool.name, desc))
+    return result
 
 
 def main():
@@ -73,7 +79,8 @@ def main():
         print(f"  {name}")
     print()
 
-    # Expected parity mapping
+    # Expected parity mapping (fmt: off to preserve readability)
+    # fmt: off
     expected_tools = {
         "movescout_leads_list": "GET /leads",
         "movescout_leads_get": "GET /leads/{lead_id}",
@@ -88,15 +95,24 @@ def main():
         "movescout_estimates_get": "GET /leads/{lead_id}/estimates/{estimate_id}",
         "movescout_estimates_create": "POST /leads/{lead_id}/estimates",
         "movescout_estimates_update": "PUT /leads/{lead_id}/estimates/{estimate_id}",
-        "movescout_estimates_rooms_list": "GET /leads/{lead_id}/estimates/{estimate_id}/rooms",
-        "movescout_estimates_rooms_create": "POST /leads/{lead_id}/estimates/{estimate_id}/rooms",
-        "movescout_estimates_articles_catalog": "GET /leads/{lead_id}/estimates/{estimate_id}/rooms/{room_id}/articles",
-        "movescout_estimates_articles_create": "POST /leads/{lead_id}/estimates/{estimate_id}/rooms/{room_id}/articles",
-        "movescout_estimates_inventory_lines_update": "PUT /leads/{lead_id}/estimates/{estimate_id}/inventory/lines",
-        "movescout_estimates_inventory_save": "POST /leads/{lead_id}/estimates/{estimate_id}/inventory/save",
-        "movescout_estimates_pricing_get": "GET /leads/{lead_id}/estimates/{estimate_id}/pricing",
-        "movescout_estimates_pricing_calculate": "POST /leads/{lead_id}/estimates/{estimate_id}/calculate-pricing",
-        "movescout_estimates_tariff_effective": "GET /leads/{lead_id}/estimates/{estimate_id}/tariff-effective",
+        "movescout_estimates_rooms_list":
+            "GET /leads/{lead_id}/estimates/{estimate_id}/rooms",
+        "movescout_estimates_rooms_create":
+            "POST /leads/{lead_id}/estimates/{estimate_id}/rooms",
+        "movescout_estimates_articles_catalog":
+            "GET /leads/{lead_id}/estimates/{estimate_id}/rooms/{room_id}/articles",
+        "movescout_estimates_articles_create":
+            "POST /leads/{lead_id}/estimates/{estimate_id}/rooms/{room_id}/articles",
+        "movescout_estimates_inventory_lines_update":
+            "PUT /leads/{lead_id}/estimates/{estimate_id}/inventory/lines",
+        "movescout_estimates_inventory_save":
+            "POST /leads/{lead_id}/estimates/{estimate_id}/inventory/save",
+        "movescout_estimates_pricing_get":
+            "GET /leads/{lead_id}/estimates/{estimate_id}/pricing",
+        "movescout_estimates_pricing_calculate":
+            "POST /leads/{lead_id}/estimates/{estimate_id}/calculate-pricing",
+        "movescout_estimates_tariff_effective":
+            "GET /leads/{lead_id}/estimates/{estimate_id}/tariff-effective",
         "movescout_reference_lov": "GET /lov",
         "movescout_reference_service_items": "GET /reference/service-items",
         "movescout_reference_price_classes": "GET /reference/price-classes",
@@ -106,6 +122,7 @@ def main():
         "movescout_reference_agents": "GET /reference/agents",
         "movescout_inventory_get": "GET /leads/{lead_id}/inventory",
     }
+    # fmt: on
 
     print("=" * 60)
     print("Parity Verification:")

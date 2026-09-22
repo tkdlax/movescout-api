@@ -44,7 +44,8 @@ ALLOWED_FILTER_FIELDS = {
     # CONTAINS fields
     "coordinatorName",  # Coordinator (contains)
     "modifiedUserName",  # Modified By (contains)
-    "localCarrierId",  # Local Carrier (contains) - UI gap: filter submits but sampled blank cells → totalCount 0
+    # Local Carrier (contains) - UI gap: filter submits but blank cells → 0 matches
+    "localCarrierId",
     # EQ fields
     "createdSource",  # Created Source (eq e.g. 5)
     "mobileSyncStatusId",  # Mobile Sync Status (eq e.g. 204)
