@@ -5,8 +5,8 @@ MCP (Model Context Protocol) server for MoveScout middleware. Provides tools for
 ## Architecture
 
 ```
-AI Assistant (Cursor/Claude)
-        ↓
+AI Assistant (Cursor/Claude/Cloud Agent)
+        ↓ MCP Protocol (stdio or HTTP)
    MCP Server (this)
         ↓ HTTP + X-API-Key
    Middleware API
@@ -19,68 +19,151 @@ The MCP server is a thin proxy that:
 2. Maps them to middleware HTTP calls
 3. Returns structured JSON responses
 
+## Transport Modes
+
+| Mode | Use Case | Protocol |
+|------|----------|----------|
+| `http` (default) | Cloud agents, remote access | Streamable HTTP on `/mcp` |
+| `stdio` | Local Cursor, SSH tunnel | JSON-RPC over stdin/stdout |
+
 ## Configuration
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `MIDDLEWARE_URL` | Yes | Middleware API URL (e.g., `http://api:8000` or `https://mspapi.jbeckstead.com`) |
-| `MIDDLEWARE_API_KEY` | Yes | API key for middleware authentication |
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `MIDDLEWARE_URL` | Yes | `http://localhost:8000` | Middleware API URL |
+| `MIDDLEWARE_API_KEY` | Yes | | API key for middleware authentication |
+| `MCP_TRANSPORT` | No | `http` | Transport mode: `http` or `stdio` |
+| `MCP_HTTP_PORT` | No | `8080` | HTTP server port (http mode only) |
+| `MCP_HTTP_TOKEN` | Yes* | | Bearer token for HTTP auth (*required for http mode) |
 
 ## Deployment (TrueNAS)
 
-Add to your `docker-compose.yml`:
+### 1. Environment Variables
+
+Add to your `.env` file:
+
+```bash
+# Middleware API key (create via scripts/create_user.py)
+MCP_API_KEY=your-middleware-api-key
+
+# HTTP auth token (generate a strong random string)
+MCP_HTTP_TOKEN=your-secret-token-here
+
+# Transport mode
+MCP_TRANSPORT=http
+```
+
+### 2. Docker Compose
+
+The MCP service is already configured in `deploy/docker-compose.yml`:
 
 ```yaml
 services:
   mcp:
     build:
-      context: ./mcp
+      context: ../mcp
       dockerfile: Dockerfile
-    environment:
-      MIDDLEWARE_URL: http://api:8000
-      MIDDLEWARE_API_KEY: ${MCP_API_KEY}
-    depends_on:
-      - api
-    # For stdio transport (default):
-    stdin_open: true
-    tty: true
-```
-
-For HTTP/SSE transport, add port mapping:
-
-```yaml
     ports:
       - "8080:8080"
+    environment:
+      MIDDLEWARE_URL: http://api:8000
+      MIDDLEWARE_API_KEY: ${MCP_API_KEY:-}
+      MCP_TRANSPORT: ${MCP_TRANSPORT:-http}
+      MCP_HTTP_PORT: 8080
+      MCP_HTTP_TOKEN: ${MCP_HTTP_TOKEN:-}
+    depends_on:
+      - api
+    restart: unless-stopped
 ```
+
+### 3. Nginx Reverse Proxy
+
+For public HTTPS access, configure nginx. See `deploy/nginx/mspmcp.jbeckstead.com.conf.example`.
+
+Key points:
+- TLS termination at nginx
+- Forward `/mcp` to `localhost:8080/mcp`
+- Pass `Authorization` header through
+- Disable buffering for streaming
+
+### 4. Firewall
+
+- Open WAN → 443 (HTTPS) only
+- Do NOT expose port 8080 directly
 
 ## Cursor Configuration
 
-Add to Cursor settings (`~/.cursor/mcp.json`):
+### Remote HTTP (Cloud Agents)
+
+For Cursor cloud agents, add in Dashboard → Integrations & MCP:
+
+- **URL:** `https://mspmcp.jbeckstead.com/mcp`
+- **Transport:** HTTP (Streamable HTTP)
+- **Headers:** `Authorization: Bearer YOUR_MCP_HTTP_TOKEN`
+
+### Remote HTTP (Local Cursor)
+
+Add to `~/.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "movescout": {
-      "command": "docker",
-      "args": ["exec", "-i", "movescout-mcp", "python", "server.py"],
+      "url": "https://mspmcp.jbeckstead.com/mcp",
+      "transport": "http",
+      "headers": {
+        "Authorization": "Bearer YOUR_MCP_HTTP_TOKEN"
+      }
+    }
+  }
+}
+```
+
+### Local stdio (SSH Tunnel - Optional)
+
+For local Cursor with SSH access to TrueNAS:
+
+```json
+{
+  "mcpServers": {
+    "movescout": {
+      "command": "ssh",
+      "args": [
+        "truenas",
+        "docker", "exec", "-i", "deploy-mcp-1",
+        "python", "server.py"
+      ],
+      "env": {
+        "MCP_TRANSPORT": "stdio"
+      },
       "transport": "stdio"
     }
   }
 }
 ```
 
-Or for remote HTTP server:
+## Endpoints
+
+| Path | Method | Auth | Description |
+|------|--------|------|-------------|
+| `/health` | GET | No | Health check (returns `{"status": "ok"}`) |
+| `/mcp` | POST | Yes | MCP Streamable HTTP endpoint |
+
+## Authentication
+
+HTTP mode requires Bearer token authentication:
+
+```
+Authorization: Bearer YOUR_MCP_HTTP_TOKEN
+```
+
+Unauthenticated requests return `401 Unauthorized`:
 
 ```json
-{
-  "mcpServers": {
-    "movescout": {
-      "url": "https://mspmcp.jbeckstead.com",
-      "transport": "sse"
-    }
-  }
-}
+{"error": "Missing or invalid Authorization header"}
 ```
+
+The `/health` endpoint is exempt from authentication for load balancer probes.
 
 ## Available Tools
 
@@ -116,42 +199,8 @@ Or for remote HTTP server:
 
 ### Pricing
 - `movescout_estimates_pricing_get` — Get pricing totals
-- `movescout_estimates_pricing_calculate` — Calculate pricing (see notes below)
+- `movescout_estimates_pricing_calculate` — Calculate pricing
 - `movescout_estimates_tariff_effective` — Get tariff by effective date
-
-## Pricing API Notes
-
-### CalculateEstimationPricing Request Fields
-
-The `movescout_estimates_pricing_calculate` tool accepts a full estimate DTO. Key pricing-relevant fields:
-
-| Field | Example | Notes |
-|-------|---------|-------|
-| `pricingTariffId` | 658 | Tariff ID (e.g., 658=TPG) |
-| `pricingLevelId` | 718 | Pricing level ID (e.g., 715=Level 1, 718=Level 4) |
-| `pricingLevel` | "Level 4" | Pricing level name |
-| `loadFrom` | "2026-09-22T00:00:00.000Z" | Load date (ISO; **may be absent**) |
-| `deliverTo` | "2026-09-29T00:00:00.000Z" | Delivery date (ISO; **may be absent**) |
-| `valuationTypeId` | 683 | ECP type ID (683=$0 Ded, 684=$250, 685=$500) |
-| `tariffValuationType` | "ECP - $0 Ded" | ECP description |
-| `valuationAmount` | 10000 | Coverage amount |
-| `valuationBracketId` | 696 | Bracket ID |
-
-**Date handling:** Missing `loadFrom` or `deliverTo` still returns HTTP 200 — no validation error.
-
-### Response Field Quirks
-
-The upstream MoveScout API has a **misspelled field**:
-- `totalEstimatinPriceNet` (missing 'o') appears in nested DTOs and `pricingResponseJson`
-- `totalEstimationPriceNet` (correct) appears top-level in some places
-
-Both contain the same value. The middleware returns the upstream response **as-is** without normalizing.
-
-**SMF total** is nested at: `result.pricingResponseJson` → (parse JSON) → `transportationSubItemCharges.totalSMFPriceNet`
-
-### UpdateLeadEstimate tabSwitchFlag
-
-The `movescout_estimates_update` tool accepts an optional `tabSwitchFlag` parameter (default `false`) that controls upstream validation behavior.
 
 ### Reference Data
 - `movescout_reference_lov` — Get list of values
@@ -170,8 +219,6 @@ Every MCP tool maps 1:1 to a middleware route. To verify parity:
 python scripts/check_mcp_parity.py
 ```
 
-This script compares FastAPI routes with MCP tool definitions and reports any mismatches.
-
 ## Development
 
 Local testing:
@@ -180,12 +227,25 @@ Local testing:
 cd mcp
 pip install -r requirements.txt
 
-# Set environment
+# HTTP mode (default)
 export MIDDLEWARE_URL=http://localhost:8000
 export MIDDLEWARE_API_KEY=your-api-key
-
-# Run server
+export MCP_HTTP_TOKEN=test-token
 python server.py
+
+# Test health
+curl http://localhost:8080/health
+
+# Test auth rejection
+curl http://localhost:8080/mcp  # Returns 401
+
+# Test with auth
+curl -H "Authorization: Bearer test-token" http://localhost:8080/mcp
 ```
 
-The server uses stdio transport by default, reading JSON-RPC messages from stdin and writing responses to stdout.
+For stdio mode:
+
+```bash
+export MCP_TRANSPORT=stdio
+python server.py
+```
