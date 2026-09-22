@@ -46,6 +46,44 @@ CSV export still auto-fetches all pages server-side.
 
 `POST /api/services/app/Lead/CreateOrUpdateLead`
 
+**P4 capture evidence (2026-09-22):** Full lead DTO write (not a patch-by-field API).
+
+**Request:**
+- Content-Type: `application/json-patch+json`
+- Body: Full lead DTO including all nested objects
+
+**Key fields for lifecycle updates:**
+| Field | Example | Notes |
+|-------|---------|-------|
+| `id` | 1674404 | Lead ID (required for update) |
+| `dispositionId` | 43/44 | Disposition: 43=New, 44=Pending |
+| `dispositionName` | "New"/"Pending" | Display name (updated with ID) |
+| `leadCustomerDetail.salesRepId` | 69/169 | Sales rep ID (triggers appointment reassignment) |
+| `leadCustomerDetail.salesRepName` | "Jacob Beckstead" | Updated with salesRepId |
+| `bookerId` | 47 | Booker/agency ID |
+| `isQualifiedLead` | true | Qualification status |
+| `qualifiedDate` | "2026-09-22T00:02:23.268-06:00" | Set when qualified |
+| `leadSurveyAppointment[].activityAssigneeId` | 69/169 | Survey appointment assignee |
+
+**Response:** ABP envelope `{ "result": <leadId>, "success": true }`
+
+**P4 observed probes (all restored afterward):**
+- Disposition change: New (43) → Pending (44) via `dispositionId`/`dispositionName`
+- Sales rep change: Jacob (69) → Baylee Lopez (169) via `leadCustomerDetail.salesRepId`
+- Survey appointment reassignment confirmed via `leadSurveyAppointment[0].activityAssigneeId`
+
+**Nested DTO structure (required for updates):**
+- `leadCustomerDetail` — customer/contact info, sales rep
+- `leadDestination` — delivery address
+- `leadMoveDate` — load/delivery dates, survey date
+- `leadNonConforming` — non-conforming flags
+- `leadEmployer` — employer-assisted move info
+- `leadVehicle` — vehicle transport info
+- `leadMoSys` — MoSys integration fields
+- `leadLMP` — LMP integration fields
+- `leadSurveyAppointment[]` — survey appointments
+- `leadAdditionalAddress[]` — extra pickup/delivery addresses
+
 Minimum create fields (TBD — confirm via HAR): firstName, lastName, phone, dispositionId, tenantId, mobileSyncFlag
 
 ## Activities
@@ -155,8 +193,10 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 |---|---|---|
 | `POST Inventory/CreateOrUpdateEstimates` | `POST /leads/{id}/estimates` | Create estimate with/without inventory |
 | `PUT Estimate/UpdateLeadEstimate` | `PUT /leads/{id}/estimates/{eid}` | Update tariff, pricing fields |
-| `POST Estimate/CalculateEstimationPricing` | `POST .../estimates/{eid}/calculate-pricing` | Full pricing calculation |
+| `POST Estimate/CalculateEstimationPricing` | `POST .../estimates/{eid}/calculate-pricing` | Full pricing calculation (single/multi-segment) |
 | `GET GetEstimate/GetEstimateTariffByEffectiveDate` | `GET .../estimates/{eid}/tariff-effective` | Tariff lookup by date |
+| `POST Inventory/CreateOrUpdateSegments` | `POST .../estimates/{eid}/segments` | Create/update segments (P6) |
+| `POST Inventory/SaveExtraPickUpAndDeliveriesForSegments` | `POST .../estimates/{eid}/extra-stops` | Save extra pickup/delivery stops (P6) |
 
 ### `isEstimateWithInventory` Flag Quirk (Flow 05 / P2 Documented)
 
@@ -383,6 +423,215 @@ Note: Both operations returned identical totals because the inventory was under 
 **Capture source:** `flows/04-stock-articles-pricing/calls/08-SaveEstimateWithTrueFlag-after-stock/`
 
 Called after inventory modifications to persist changes. Query params: `estimateId`, `leadId`, `density`. Empty request body (`Content-Length: 0`). Returns `{ "result": 1, ... }` on success.
+
+### P5 — Packing/Bulky/Crates Inventory Fields (2026-09-22 Capture)
+
+**Capture source:** `flows/08-packing-bulky-crates/`
+
+#### Carton Panel Toggle (001-carton-panel-existing)
+
+Toggling carton fields (e.g., "1.5 - CP") on the estimate carton panel triggers **only** `CalculateEstimationPricing` — no separate inventory write endpoint. Grand Total stayed $2,771.90 / SMF $336.44.
+
+#### Inventory-Line DTO Fields for Packing/Bulky/Crates
+
+From `leadSurveyDto` items in calculate payload:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `packing` | bool/null | Packing flag |
+| `unpacking` | bool/null | Unpacking flag |
+| `carton` | bool | Carton flag |
+| `pbo` | bool | PBO (pack by owner) flag |
+| `bulky` | bool | Bulky item flag |
+| `bulkyWgtAdd` | bool | Bulky weight additive flag |
+| `canBulky` | bool | Canadian bulky flag |
+| `canBulkyWgtAdd` | bool | Canadian bulky weight additive |
+| `crateFlag` | bool | Crating required flag |
+| `crateType` | int | Crate type code (0=none) |
+| `crateTypeId` | int/null | Crate type ID |
+| `isThirdPartyCrating` | bool | Third-party crating flag |
+| `isAlliance` | bool | Alliance service flag |
+
+**Estimate-level fields:**
+- `isPackingApply` — Packing services enabled
+- `estimateCratesApply` — Crating services enabled
+
+#### P5 Negative Findings — No Write APIs Observed
+
+**Capture source:** `flows/08-packing-bulky-crates/calls/002-004` (meta only, no request/response)
+
+The following UI controls were observed as **read-only / not exposed** on existing inventory line items:
+- Pack/UnPack toggles on existing articles
+- Bulky checkbox on existing articles
+- 3rd Party Crate selection on existing articles
+
+**Do not invent** separate write endpoints for these fields. The observed behavior suggests:
+1. Packing/bulky/crate flags may be set only during article creation
+2. Or these controls require specific inventory states not captured
+3. Or line-level packing/bulky/crate edits are not supported by the API
+
+The middleware does **not** expose Pack/UnPack/bulky/crate line-level write APIs.
+
+### P6 — Segments and Extra Stops (2026-09-22 Capture)
+
+**Capture source:** `flows/09-segments-extra-stops/`
+
+#### GetSegmentsForLeadEstimate (000-load-segments)
+
+`GET /api/services/app/GetEstimate/GetSegmentsForLeadEstimate?estimateId=2395896`
+
+**Response:** Array of segment summaries:
+```json
+[
+  {
+    "id": 2563983,
+    "name": "Segment 1",
+    "pickupAddressId": 4860018,
+    "deliveryAddressId": 4860019,
+    "cube": 53.0,
+    "weight": 371.0,
+    "isDefaultSegment": true
+  }
+]
+```
+
+| Middleware | Upstream |
+|---|---|
+| `GET .../estimates/{eid}/segments` | `GET GetEstimate/GetSegmentsForLeadEstimate` |
+
+#### CreateOrUpdateSegments (001-create-update-segments)
+
+`POST /api/services/app/Inventory/CreateOrUpdateSegments`
+
+**Request body:**
+```json
+{
+  "leadId": 1674404,
+  "segmentDto": [
+    {
+      "estimatesId": "2395896",
+      "pickupAddressId": 4860018,
+      "deliveryAddressId": 4860019,
+      "pickupAddressName": "[main pickup]",
+      "deliveryAddressName": "[main delivery]",
+      "cube": 53,
+      "weight": 371,
+      "modeId": 192,
+      "name": "Segment 1",
+      "tenantId": 1,
+      "pickupStopName": "MainPickup",
+      "deliveryStopName": "MainDelivery",
+      "id": 2563983
+    },
+    {
+      "estimatesId": "2395896",
+      "pickupAddressId": 4862738,
+      "deliveryAddressId": 4860019,
+      "pickupAddressName": "Will Advise",
+      "deliveryAddressName": "[main delivery]",
+      "cube": null,
+      "weight": null,
+      "modeId": 192,
+      "name": "P6 Reversible Segment",
+      "tenantId": 1,
+      "pickupStopName": "XP1",
+      "deliveryStopName": "MainDelivery",
+      "id": 0
+    }
+  ],
+  "id": 2395896
+}
+```
+
+**Key fields:**
+- `id: 0` in segmentDto creates a new segment; response returns assigned ID
+- `modeId: 192` = Road transport mode
+- `pickupStopName`/`deliveryStopName` match stop names in extra-stops array
+
+| Middleware | Upstream |
+|---|---|
+| `POST .../estimates/{eid}/segments` | `POST Inventory/CreateOrUpdateSegments` |
+
+#### SaveExtraPickUpAndDeliveriesForSegments (002-save-extra-pickup)
+
+`POST /api/services/app/Inventory/SaveExtraPickUpAndDeliveriesForSegments`
+
+**Request body:** Array of ALL stop addresses (main + extra):
+```json
+[
+  {
+    "leadId": 1674404,
+    "estimatesId": "2395896",
+    "streetAddr1": "Will Advise",
+    "zip": "80202",
+    "city": "Denver",
+    "state": "CO",
+    "country": "US",
+    "addressType": 1,
+    "stopName": "XP1",
+    "sequenceNumber": 2,
+    "isMainPickup": false,
+    "isMainDelivery": false,
+    "id": 4862738
+  },
+  {
+    "leadId": 1674404,
+    "estimatesId": "2395896",
+    "streetAddr1": "[main pickup]",
+    "zip": "60056",
+    "city": "[origin city]",
+    "state": "IL",
+    "addressType": 1,
+    "stopName": "MainPickup",
+    "sequenceNumber": 1,
+    "isMainPickup": true,
+    "isMainDelivery": false,
+    "id": 4860018
+  },
+  {
+    "leadId": 1674404,
+    "estimatesId": "2395896",
+    "streetAddr1": "[main delivery]",
+    "zip": "94102",
+    "city": "[destination city]",
+    "state": "CA",
+    "addressType": 2,
+    "stopName": "MainDelivery",
+    "sequenceNumber": 2,
+    "isMainPickup": false,
+    "isMainDelivery": true,
+    "id": 4860019
+  }
+]
+```
+
+**Key fields:**
+- `addressType`: 1=pickup, 2=delivery
+- `isMainPickup`/`isMainDelivery`: Identifies main origin/destination
+- `id: 0` for new stops; response returns assigned address ID
+- `stopName` must match segment's `pickupStopName`/`deliveryStopName`
+
+| Middleware | Upstream |
+|---|---|
+| `POST .../estimates/{eid}/extra-stops` | `POST Inventory/SaveExtraPickUpAndDeliveriesForSegments` |
+
+#### Multi-Segment Calculate (003-calculate-with-extra-stop)
+
+`POST /api/services/app/Estimate/CalculateEstimationPricing`
+
+With two segments and extra stop, `miles: 2201` → Grand Total $2,817.27 / SMF $342.39.
+Baseline (single segment, miles 2119) → $2,771.90 / $336.44.
+
+The calculate DTO includes full `segmentDto` array; inventory lines remain on `defaultsegmentId`.
+
+#### Restore Path (004-restore-segment-and-stop)
+
+Restore uses the same three endpoints:
+1. `CreateOrUpdateSegments` — with only original segment
+2. `SaveExtraPickUpAndDeliveriesForSegments` — with only main stops
+3. `SaveEstimateWithTrueFlag` — commit changes
+
+The `SaveEstimateWithTrueFlag` endpoint is already wired in the middleware.
 
 ### Stock vs Custom Article Distinction
 

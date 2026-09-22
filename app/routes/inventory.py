@@ -34,8 +34,10 @@ from app.movescout.inventory_write import (
     create_or_update_article_for_list_inventory,
     create_or_update_estimates,
     create_or_update_room,
+    create_or_update_segments,
     get_all_articles_group_by_room,
     save_estimate_with_true_flag,
+    save_extra_pickups_and_deliveries,
 )
 from app.movescout.responses import parse_abp_response
 from app.services.inventory_service import fetch_inventory_by_lead, fetch_pricing_by_lead
@@ -620,12 +622,137 @@ async def calculate_pricing(
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
-    """Calculate pricing for an estimate."""
+    """Calculate pricing for an estimate.
+
+    Supports single-segment and multi-segment estimates. The request body is the
+    full estimate DTO including segmentDto array. For multi-segment estimates,
+    miles may be recalculated based on segment routing.
+
+    P5 carton panel: Toggling carton fields (e.g., 1.5-CP) triggers calculate only,
+    no separate inventory write. Inventory-line DTO fields for packing/bulky/crates:
+    packing, unpacking, carton, pbo, bulky, bulkyWgtAdd, canBulky, canBulkyWgtAdd,
+    crateFlag, crateType, crateTypeId, isThirdPartyCrating, isAlliance.
+    Estimate-level: isPackingApply, estimateCratesApply.
+
+    P5 negative findings: Pack/UnPack/bulky/crate line-level write APIs were NOT
+    observed in UI captures - these controls appear read-only on existing inventory.
+    """
     request.state.user_id = user.id
 
     async def callback(client: Any) -> dict[str, Any]:
         response = await calculate_estimation_pricing(client, body)
         return parse_abp_response(response, action="calculate pricing")
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/leads/{lead_id}/estimates/{estimate_id}/segments")
+async def create_or_update_estimate_segments(
+    request: Request,
+    lead_id: str,
+    estimate_id: str,
+    body: dict[str, Any],
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Create or update segments for an estimate.
+
+    P6 capture evidence: POST /api/services/app/Inventory/CreateOrUpdateSegments
+
+    Request body shape:
+    {
+      "leadId": <lead_id>,
+      "segmentDto": [
+        {
+          "estimatesId": "<estimate_id>",
+          "pickupAddressId": 4860018,
+          "deliveryAddressId": 4860019,
+          "pickupAddressName": "[main pickup]",
+          "deliveryAddressName": "[main delivery]",
+          "cube": 53,
+          "weight": 371,
+          "modeId": 192,
+          "name": "Segment 1",
+          "tenantId": 1,
+          "pickupStopName": "MainPickup",
+          "deliveryStopName": "MainDelivery",
+          "id": 2563983  // existing segment; 0 for new
+        }
+      ],
+      "id": <estimate_id>
+    }
+
+    The middleware injects leadId and id from path params if not present.
+    """
+    request.state.user_id = user.id
+    body["leadId"] = int(lead_id) if lead_id.isdigit() else lead_id
+    body["id"] = int(estimate_id) if estimate_id.isdigit() else estimate_id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await create_or_update_segments(client, body)
+        result = parse_abp_response(response, action="create or update segments")
+        return {"result": result, "estimateId": estimate_id, "leadId": lead_id}
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/leads/{lead_id}/estimates/{estimate_id}/extra-stops")
+async def save_estimate_extra_stops(
+    request: Request,
+    lead_id: str,
+    estimate_id: str,
+    body: list[dict[str, Any]],
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Save extra pickup and delivery stops for segments.
+
+    P6 capture evidence: POST /api/services/app/Inventory/SaveExtraPickUpAndDeliveriesForSegments
+
+    Request body is an array of stop address objects:
+    [
+      {
+        "leadId": <lead_id>,
+        "estimatesId": "<estimate_id>",
+        "streetAddr1": "Will Advise",
+        "streetAddr2": null,
+        "zip": "80202",
+        "city": "Denver",
+        "state": "CO",
+        "county": null,
+        "country": "US",
+        "contactFirstName": null,
+        "contactNumber": null,
+        "emailAddress": null,
+        "addressType": 1,  // 1=pickup, 2=delivery
+        "stopName": "XP1",
+        "sequenceNumber": 2,
+        "isMainPickup": false,
+        "isMainDelivery": false,
+        "id": 4862738  // address ID; 0 for new
+      }
+    ]
+
+    Include all stops (main + extra) in the array.
+    """
+    request.state.user_id = user.id
+    lead_id_int = int(lead_id) if lead_id.isdigit() else lead_id
+    for stop in body:
+        if "leadId" not in stop:
+            stop["leadId"] = lead_id_int
+        if "estimatesId" not in stop:
+            stop["estimatesId"] = estimate_id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await save_extra_pickups_and_deliveries(client, body)
+        result = parse_abp_response(response, action="save extra stops")
+        return {"result": result, "estimateId": estimate_id, "leadId": lead_id}
 
     try:
         return await with_movescout_client(db, user, callback)

@@ -359,6 +359,59 @@ TOOLS: list[Tool] = [
         },
         ["leadId"],
     ),
+    _tool(
+        "movescout_estimates_segments_list",
+        "Get segments for an estimate",
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+        },
+        ["leadId", "estimateId"],
+    ),
+    _tool(
+        "movescout_estimates_segments_update",
+        (
+            "Create or update segments via POST /api/services/app/Inventory/CreateOrUpdateSegments. "
+            "P6 capture evidence: Body is { leadId, segmentDto: [...], id: estimateId }. "
+            "Each segmentDto item: estimatesId, pickupAddressId, deliveryAddressId, pickupAddressName, "
+            "deliveryAddressName, cube, weight, modeId (192=Road), name, tenantId, pickupStopName, "
+            "deliveryStopName, id (existing segment ID or 0 for new). "
+            "Creating a new segment: set id: 0 in segmentDto; the response returns the assigned ID."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+            "segments": {
+                "type": "object",
+                "description": (
+                    "Segments payload: { segmentDto: [...] }. leadId and id are injected from path params."
+                ),
+            },
+        },
+        ["leadId", "estimateId", "segments"],
+    ),
+    _tool(
+        "movescout_estimates_extra_stops_save",
+        (
+            "Save extra pickup/delivery stops via POST /api/services/app/Inventory/SaveExtraPickUpAndDeliveriesForSegments. "
+            "P6 capture evidence: Body is an array of stop address objects. Include ALL stops (main + extra). "
+            "Each stop: leadId, estimatesId, streetAddr1, streetAddr2, zip, city, state, county, country, "
+            "contactFirstName, contactNumber, emailAddress, addressType (1=pickup, 2=delivery), stopName, "
+            "sequenceNumber, isMainPickup, isMainDelivery, id (address ID or 0 for new). "
+            "The response returns assigned address IDs for new stops."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+            "stops": {
+                "type": "array",
+                "description": (
+                    "Array of stop address objects. leadId and estimatesId are injected from path params if missing."
+                ),
+            },
+        },
+        ["leadId", "estimateId", "stops"],
+    ),
 ]
 
 
@@ -474,6 +527,17 @@ async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str
                 "includeSummary": a.get("includeSummary", True),
                 "shippingOnly": a.get("shippingOnly", False),
             },
+        ),
+        "movescout_estimates_segments_list": lambda a: client.get(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/segments"
+        ),
+        "movescout_estimates_segments_update": lambda a: client.post(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/segments",
+            json=a["segments"],
+        ),
+        "movescout_estimates_extra_stops_save": lambda a: client.post(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/extra-stops",
+            json=a["stops"],
         ),
     }
 

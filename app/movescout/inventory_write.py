@@ -115,3 +115,85 @@ async def create_or_update_article_for_inventory(
         "/api/services/app/Inventory/CreateOrUpdateArticleForInventory",
         json=article,
     )
+
+
+async def create_or_update_segments(
+    client: MoveScoutClient,
+    segments_payload: dict[str, Any],
+) -> Any:
+    """Create or update segments for an estimate.
+    
+    P6 capture evidence: POST /api/services/app/Inventory/CreateOrUpdateSegments
+    
+    Request body shape:
+    {
+      "leadId": 1674404,
+      "segmentDto": [
+        {
+          "estimatesId": "2395896",
+          "pickupAddressId": 4860018,
+          "deliveryAddressId": 4860019,
+          "pickupAddressName": "[main pickup]",
+          "deliveryAddressName": "[main delivery]",
+          "cube": 53,
+          "weight": 371,
+          "modeId": 192,
+          "name": "Segment 1",
+          "tenantId": 1,
+          "pickupStopName": "MainPickup",
+          "deliveryStopName": "MainDelivery",
+          "id": 2563983  // existing segment ID; use 0 for new
+        }
+      ],
+      "id": 2395896  // estimate ID
+    }
+    
+    Response: ABP envelope with new segment IDs.
+    """
+    return await client.request(
+        "POST",
+        "/api/services/app/Inventory/CreateOrUpdateSegments",
+        json=segments_payload,
+    )
+
+
+async def save_extra_pickups_and_deliveries(
+    client: MoveScoutClient,
+    stops: list[dict[str, Any]],
+) -> Any:
+    """Save extra pickup and delivery stops for segments.
+    
+    P6 capture evidence: POST /api/services/app/Inventory/SaveExtraPickUpAndDeliveriesForSegments
+    
+    Request body is an array of stop address objects:
+    [
+      {
+        "leadId": 1674404,
+        "estimatesId": "2395896",
+        "streetAddr1": "Will Advise",
+        "streetAddr2": null,
+        "zip": "80202",
+        "city": "Denver",
+        "state": "CO",
+        "county": null,
+        "country": "US",
+        "contactFirstName": null,
+        "contactNumber": null,
+        "emailAddress": null,
+        "addressType": 1,  // 1=pickup, 2=delivery
+        "stopName": "XP1",
+        "sequenceNumber": 2,
+        "isMainPickup": false,
+        "isMainDelivery": false,
+        "id": 4862738  // address ID; 0 for new
+      },
+      // ... main stops also included
+    ]
+    
+    Response: ABP envelope with assigned address IDs.
+    """
+    return await client.request(
+        "POST",
+        "/api/services/app/Inventory/SaveExtraPickUpAndDeliveriesForSegments",
+        json=stops,
+    )
