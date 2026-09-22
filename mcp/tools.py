@@ -27,19 +27,20 @@ TOOLS: list[Tool] = [
         "movescout_leads_list",
         (
             "List leads with pagination and optional filters via POST Lead/GetAllLead. "
-            "P11 capture evidence: supports filters[] array for per-column filtering. "
+            "P11 capture evidence (packets 00-27): supports filters[] array for per-column filtering. "
             "LIVE-PROVEN FILTER FIELDS: "
             "CONTAINS operator: id (Record Id), leadCustomerDetail.lastName, leadCustomerDetail.firstName, "
             "leadCustomerDetail.primaryEmailAddress, leadcustomerdetail.homephone (exact lowercase wire spelling), "
             "leadLMP.lmpId, agencyCode, registrationNumber, salesRepName, createdUserName. "
-            "EQ operator: appointmentTypeId, dispositionId, moveTypeId, mobileSyncFlag (true), isQualifiedLead (true), "
-            "estimateTotal (numeric), fundedId, dwellingTypeId, leadNonConforming.nonConformingFlag (true), "
-            "leadMoSys.canadaGovMove (true). "
+            "EQ operator: appointmentTypeId (condition:'or'), dispositionId (condition:'or'), moveTypeId (condition:'or'), "
+            "mobileSyncFlag (true), isQualifiedLead (true), estimateTotal (numeric float), fundedId, dwellingTypeId, "
+            "leadNonConforming.nonConformingFlag (true), leadMoSys.canadaGovMove (true). "
             "DATE PRESETS (eq with {id, value} objects): assignedDate, creationTime, leadMoveDate.loadFromDate, "
-            "primaryLeadEstimate.effectiveDate, validThruDate, lastModificationTime. "
+            "primaryLeadEstimate.effectiveDate, primaryLeadEstimate.validThruDate, lastModificationTime. "
             "Previous Month preset = {id: 5, value: 30}. "
             "logic: '' (empty) for baseline, 'and' when filters are active. "
-            "Each filter object: {field, operator, value, condition: 'and', date: HTTP date}. "
+            "Each filter object: {field, operator, value, condition: 'and'|'or', date: HTTP date}. "
+            "Multi-filter support: combine filters (e.g., isQualifiedLead + leadMoveDate.loadFromDate). "
             "DO NOT INVENT encodings for: Booking Agent Name, Coordinator, Created Source, Mobile Sync Status, "
             "Lost Reason, Load To Date, Expected Delivery Date, Appt Created Date, Modified By, Transfer Type, Local Carrier."
         ),
@@ -53,14 +54,15 @@ TOOLS: list[Tool] = [
                 "type": "array",
                 "description": (
                     "Array of filter objects for per-column filtering. Each filter: "
-                    "{field: string, operator: 'contains'|'eq', value: string|object, condition: 'and'}. "
+                    "{field: string, operator: 'contains'|'eq', value: string|bool|number|object, condition: 'and'|'or'}. "
                     "CONTAINS fields: id, leadCustomerDetail.lastName/firstName/primaryEmailAddress, "
                     "leadcustomerdetail.homephone (exact lowercase), leadLMP.lmpId, agencyCode, registrationNumber, "
                     "salesRepName, createdUserName. "
-                    "EQ fields: appointmentTypeId, dispositionId, moveTypeId, mobileSyncFlag, isQualifiedLead, "
-                    "estimateTotal, fundedId, dwellingTypeId, leadNonConforming.nonConformingFlag, leadMoSys.canadaGovMove. "
+                    "EQ fields: appointmentTypeId (condition:'or'), dispositionId (condition:'or'), moveTypeId (condition:'or'), "
+                    "mobileSyncFlag (bool), isQualifiedLead (bool), estimateTotal (float), fundedId, dwellingTypeId, "
+                    "leadNonConforming.nonConformingFlag (bool), leadMoSys.canadaGovMove (bool). "
                     "DATE PRESET fields (eq with {id, value}): assignedDate, creationTime, leadMoveDate.loadFromDate, "
-                    "primaryLeadEstimate.effectiveDate, validThruDate, lastModificationTime. "
+                    "primaryLeadEstimate.effectiveDate, primaryLeadEstimate.validThruDate, lastModificationTime. "
                     "Previous Month = {id: 5, value: 30}."
                 ),
                 "items": {"type": "object"},

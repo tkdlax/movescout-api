@@ -30,7 +30,7 @@ ALLOWED_FILTER_FIELDS = {
     "appointmentTypeId",  # Appointment Type (eq)
     "leadMoveDate.loadFromDate",  # Load From Date - date preset {id, value}
     "primaryLeadEstimate.effectiveDate",  # Effective Date - date preset {id, value}
-    "validThruDate",  # Valid Thru Date - date preset {id, value}
+    "primaryLeadEstimate.validThruDate",  # Valid Thru Date - date preset {id, value}
     "lastModificationTime",  # Last Modified - date preset {id, value}
     "mobileSyncFlag",  # Mobile Sync Flag (eq true)
     "isQualifiedLead",  # Is Qualified Lead (eq true)
@@ -61,11 +61,10 @@ def current_http_date() -> str:
 DATE_PRESET_FIELDS = {
     "assignedDate",
     "creationTime",
-    "effectiveDate",
-    "validThruDate",
     # P11 expanded date preset fields
     "leadMoveDate.loadFromDate",
     "primaryLeadEstimate.effectiveDate",
+    "primaryLeadEstimate.validThruDate",
     "lastModificationTime",
 }
 

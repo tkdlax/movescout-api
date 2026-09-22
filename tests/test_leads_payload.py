@@ -34,16 +34,26 @@ def test_build_get_all_lead_payload_matches_movescout_spa():
     assert payload["logic"] == "and"
     assert payload["bulkList"] == []
     assert payload["defaultFilterLead"] == 0
-    assert payload["sortField"] == ""
-    assert payload["sortDir"] == "desc"
+    assert "sortField" not in payload  # sortField only included when specified
     assert payload["maxResultCount"] == 500
     assert payload["skipCount"] == 0
     assert payload["filters"] == filters
 
 
-def test_build_get_all_lead_payload_omits_logic_when_empty():
+def test_build_get_all_lead_payload_with_sort_field():
+    payload = build_get_all_lead_payload(
+        default_filter=0,
+        sort_field="creationTime",
+        sort_dir="asc",
+    )
+    assert payload["sortField"] == "creationTime"
+    assert payload["sortDir"] == "asc"
+
+
+def test_build_get_all_lead_payload_empty_logic_baseline():
+    """Wire format: logic='' when no filters (baseline query)."""
     payload = build_get_all_lead_payload(default_filter=0, logic="")
-    assert "logic" not in payload
+    assert payload["logic"] == ""  # Empty logic for baseline, per P11 wire captures
 
 
 @pytest.mark.asyncio
@@ -62,9 +72,8 @@ async def test_get_all_leads_posts_spa_payload():
 
     payload = client.request.await_args.kwargs["json"]
     assert payload["logic"] == "and"
-    assert payload["sortField"] == ""
-    assert payload["sortDir"] == "desc"
-    assert "sortDescriptor" not in payload
+    assert "sortField" not in payload  # sortField only included when specified
+    assert payload["sortDescriptor"] == {}  # Always empty object per P11 wire format
 
 
 class TestP11ExpandedFilterFields:
@@ -155,9 +164,9 @@ class TestP11ExpandedFilterFields:
         assert f["value"] == {"id": 5, "value": 30}
 
     def test_p11_date_preset_valid_thru_date(self):
-        """Valid Thru Date filter with date preset."""
-        f = build_kendo_filter("validThruDate", "eq", {"id": 5, "value": 30})
-        assert f["field"] == "validThruDate"
+        """Valid Thru Date filter with date preset (nested path)."""
+        f = build_kendo_filter("primaryLeadEstimate.validThruDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "primaryLeadEstimate.validThruDate"
         assert f["operator"] == "eq"
         assert f["value"] == {"id": 5, "value": 30}
 
