@@ -112,11 +112,23 @@ For standalone nginx, see `deploy/nginx/mspmcp.jbeckstead.com.conf.example`.
 
 ### Remote HTTP (Cloud Agents)
 
-For Cursor cloud agents, add in Dashboard → Integrations & MCP:
+For Cursor cloud agents, add in **Dashboard → Integrations & MCP → Add MCP Server**:
 
-- **URL:** `https://mspmcp.jbeckstead.com/mcp`
-- **Transport:** HTTP (Streamable HTTP)
-- **Headers:** `Authorization: Bearer YOUR_MCP_HTTP_TOKEN`
+| Field | Value |
+|-------|-------|
+| **Name** | `movescout` |
+| **URL** | `https://mspmcp.jbeckstead.com/mcp` |
+| **Transport** | HTTP (Streamable HTTP) |
+| **Auth Header** | `Authorization` |
+| **Auth Value** | `Bearer YOUR_MCP_HTTP_TOKEN` |
+
+**Protocol details:**
+- MCP protocol version: `2025-03-26`
+- Content-Type: `application/json`
+- Accept: `application/json, text/event-stream`
+- Session management: Server returns `mcp-session-id` header; include in subsequent requests
+
+**Verification:** After adding, Cursor should show 30 tools discovered.
 
 ### Remote HTTP (Local Cursor)
 
@@ -158,6 +170,18 @@ For local Cursor with SSH access to TrueNAS:
   }
 }
 ```
+
+### Troubleshooting
+
+**"failed_to_load (0 tools)":**
+1. Verify `/health` returns 200: `curl https://mspmcp.jbeckstead.com/health`
+2. Verify auth: `curl -H "Authorization: Bearer TOKEN" https://mspmcp.jbeckstead.com/mcp` should return 400 (not 401)
+3. Check server logs on TrueNAS: `docker logs deploy-mcp-1`
+
+**Session errors:**
+- MCP Streamable HTTP uses session IDs. The server creates a session on POST /mcp with initialize.
+- GET /mcp without session returns 400 "Missing session ID" — this is expected.
+- Cursor handles session management automatically.
 
 ## Endpoints
 

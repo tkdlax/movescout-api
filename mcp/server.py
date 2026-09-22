@@ -27,7 +27,8 @@ from mcp.types import (
     TextContent,
 )
 from mcp_types._types import PaginatedRequestParams
-from starlette.applications import Starlette
+from starlette.routing import Route
+from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from tools import TOOLS, execute_tool
@@ -53,12 +54,12 @@ def create_http_client() -> httpx.AsyncClient:
 server = Server("movescout-mcp")
 
 
-async def handle_list_tools(params: PaginatedRequestParams) -> ListToolsResult:
+async def handle_list_tools(ctx: Any, params: PaginatedRequestParams) -> ListToolsResult:
     """Return the list of available MCP tools."""
     return ListToolsResult(tools=TOOLS)
 
 
-async def handle_call_tool(params: CallToolRequestParams) -> CallToolResult:
+async def handle_call_tool(ctx: Any, params: CallToolRequestParams) -> CallToolResult:
     """Execute an MCP tool by calling the middleware API."""
     async with create_http_client() as client:
         try:
@@ -83,29 +84,43 @@ server.add_request_handler("tools/list", PaginatedRequestParams, handle_list_too
 server.add_request_handler("tools/call", CallToolRequestParams, handle_call_tool)
 
 
-class AuthenticatedMCPApp:
-    """ASGI wrapper that adds Bearer token auth around the MCP app."""
+async def health_endpoint(request: Request) -> JSONResponse:
+    """Health check endpoint - no auth required."""
+    return JSONResponse({"status": "ok", "server": "movescout-mcp"})
 
-    def __init__(self, mcp_app: Starlette, token: str | None):
-        self.mcp_app = mcp_app
-        self.token = token
 
-    async def __call__(self, scope, receive, send):
+def make_auth_asgi_middleware(app, token: str | None):
+    """Create an ASGI middleware that adds Bearer auth.
+    
+    This is a pure ASGI wrapper that:
+    1. Handles /health without auth
+    2. Checks Bearer token for all other paths
+    3. Passes lifespan events through unchanged
+    
+    Critical: We must pass 'lifespan' scope through unchanged so the
+    MCP session manager can initialize properly.
+    """
+    async def middleware(scope, receive, send):
+        # Pass lifespan scope through unchanged - this is critical!
+        if scope["type"] == "lifespan":
+            await app(scope, receive, send)
+            return
+        
         if scope["type"] == "http":
             path = scope.get("path", "")
-
+            
             # Health check - no auth required
             if path == "/health":
                 response = JSONResponse({"status": "ok", "server": "movescout-mcp"})
                 await response(scope, receive, send)
                 return
-
-            # Check auth for all other paths
-            if self.token:
+            
+            # Check auth for all other paths if token is configured
+            if token:
                 headers = dict(scope.get("headers", []))
                 auth_header = headers.get(b"authorization", b"").decode()
-
-                if not auth_header.startswith("Bearer "):
+                
+                if not auth_header.lower().startswith("bearer "):
                     response = JSONResponse(
                         {"error": "Missing or invalid Authorization header"},
                         status_code=401,
@@ -113,9 +128,9 @@ class AuthenticatedMCPApp:
                     )
                     await response(scope, receive, send)
                     return
-
-                provided_token = auth_header[7:]
-                if provided_token != self.token:
+                
+                provided_token = auth_header[7:]  # Remove "Bearer " prefix
+                if provided_token != token:
                     response = JSONResponse(
                         {"error": "Invalid token"},
                         status_code=401,
@@ -123,23 +138,32 @@ class AuthenticatedMCPApp:
                     )
                     await response(scope, receive, send)
                     return
-
-        # Pass through to MCP app
-        await self.mcp_app(scope, receive, send)
+        
+        # Pass through to the app
+        await app(scope, receive, send)
+    
+    return middleware
 
 
 def create_http_app():
-    """Create the HTTP app with authentication."""
-    # Get the base MCP app
+    """Create the HTTP app with authentication.
+    
+    Uses the MCP SDK's streamable_http_app directly and wraps it with
+    a simple ASGI middleware for auth. The middleware passes lifespan
+    events through unchanged so the MCP session manager initializes.
+    """
+    # Create the MCP app
     mcp_app = server.streamable_http_app(
         streamable_http_path="/mcp",
         host="0.0.0.0",
     )
-
+    
     if not MCP_HTTP_TOKEN:
         logger.warning("MCP_HTTP_TOKEN not set - HTTP endpoints are UNAUTHENTICATED")
-
-    return AuthenticatedMCPApp(mcp_app, MCP_HTTP_TOKEN if MCP_HTTP_TOKEN else None)
+        # Still wrap to add health endpoint
+        return make_auth_asgi_middleware(mcp_app, None)
+    
+    return make_auth_asgi_middleware(mcp_app, MCP_HTTP_TOKEN)
 
 
 async def run_stdio():
