@@ -278,13 +278,40 @@ Every PR that adds or modifies middleware routes must include:
 
 ---
 
+---
+
+## Next Steps (Awaiting Captures)
+
+### P1 — Stock Library Inventory Line Items (Authorized 2026-09-22)
+
+Jake authorized Explorer to begin **P1**. UI plan exists at `flows/04-stock-articles-pricing/` but call captures have not landed yet.
+
+**What P1 will add once captures arrive:**
+
+1. **Stock article adds via `CreateOrUpdateArticleForListInventory`**
+   - Adds catalog `articleId`s (from `GetAllArticlesGroupByRoomSP`) to rooms
+   - Contrast with `CreateArticleFromInventory` (custom articles only)
+   - Captures qty/weight/cube payloads for library articles
+
+2. **Pricing recalculation after inventory changes**
+   - `CalculateEstimationPricing` with updated inventory
+   - Document field changes vs baseline captures
+
+**Implementation will follow** when call folders with request/response bodies appear. Do not invent payloads—wait for solid captures from Explorer.
+
+### P2–P10 (Queued)
+
+Remain blocked on Explorer authorization. See Checklist for full queue.
+
+---
+
 ## Timeline Notes
 
 This plan does not estimate calendar time. Implementation involves:
-- ~16 middleware routes across 4 route files
+- ~16 middleware routes across 4 route files (Flows 01–03)
 - ~16 MCP tool definitions
 - Compose and Dockerfile updates
 - Documentation updates
 - Test fixtures from captures
 
-All wired captures are immediately implementable. Blocked items require new Explorer sessions authorized by Jake.
+All wired captures from Flows 01–03 are implemented in this PR. P1 stock-article operations will follow in a subsequent PR once call captures land. Remaining blocked items (P2–P10) require Explorer sessions authorized by Jake.
