@@ -1,4 +1,6 @@
 # MCP SDK and types - pinned for compatibility with server.py lowlevel API
+# Note: mcp 2.2.0 uses inputSchema as Pydantic alias for input_schema field
+# Tool(..., inputSchema={...}) works correctly and serializes to camelCase
 mcp==2.2.0
 mcp-types==2.2.0
 httpx>=0.27.0
