@@ -170,13 +170,13 @@ This appears to be a MoveScout Pro UI/API inconsistency. The middleware **passes
 
 Do not attempt to "fix" or invert this flag based on UI intent — the middleware faithfully proxies the observed upstream behavior.
 
-### CalculateEstimationPricing — Price Class Caveat (Flow 06 / P3-A Documented)
+### CalculateEstimationPricing — Pricing Behavior (Flow 06 / P3-A/B Documented)
 
 `POST /api/services/app/Estimate/CalculateEstimationPricing` accepts a large (~90KB) estimate body and returns pricing totals.
 
-**Capture source:** `flows/06-pricing-variants/calls/00N-priceclass-{3976,346,4235,4257}/`
+**Capture source:** `flows/06-pricing-variants/calls/00N-priceclass-{3976,346,4235,4257}/` (P3-A), `calls/p3b-level-{715,718,724,804}/` (P3-B)
 
-**P3-A test matrix** (estimate 2395896, 4 price class variants):
+#### P3-A Price Classes — Identical Totals
 
 | priceClassId | totalEstimationPriceNet | totalSMFPriceNet |
 |---:|---:|---:|
@@ -185,11 +185,36 @@ Do not attempt to "fix" or invert this flag based on UI intent — the middlewar
 | 4235 | 2771.90 | 336.44 |
 | 4257 | 2771.90 | 336.44 |
 
-**Key limitation:** All four runs returned identical totals. Both request and response have `allianceDto.priceClassId: null`. No `UpdateLeadEstimate` was captured.
+All four price class runs returned **identical totals**. `allianceDto.priceClassId: null` in all requests/responses.
 
-**Do not claim** the middleware can persist price class selections. The mechanism for persisting `allianceDto.priceClassId` (likely via `UpdateLeadEstimate`) is not yet captured.
+#### P3-B Price Levels — Totals DO Change
 
-See `docs/pricing-variants/P3A-price-class-matrix.md` for full details.
+| pricingLevelId | Level | totalEstimationPriceNet | totalSMFPriceNet |
+|---:|---|---:|---:|
+| 715 | Level 1 | 2593.08 | 310.42 |
+| 718 | Level 4 | 2771.90 | 336.44 |
+| 724 | Level 10 | 3189.15 | 397.15 |
+| 804 | Level 20 | 4659.43 | 611.06 |
+
+Price levels **produce different totals** (Level 1→20: 79.7% increase).
+
+#### API Response Field Typo
+
+The upstream API returns both:
+- `totalEstimationPriceNet` (correct spelling) — top-level
+- `totalEstimatinPriceNet` (typo, missing 'o') — nested DTOs
+
+Both contain the same value. The middleware returns the correctly-spelled field.
+
+#### Price Class Persistence — Not Confirmed
+
+Tested `PUT UpdateLeadEstimate?tabSwitchFlag=false` for class 3976:
+- HTTP 200 returned
+- Subsequent `CalculateEstimationPricing` still has `allianceDto.priceClassId: null`
+
+**Do not claim** the middleware can persist price class selections.
+
+See `docs/pricing-variants/` for full matrices.
 
 ## Inventory Write Operations
 

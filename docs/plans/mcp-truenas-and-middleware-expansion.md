@@ -274,8 +274,8 @@ Every PR that adds or modifies middleware routes must include:
 | ~~Create estimate without inventory~~ | ~~Request body lost (Flow 01/015)~~ | **P2 CLOSED** |
 | ~~Stock article add to inventory~~ | ~~P1 in progress~~ | **P1 CLOSED** |
 | ~~Price class variants~~ | ~~P3-A~~ | **CAPTURED WITH CAVEAT** — Totals identical; `priceClassId: null` |
-| Price class persistence | UpdateLeadEstimate with priceClassId | Needs re-capture |
-| Price level variants | P3-B | Explorer continuing |
+| ~~Price level variants~~ | ~~P3-B~~ | **CAPTURED** — Levels change totals; API typo documented |
+| Price class persistence | UpdateLeadEstimate 200 but calculate still null | Unresolved — do not claim |
 | Load/deliver date variants | P3-C | Queued |
 | Lead lifecycle updates | P4 planned | Await probing |
 | Alliance/accessorial writes | P8 planned | Await probing |
@@ -371,10 +371,7 @@ Four `CalculateEstimationPricing` runs on estimate 2395896:
 **Critical limitation:** All four runs returned identical totals despite different UI class selections.
 
 - `allianceDto.priceClassId: null` in every request AND response
-- No `UpdateLeadEstimate` captured — class persistence mechanism unknown
 - Totals may reflect default/stored class, not UI picker selection
-
-**Do not claim** the middleware can persist price class selections until `UpdateLeadEstimate` with `allianceDto.priceClassId` is captured.
 
 ### Documentation
 
@@ -383,11 +380,50 @@ Four `CalculateEstimationPricing` runs on estimate 2395896:
 
 ---
 
-## P3-B–P10 (Queued)
+## P3-B — Price Level Variants (CAPTURED 2026-09-22)
+
+### Test Matrix
+
+Four `CalculateEstimationPricing` runs on estimate 2395896 with different price levels:
+
+| pricingLevelId | Level | totalEstimationPriceNet | totalSMFPriceNet | HTTP |
+|---:|---|---:|---:|---|
+| 715 | Level 1 | 2593.08 | 310.42 | 200 |
+| 718 | Level 4 (baseline) | 2771.90 | 336.44 | 200 |
+| 724 | Level 10 | 3189.15 | 397.15 | 200 |
+| 804 | Level 20 (highest) | 4659.43 | 611.06 | 200 |
+
+### Key Finding — Levels DO Change Totals
+
+Unlike price classes (P3-A), price levels **produce different totals**:
+- Level 1 → Level 20: $2,593.08 → $4,659.43 (79.7% increase)
+
+### API Response Field Typo
+
+The upstream API returns both:
+- `totalEstimationPriceNet` (correct spelling)
+- `totalEstimatinPriceNet` (typo, missing 'o')
+
+Both contain the same value. The middleware returns the correctly-spelled field.
+
+### Persistence Probe — Class Still Not Confirmed
+
+Tested `UpdateLeadEstimate` for class 3976:
+1. `PUT UpdateLeadEstimate?tabSwitchFlag=false` → HTTP 200
+2. Subsequent `CalculateEstimationPricing` still has `allianceDto.priceClassId: null`
+
+**Conclusion:** Save endpoint fires, but class not reflected in calculate DTO. Do not claim class persistence.
+
+### Documentation
+
+- Full matrix: `docs/pricing-variants/P3B-price-level-matrix.md`
+
+---
+
+## P3-C–P10 (Queued)
 
 | Phase | Capability | Status |
 |-------|------------|--------|
-| P3-B | Price levels | Explorer continuing |
 | P3-C | Load/deliver dates | Queued |
 | P4 | Lead lifecycle updates | Queued |
 | P5 | Document/attachment uploads | Queued |
@@ -397,7 +433,7 @@ Four `CalculateEstimationPricing` runs on estimate 2395896:
 | P9 | Auto-spot details | Queued |
 | P10 | Customer-facing notes | Queued |
 
-P3-B price level variants exploration continuing. Updates will follow as captures land.
+P3-C load/deliver date variants next. Updates will follow as captures land.
 
 ---
 
@@ -415,5 +451,6 @@ This plan does not estimate calendar time. Implementation involves:
 - P1 (stock article add): **CLOSED** — Request body captured and fixture added
 - P2 (create estimate without inventory): **CLOSED** — Request body captured, quirk documented
 - P3-A (price classes): **CAPTURED WITH CAVEAT** — All 4 runs return identical totals; `allianceDto.priceClassId: null`; class persistence not confirmed
-- P3-B (price levels): Explorer continuing
+- P3-B (price levels): **CAPTURED** — Levels DO change totals (2593.08 → 4659.43); API typo `totalEstimatinPriceNet` documented; persistence probe shows UpdateLeadEstimate 200 but class still null in calculate
+- P3-C (load/deliver dates): Queued
 - P4–P10: Queued for Explorer probing
