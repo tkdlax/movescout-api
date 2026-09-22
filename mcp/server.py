@@ -10,16 +10,17 @@ import os
 from typing import Any
 
 import httpx
-from mcp.server import Server
+from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
     CallToolResult,
+    CallToolRequestParams,
     ListToolsResult,
     TextContent,
-    Tool,
 )
+from mcp_types._types import PaginatedRequestParams
 
-from mcp.tools import TOOLS, execute_tool
+from tools import TOOLS, execute_tool
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ MIDDLEWARE_URL = os.environ.get("MIDDLEWARE_URL", "http://localhost:8000")
 MIDDLEWARE_API_KEY = os.environ.get("MIDDLEWARE_API_KEY", "")
 
 
-async def create_http_client() -> httpx.AsyncClient:
+def create_http_client() -> httpx.AsyncClient:
     """Create an HTTP client for middleware calls."""
     return httpx.AsyncClient(
         base_url=MIDDLEWARE_URL,
@@ -39,18 +40,16 @@ async def create_http_client() -> httpx.AsyncClient:
 server = Server("movescout-mcp")
 
 
-@server.list_tools()
-async def list_tools() -> ListToolsResult:
+async def handle_list_tools(params: PaginatedRequestParams) -> ListToolsResult:
     """Return the list of available MCP tools."""
     return ListToolsResult(tools=TOOLS)
 
 
-@server.call_tool()
-async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
+async def handle_call_tool(params: CallToolRequestParams) -> CallToolResult:
     """Execute an MCP tool by calling the middleware API."""
-    async with await create_http_client() as client:
+    async with create_http_client() as client:
         try:
-            result = await execute_tool(client, name, arguments)
+            result = await execute_tool(client, params.name, params.arguments or {})
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
@@ -65,6 +64,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
                 content=[TextContent(type="text", text=f"Error: {exc}")],
                 isError=True,
             )
+
+
+server.add_request_handler("tools/list", PaginatedRequestParams, handle_list_tools)
+server.add_request_handler("tools/call", CallToolRequestParams, handle_call_tool)
 
 
 async def main():
