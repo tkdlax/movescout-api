@@ -420,11 +420,97 @@ Tested `UpdateLeadEstimate` for class 3976:
 
 ---
 
-## P3-C–P10 (Queued)
+## P3-E — Tariff Variants (CAPTURED 2026-09-22)
+
+### Test Matrix
+
+`CalculateEstimationPricing` runs on estimate 2395896 with different tariffs:
+
+| tariffId | Tariff Name | totalEstimationPriceNet | Notes |
+|---:|---|---:|---|
+| 658 | TPG | 2771.90 | Baseline |
+| 660 | TPG GRR | 2771.90 | Same total as TPG |
+| 659 | Allied Express | 2851.15 | +2.9% vs TPG |
+| 667 | UAS | 5115.12 | +84.5% vs TPG |
+| 661/662 | 400N / 104G | — | Not in live selector |
+| 664 | Local/Intrastate | — | UI confirm cancelled |
+
+### Key Finding
+
+- `pricingTariffId` is authoritative; legacy `pricingTariff` string may lag
+- `peakOrNonPeak: false` in all captured runs
+
+### Documentation
+
+- Full matrix: `docs/pricing-variants/P3E-tariff-matrix.md`
+
+---
+
+## P3-F — Inventory Under-Minimum (CAPTURED 2026-09-22)
+
+### Test Matrix
+
+Modifications on under-minimum estimate 2395896:
+
+| Test | APIs Called | totalEstimationPriceNet |
+|------|-------------|-------------------------|
+| Qty 2→3 (Air Conditioner 870) | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
+| Weight/Cube 70/10→77/11 | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
+| Carton 1.5-CP toggle | CalculateEstimationPricing only | 2771.90 |
+| Density override | Skipped | — |
+
+### Key Finding
+
+Under-minimum inventory produces **flat pricing** ($2,771.90) regardless of qty/weight/cube changes. All modifications restored after capture.
+
+### Documentation
+
+- Full matrix: `docs/pricing-variants/P3F-inventory-undermin.md`
+
+---
+
+## P3-G — Cross-Product (Tariff × Class × Level) (CAPTURED 2026-09-22)
+
+### Test Matrix
+
+| Tariff | Class (UI) | Level | totalEstimationPriceNet | totalSMFPriceNet |
+|--------|------------|-------|-------------------------|------------------|
+| TPG 658 | Bailey's Consumer 3976 | Level 1 (715) | 2593.08 | 310.42 |
+| TPG 658 | Bailey's Consumer 3976 | Level 10 (724) | 3189.15 | 397.15 |
+
+### Key Findings
+
+- **Level determines pricing** (+23% Level 1→10)
+- **Class selection does NOT affect calculate** (`priceClassId: null` in DTO — known caveat)
+- **Local/Intrastate cancelled** at destructive confirm dialog
+- **Baseline restored** to $2,771.90 after testing
+
+### Documentation
+
+- Full matrix: `docs/pricing-variants/P3G-cross-product-matrix.md`
+
+---
+
+## P3 Complete — Summary (2026-09-22)
 
 | Phase | Capability | Status |
 |-------|------------|--------|
-| P3-C | Load/deliver dates | Queued |
+| P3-A | Price classes | CAPTURED — identical totals; `priceClassId: null` |
+| P3-B | Price levels | CAPTURED — levels DO change totals |
+| P3-C | Load/deliver dates | CAPTURED (in api-catalog) |
+| P3-D | ECP valuation | CAPTURED (in api-catalog) |
+| P3-E | Tariffs | CAPTURED — TPG/Allied Express/UAS totals differ |
+| P3-F | Inventory under-min | CAPTURED — flat pricing |
+| P3-G | Cross-product | CAPTURED — level determines pricing |
+
+**P3 CLOSED.** All pricing variant exploration complete.
+
+---
+
+## P4–P10 (Queued)
+
+| Phase | Capability | Status |
+|-------|------------|--------|
 | P4 | Lead lifecycle updates | Queued |
 | P5 | Document/attachment uploads | Queued |
 | P6 | Notes and comments | Queued |
@@ -433,7 +519,7 @@ Tested `UpdateLeadEstimate` for class 3976:
 | P9 | Auto-spot details | Queued |
 | P10 | Customer-facing notes | Queued |
 
-P3-C load/deliver date variants next. Updates will follow as captures land.
+Updates will follow as captures land.
 
 ---
 
@@ -448,9 +534,15 @@ This plan does not estimate calendar time. Implementation involves:
 
 **Status (2026-09-22):**
 - Flows 01–03 middleware routes + MCP scaffold: **Implemented**
+- MCP HTTP/Streamable HTTP transport: **Implemented** (cloud agent support)
 - P1 (stock article add): **CLOSED** — Request body captured and fixture added
 - P2 (create estimate without inventory): **CLOSED** — Request body captured, quirk documented
-- P3-A (price classes): **CAPTURED WITH CAVEAT** — All 4 runs return identical totals; `allianceDto.priceClassId: null`; class persistence not confirmed
-- P3-B (price levels): **CAPTURED** — Levels DO change totals (2593.08 → 4659.43); API typo `totalEstimatinPriceNet` documented; persistence probe shows UpdateLeadEstimate 200 but class still null in calculate
-- P3-C (load/deliver dates): Queued
+- **P3 (pricing variants): CLOSED** — All phases A–G complete:
+  - P3-A (price classes): Identical totals; `priceClassId: null`; persistence not confirmed
+  - P3-B (price levels): Levels DO change totals (2593→4659)
+  - P3-C (load/deliver dates): Dates don't affect under-min pricing
+  - P3-D (ECP valuation): $0→$250/$500 deductible affects totals
+  - P3-E (tariffs): TPG/Allied/UAS have different totals; `pricingTariffId` authoritative
+  - P3-F (inventory under-min): Flat pricing regardless of qty/weight/cube
+  - P3-G (cross-product): Level determines pricing; class does not
 - P4–P10: Queued for Explorer probing

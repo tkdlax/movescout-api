@@ -125,16 +125,25 @@ TOOLS: list[Tool] = [
         "movescout_estimates_update",
         (
             "Update an existing estimate via PUT /api/services/app/Estimate/UpdateLeadEstimate. "
-            "The estimate body is a full estimate DTO; key fields include: "
-            "pricingTariffId, pricingLevelId/pricingLevel (e.g., 718/'Level 4'), "
-            "valuationTypeId/tariffValuationType/valuationAmount/valuationBracketId for ECP deductibles, "
-            "allianceDto.priceClassId for price class selection, and all nested DTOs. "
+            "The estimate body is a full estimate DTO. "
+            "TARIFF: pricingTariffId is authoritative (658=TPG, 659=Allied Express, 660=TPG GRR, 667=UAS). "
+            "LEVEL: pricingLevelId/pricingLevel (e.g., 718/'Level 4') DOES affect pricing. "
+            "CLASS: allianceDto.priceClassId can be set but persistence into calculate is NOT confirmed—"
+            "subsequent CalculateEstimationPricing still shows priceClassId=null. Do not claim class saves work. "
+            "ECP: valuationTypeId/tariffValuationType/valuationAmount/valuationBracketId for deductibles. "
             "Query param tabSwitchFlag (default false) controls validation behavior."
         ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
             "estimateId": {"type": "string", "description": "Estimate ID"},
-            "estimate": {"type": "object", "description": "Full estimate DTO to save"},
+            "estimate": {
+                "type": "object",
+                "description": (
+                    "Full estimate DTO. Key fields: pricingTariffId (authoritative), pricingLevelId, "
+                    "pricingLevel, valuationTypeId, tariffValuationType, valuationAmount, valuationBracketId, "
+                    "allianceDto (priceClassId persistence unconfirmed), segmentDto, estimateSITDto, etc."
+                ),
+            },
             "tabSwitchFlag": {
                 "type": "boolean",
                 "description": "Validation flag (default false)",
@@ -185,11 +194,25 @@ TOOLS: list[Tool] = [
     ),
     _tool(
         "movescout_estimates_inventory_lines_update",
-        "Update inventory line items",
+        (
+            "Update inventory line items via POST CreateOrUpdateArticleForListInventory. "
+            "The lines array is the FULL inventory state for the estimate. "
+            "For stock article add: set articleId (catalog ID), articleCode, roomId, shippingQty, "
+            "isCustomArticle=false, isQtyChange=true. "
+            "For qty/weight/cube changes: update the existing line with new values and isQtyChange=true. "
+            "NOTE: Under-minimum inventory produces flat pricing regardless of changes. "
+            "After update, call calculate-pricing to see new totals, then inventory/save to commit."
+        ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
             "estimateId": {"type": "string", "description": "Estimate ID"},
-            "lines": {"type": "array", "description": "Inventory line items"},
+            "lines": {
+                "type": "array",
+                "description": (
+                    "Full inventory line items array. Key fields per item: articleId, articleCode, "
+                    "roomId, shippingQty, weight, cube, isCustomArticle, isQtyChange"
+                ),
+            },
         },
         ["leadId", "estimateId", "lines"],
     ),
@@ -216,12 +239,17 @@ TOOLS: list[Tool] = [
         "movescout_estimates_pricing_calculate",
         (
             "Calculate pricing via POST /api/services/app/Estimate/CalculateEstimationPricing. "
-            "The pricingRequest is the full estimate DTO with pricing-relevant fields: "
-            "pricingTariffId (e.g., 658=TPG), pricingLevelId/pricingLevel (e.g., 715=Level 1, 718=Level 4), "
-            "loadFrom/deliverTo (ISO dates; may be absent or null—API still returns HTTP 200), "
-            "valuationTypeId/tariffValuationType (e.g., 683='ECP - $0 Ded'), valuationAmount, valuationBracketId. "
-            "NOTE: Response contains misspelled field 'totalEstimatinPriceNet' (not 'Estimation'); "
-            "SMF total is nested at transportationSubItemCharges.totalSMFPriceNet."
+            "The pricingRequest is the full estimate DTO with pricing-relevant fields. "
+            "TARIFFS: pricingTariffId is authoritative (658=TPG, 660=TPG GRR, 659=Allied Express +2.9%, "
+            "667=UAS +84.5%); legacy pricingTariff string may lag. "
+            "LEVELS: pricingLevelId/pricingLevel (715=Level 1, 718=Level 4, 724=Level 10, 804=Level 20) "
+            "DO affect totals (Level 1→20: +79.7%). "
+            "CLASSES: allianceDto.priceClassId is always null in calculate DTO—UI class selection does NOT "
+            "affect calculate results. Do not claim class pricing works. "
+            "DATES: loadFrom/deliverTo may be absent or null—API still returns HTTP 200. "
+            "ECP: valuationTypeId/tariffValuationType (683='ECP - $0 Ded', 684='$250 Ded', 685='$500 Ded'). "
+            "UNDER-MIN: Inventory under minimum produces flat pricing regardless of qty/weight/cube changes. "
+            "TYPO: Response contains 'totalEstimatinPriceNet' (missing 'o'); SMF at transportationSubItemCharges.totalSMFPriceNet."
         ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
@@ -229,8 +257,9 @@ TOOLS: list[Tool] = [
             "pricingRequest": {
                 "type": "object",
                 "description": (
-                    "Full estimate DTO. Key pricing fields: pricingTariffId, pricingLevelId, pricingLevel, "
-                    "loadFrom, deliverTo, valuationTypeId, tariffValuationType, valuationAmount, valuationBracketId"
+                    "Full estimate DTO. Key pricing fields: pricingTariffId (authoritative), pricingLevelId, "
+                    "pricingLevel, loadFrom, deliverTo, valuationTypeId, tariffValuationType, valuationAmount, "
+                    "valuationBracketId, peakOrNonPeak (false=non-peak)"
                 ),
             },
         },

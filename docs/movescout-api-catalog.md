@@ -248,6 +248,40 @@ Common fields: `valuationAmount=10000`, `valuationBracketId=696`
 - $250 and $500 Ded produce identical totals (valuation charge = 0 for both in captured response)
 - Fields `valuationTypeId` and `tariffValuationType` must match (ID takes precedence)
 
+#### P3-E — Tariff Variants (2026-09-22 Capture)
+
+| tariffId | Tariff Name | totalEstimationPriceNet | Notes |
+|---:|---|---:|---|
+| 658 | TPG | 2771.90 | Baseline |
+| 660 | TPG GRR | 2771.90 | Same total as TPG |
+| 659 | Allied Express | 2851.15 | +2.9% vs TPG |
+| 667 | UAS | 5115.12 | +84.5% vs TPG |
+| 661/662 | 400N / 104G | — | Not in live selector |
+| 664 | Local/Intrastate | — | UI confirm cancelled |
+
+**Key:** `pricingTariffId` is authoritative; legacy `pricingTariff` string may lag. All runs had `peakOrNonPeak: false`.
+
+#### P3-F — Inventory Under-Minimum (2026-09-22 Capture)
+
+Inventory modifications on under-minimum estimates produce **flat pricing** ($2,771.90):
+
+| Modification | APIs Called | Total |
+|--------------|-------------|-------|
+| Qty 2→3 (Air Conditioner 870) | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
+| Weight/Cube 70/10→77/11 | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
+| Carton 1.5-CP toggle | CalculateEstimationPricing only | 2771.90 |
+
+All modifications restored to baseline after capture.
+
+#### P3-G — Cross-Product (Tariff × Class × Level) (2026-09-22 Capture)
+
+| Tariff | Class (UI) | Level | totalEstimationPriceNet | totalSMFPriceNet |
+|--------|------------|-------|-------------------------|------------------|
+| TPG 658 | Bailey's Consumer 3976 | Level 1 (715) | 2593.08 | 310.42 |
+| TPG 658 | Bailey's Consumer 3976 | Level 10 (724) | 3189.15 | 397.15 |
+
+**Confirms:** Level determines pricing (+23% Level 1→10); class selection does not affect calculate (`priceClassId: null` in DTO).
+
 #### Price Class Persistence — Not Confirmed (P3-A 2026-09-22 Capture)
 
 **Capture source:** `flows/06-pricing-variants/calls/p3a-persistence-3976-{update,calculate}/`
