@@ -1,0 +1,25 @@
+{
+  "result": {
+    "estimatesId": null,
+    "pricingResponseJson": null,
+    "contractTariffResponseId": 0,
+    "estimateShipmentServiceResponse": null,
+    "estimateShipmentRequestDto": null,
+    "leadEstimatesDto": null,
+    "contractTariffValidationDetails": null,
+    "creationTime": "0001-01-01T00:00:00",
+    "totalEstimationPriceNet": null,
+    "totalSMFPriceNet": null,
+    "netPackPriceAmount": 0.0,
+    "totalWeight": null,
+    "estimateNotRatedFlag": false,
+    "lastModifierUserId": null,
+    "lastModificationTime": null,
+    "id": 0
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

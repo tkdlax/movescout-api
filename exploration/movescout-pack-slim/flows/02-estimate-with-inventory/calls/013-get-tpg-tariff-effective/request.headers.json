@@ -1,0 +1,23 @@
+{
+  "Accept": "text/plain",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Authorization": "[REDACTED]",
+  "Cache-Control": "no-cache",
+  "Connection": "keep-alive",
+  "Expires": "Sat, 01 Jan 2000 00:00:00 GMT",
+  "Host": "movescoutproapi.sirva.com",
+  "Origin": "https://movescoutpro.sirva.com",
+  "Pragma": "no-cache",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-site",
+  "Signature": "sig1=:KOSNdvf2U+z5teSRHnSPFq6V3HgFcoSmgSmv/0SzC8ti/yCRj8Xzw+jbU3G/LrVGIFFHF0SwOCa22DxEwgOmCQ==:",
+  "Signature-Agent": "\"https://cursorusercontent.com\"",
+  "Signature-Input": "sig1=(\"@authority\" \"signature-agent\");created=1790041828;expires=1790041918;keyid=\"Vuxu4khgzIe0b30Nd6hq2envAuVBFMTDqorSNIUb_Oo\";alg=\"ed25519\";nonce=\"VaeAAaK9c5VSeLj_ByoMrA\";tag=\"web-bot-auth\"",
+  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "X-Requested-With": "XMLHttpRequest",
+  "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\"",
+  "sec-ch-ua-mobile": "?0",
+  "sec-ch-ua-platform": "\"Linux\""
+}

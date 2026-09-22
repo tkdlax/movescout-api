@@ -51,6 +51,9 @@ MCP_HTTP_TOKEN=your-secret-token-here
 
 # Transport mode
 MCP_TRANSPORT=http
+
+# Host port (default 8788 - port 8080 is used by nginx on TrueNAS)
+MCP_HOST_PORT=8788
 ```
 
 ### 2. Docker Compose
@@ -64,7 +67,7 @@ services:
       context: ../mcp
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "${MCP_HOST_PORT:-8788}:8080"  # Host port 8788, container port 8080
     environment:
       MIDDLEWARE_URL: http://api:8000
       MIDDLEWARE_API_KEY: ${MCP_API_KEY:-}
@@ -76,20 +79,34 @@ services:
     restart: unless-stopped
 ```
 
-### 3. Nginx Reverse Proxy
+**Note:** Host port 8080 is typically used by nginx on TrueNAS. Default host port is **8788**. Override with `MCP_HOST_PORT` in `.env` if needed.
 
-For public HTTPS access, configure nginx. See `deploy/nginx/mspmcp.jbeckstead.com.conf.example`.
+### 3. Nginx Proxy Manager (NPM)
 
-Key points:
-- TLS termination at nginx
-- Forward `/mcp` to `localhost:8080/mcp`
-- Pass `Authorization` header through
-- Disable buffering for streaming
+For public HTTPS access via NPM on TrueNAS:
+
+1. **Add Proxy Host:**
+   - Domain: `mspmcp.jbeckstead.com`
+   - Forward Hostname/IP: `192.168.68.5` (TrueNAS LAN IP)
+   - Forward Port: `8788`
+   - Enable SSL (Let's Encrypt)
+   - Enable WebSocket support
+
+2. **Custom Nginx Configuration** (Advanced tab):
+   ```nginx
+   proxy_buffering off;
+   proxy_cache off;
+   chunked_transfer_encoding on;
+   proxy_read_timeout 3600s;
+   proxy_send_timeout 3600s;
+   ```
+
+For standalone nginx, see `deploy/nginx/mspmcp.jbeckstead.com.conf.example`.
 
 ### 4. Firewall
 
 - Open WAN → 443 (HTTPS) only
-- Do NOT expose port 8080 directly
+- Do NOT expose port 8788 directly to WAN
 
 ## Cursor Configuration
 

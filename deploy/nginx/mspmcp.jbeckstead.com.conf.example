@@ -2,7 +2,9 @@
 # Copy to /etc/nginx/conf.d/ or sites-available and customize
 
 upstream movescout_mcp {
-    server 127.0.0.1:8080;  # TrueNAS Docker host port
+    # TrueNAS Docker host port (default 8788, configurable via MCP_HOST_PORT)
+    # Port 8080 is typically used by nginx on TrueNAS, so we use 8788
+    server 192.168.68.5:8788;
     keepalive 32;
 }
 

@@ -1,0 +1,16 @@
+tariffId,tariffName,source,isActive,status,quoteEffectiveDate
+658,TPG,GetBrandTariffMappedList,False,,
+659,Allied Express,GetBrandTariffMappedList,False,,
+660,TPG GRR,GetBrandTariffMappedList,False,,
+661,400N,GetBrandTariffMappedList,False,,
+662,104G,GetBrandTariffMappedList,False,,
+664,Local/Intrastate,GetBrandTariffMappedList,False,,
+666,TX Max4,GetBrandTariffMappedList,False,,
+667,UAS,GetBrandTariffMappedList,False,,
+669,ALLV-2A,GetBrandTariffMappedList,False,,
+670,CA Max4,GetBrandTariffMappedList,False,,
+672,Intra - 400N,GetBrandTariffMappedList,False,,
+676,Auto Only,GetBrandTariffMappedList,False,,
+34,NSL Local/Intrastate,GetCTListForEstimate,,True,2022-04-01T00:00:00
+40,CO Local/Intrastate,GetCTListForEstimate,,True,2022-03-27T00:00:00
+535,GJ Local/Intrastate,GetCTListForEstimate,,True,2022-08-25T00:00:00

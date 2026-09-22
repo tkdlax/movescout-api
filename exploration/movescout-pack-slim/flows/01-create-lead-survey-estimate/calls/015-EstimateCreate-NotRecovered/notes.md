@@ -1,0 +1,1 @@
+Estimate 2395868 was created in the prior session. When this session re-authenticated, the old Network buffer was empty; the initial create request/body/response could not be recovered. This folder is an explicit gap marker, not a fabricated request.

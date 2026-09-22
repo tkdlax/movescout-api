@@ -1,0 +1,3 @@
+Selected **Without Inventory** in the lead estimate list Create modal. The UI navigated to the `/create/false/...` route and the successful response returned estimate `2396567`. The captured endpoint was `Inventory/CreateOrUpdateEstimates`.
+
+Important observed contrast: the request body returned by the UI contains `isEstimateWithInventory: true` even though the radio selection was Without Inventory and the route flag is `false`. Flow 02 with-inventory uses the same endpoint and also has `isEstimateWithInventory: true`; see `flows/02-estimate-with-inventory/calls/001-create-estimate-with-inventory/`. This may be a frontend/API flag inconsistency; no payload was invented.

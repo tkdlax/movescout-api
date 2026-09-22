@@ -1,0 +1,107 @@
+[
+  {
+    "tariffId": 658,
+    "tariffName": "TPG",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 659,
+    "tariffName": "Allied Express",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 660,
+    "tariffName": "TPG GRR",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 661,
+    "tariffName": "400N",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 662,
+    "tariffName": "104G",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 664,
+    "tariffName": "Local/Intrastate",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 666,
+    "tariffName": "TX Max4",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 667,
+    "tariffName": "UAS",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 669,
+    "tariffName": "ALLV-2A",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 670,
+    "tariffName": "CA Max4",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 672,
+    "tariffName": "Intra - 400N",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 676,
+    "tariffName": "Auto Only",
+    "source": "GetBrandTariffMappedList",
+    "isActive": false,
+    "tableName": null
+  },
+  {
+    "tariffId": 34,
+    "tariffName": "NSL Local/Intrastate",
+    "source": "GetCTListForEstimate",
+    "status": true,
+    "quoteEffectiveDate": "2022-04-01T00:00:00"
+  },
+  {
+    "tariffId": 40,
+    "tariffName": "CO Local/Intrastate",
+    "source": "GetCTListForEstimate",
+    "status": true,
+    "quoteEffectiveDate": "2022-03-27T00:00:00"
+  },
+  {
+    "tariffId": 535,
+    "tariffName": "GJ Local/Intrastate",
+    "source": "GetCTListForEstimate",
+    "status": true,
+    "quoteEffectiveDate": "2022-08-25T00:00:00"
+  }
+]

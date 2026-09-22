@@ -1,0 +1,92 @@
+{
+  "headers": [
+    {
+      "name": "Accept",
+      "value": "text/plain"
+    },
+    {
+      "name": "Accept-Encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "Accept-Language",
+      "value": "en-US,en;q=0.9"
+    },
+    {
+      "name": "Cache-Control",
+      "value": "no-cache"
+    },
+    {
+      "name": "Connection",
+      "value": "keep-alive"
+    },
+    {
+      "name": "Content-Length",
+      "value": "20025"
+    },
+    {
+      "name": "Content-Type",
+      "value": "application/json-patch+json"
+    },
+    {
+      "name": "Expires",
+      "value": "Sat, 01 Jan 2000 00:00:00 GMT"
+    },
+    {
+      "name": "Host",
+      "value": "movescoutproapi.sirva.com"
+    },
+    {
+      "name": "Origin",
+      "value": "https://movescoutpro.sirva.com"
+    },
+    {
+      "name": "Pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "Sec-Fetch-Dest",
+      "value": "empty"
+    },
+    {
+      "name": "Sec-Fetch-Mode",
+      "value": "cors"
+    },
+    {
+      "name": "Sec-Fetch-Site",
+      "value": "same-site"
+    },
+    {
+      "name": "Signature",
+      "value": "[REDACTED]"
+    },
+    {
+      "name": "Signature-Agent",
+      "value": "\"https://cursorusercontent.com\""
+    },
+    {
+      "name": "Signature-Input",
+      "value": "[REDACTED]"
+    },
+    {
+      "name": "User-Agent",
+      "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "X-Requested-With",
+      "value": "XMLHttpRequest"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Linux\""
+    }
+  ]
+}
