@@ -201,20 +201,82 @@ Price levels **produce different totals** (Level 1→20: 79.7% increase).
 #### API Response Field Typo
 
 The upstream API returns both:
-- `totalEstimationPriceNet` (correct spelling) — top-level
-- `totalEstimatinPriceNet` (typo, missing 'o') — nested DTOs
+- `totalEstimationPriceNet` (correct spelling) — top-level in some places
+- `totalEstimatinPriceNet` (typo, missing 'o') — in nested DTOs and `pricingResponseJson`
 
-Both contain the same value. The middleware returns the correctly-spelled field.
+Both contain the same value. The **middleware returns the upstream response as-is** and does NOT normalize the spelling; callers must handle the misspelled field.
 
-#### Price Class Persistence — Not Confirmed
+Key response fields:
+- `result.totalEstimationPriceNet` — top-level net total (correctly spelled)
+- `result.totalSMFPriceNet` — SMF total
+- Inside `pricingResponseJson` (stringified JSON):
+  - `totalEstimatinPriceNet` — **misspelled** net total
+  - `transportationSubItemCharges.totalSMFPriceNet` — nested SMF total
 
-Tested `PUT UpdateLeadEstimate?tabSwitchFlag=false` for class 3976:
-- HTTP 200 returned
-- Subsequent `CalculateEstimationPricing` still has `allianceDto.priceClassId: null`
+#### P3-C — Load/Deliver Date Variants (2026-09-22 Capture)
 
-**Do not claim** the middleware can persist price class selections.
+**Capture source:** `flows/06-pricing-variants/calls/p3c-{load-plus30,load-plus60,short-transit,long-transit,missing-load,missing-deliver}/`
 
-See `docs/pricing-variants/` for full matrices.
+| Packet | loadFrom | deliverTo | totalEstimationPriceNet | HTTP |
+|--------|----------|-----------|-------------------------|------|
+| p3c-load-plus30 | 2026-10-22 | 2026-10-29 | 2771.90 | 200 |
+| p3c-load-plus60 | 2026-11-21 | 2026-11-28 | 2771.90 | 200 |
+| p3c-short-transit | 2026-12-01 | 2026-12-03 | 2771.90 | 200 |
+| p3c-long-transit | 2026-12-01 | 2026-12-22 | 2771.90 | 200 |
+| **p3c-missing-load** | **(absent)** | 2026-12-22 | 2771.90 | **200** |
+| **p3c-missing-deliver** | 2026-12-01 | **(absent)** | 2771.90 | **200** |
+
+**Key observations:**
+- Totals stayed identical across all date variants (no date-based pricing adjustment observed)
+- **Missing `loadFrom` or `deliverTo` still returns HTTP 200** — no validation error
+- The middleware passes dates (or absence thereof) through unchanged
+
+#### P3-D — ECP Valuation Deductibles (2026-09-22 Capture)
+
+**Capture source:** `flows/06-pricing-variants/calls/p3d-ecp-{0,250,500}/`
+
+| Packet | tariffValuationType | valuationTypeId | totalEstimationPriceNet |
+|--------|---------------------|-----------------|-------------------------|
+| p3d-ecp-0 | ECP - $0 Ded | 683 | 2771.90 |
+| p3d-ecp-250 | ECP - $250 Ded | 684 | 2750.36 |
+| p3d-ecp-500 | ECP - $500 Ded | 685 | 2750.36 |
+
+Common fields: `valuationAmount=10000`, `valuationBracketId=696`
+
+**Key observations:**
+- ECP $0 Ded produces higher total than $250/$500 (valuation charge difference)
+- $250 and $500 Ded produce identical totals (valuation charge = 0 for both in captured response)
+- Fields `valuationTypeId` and `tariffValuationType` must match (ID takes precedence)
+
+#### Price Class Persistence — Not Confirmed (P3-A 2026-09-22 Capture)
+
+**Capture source:** `flows/06-pricing-variants/calls/p3a-persistence-3976-{update,calculate}/`
+
+Tested `PUT UpdateLeadEstimate?tabSwitchFlag=false` for Bailey's Consumer 2019 (`priceClassId=3976`):
+- `p3a-persistence-3976-update`: HTTP 200 returned
+- `p3a-persistence-3976-calculate`: Subsequent `CalculateEstimationPricing` still has `allianceDto.priceClassId: null`
+
+**Do not claim** the middleware can persist price class selections into pricing calculations.
+
+### UpdateLeadEstimate Request Body Shape (P3-A)
+
+The `PUT /api/services/app/Estimate/UpdateLeadEstimate?tabSwitchFlag=false` endpoint accepts the full estimate DTO body (same shape as CalculateEstimationPricing). Key fields observed in `p3a-persistence-3976-update/request.json`:
+
+| Field | Example | Notes |
+|-------|---------|-------|
+| `id` | 2395896 | Estimate ID |
+| `leadId` | 1674404 | Lead ID |
+| `pricingTariffId` | 658 | Tariff ID (e.g., TPG) |
+| `pricingLevelId` | null | Can be null in update |
+| `valuationTypeId` | 683 | ECP type ID |
+| `tariffValuationType` | "ECP - $0 Ded" | ECP description |
+| `valuationAmount` | 10000 | Coverage amount |
+| `valuationBracketId` | 696 | Bracket ID |
+| `estimateAllianceFlag` | false | Alliance pricing disabled |
+| `allianceDto` | `{}` | Empty in observed update |
+| `segmentDto`, `estimateSITDto`, `estimateAccessorialDto`, etc. | nested | Full nested DTOs required |
+
+The middleware proxies this body unchanged to the upstream API.
 
 ## Inventory Write Operations
 

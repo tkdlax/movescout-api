@@ -116,8 +116,42 @@ Or for remote HTTP server:
 
 ### Pricing
 - `movescout_estimates_pricing_get` — Get pricing totals
-- `movescout_estimates_pricing_calculate` — Calculate pricing
+- `movescout_estimates_pricing_calculate` — Calculate pricing (see notes below)
 - `movescout_estimates_tariff_effective` — Get tariff by effective date
+
+## Pricing API Notes
+
+### CalculateEstimationPricing Request Fields
+
+The `movescout_estimates_pricing_calculate` tool accepts a full estimate DTO. Key pricing-relevant fields:
+
+| Field | Example | Notes |
+|-------|---------|-------|
+| `pricingTariffId` | 658 | Tariff ID (e.g., 658=TPG) |
+| `pricingLevelId` | 718 | Pricing level ID (e.g., 715=Level 1, 718=Level 4) |
+| `pricingLevel` | "Level 4" | Pricing level name |
+| `loadFrom` | "2026-09-22T00:00:00.000Z" | Load date (ISO; **may be absent**) |
+| `deliverTo` | "2026-09-29T00:00:00.000Z" | Delivery date (ISO; **may be absent**) |
+| `valuationTypeId` | 683 | ECP type ID (683=$0 Ded, 684=$250, 685=$500) |
+| `tariffValuationType` | "ECP - $0 Ded" | ECP description |
+| `valuationAmount` | 10000 | Coverage amount |
+| `valuationBracketId` | 696 | Bracket ID |
+
+**Date handling:** Missing `loadFrom` or `deliverTo` still returns HTTP 200 — no validation error.
+
+### Response Field Quirks
+
+The upstream MoveScout API has a **misspelled field**:
+- `totalEstimatinPriceNet` (missing 'o') appears in nested DTOs and `pricingResponseJson`
+- `totalEstimationPriceNet` (correct) appears top-level in some places
+
+Both contain the same value. The middleware returns the upstream response **as-is** without normalizing.
+
+**SMF total** is nested at: `result.pricingResponseJson` → (parse JSON) → `transportationSubItemCharges.totalSMFPriceNet`
+
+### UpdateLeadEstimate tabSwitchFlag
+
+The `movescout_estimates_update` tool accepts an optional `tabSwitchFlag` parameter (default `false`) that controls upstream validation behavior.
 
 ### Reference Data
 - `movescout_reference_lov` — Get list of values

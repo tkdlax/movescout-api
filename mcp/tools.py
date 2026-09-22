@@ -123,11 +123,23 @@ TOOLS: list[Tool] = [
     ),
     _tool(
         "movescout_estimates_update",
-        "Update an existing estimate",
+        (
+            "Update an existing estimate via PUT /api/services/app/Estimate/UpdateLeadEstimate. "
+            "The estimate body is a full estimate DTO; key fields include: "
+            "pricingTariffId, pricingLevelId/pricingLevel (e.g., 718/'Level 4'), "
+            "valuationTypeId/tariffValuationType/valuationAmount/valuationBracketId for ECP deductibles, "
+            "allianceDto.priceClassId for price class selection, and all nested DTOs. "
+            "Query param tabSwitchFlag (default false) controls validation behavior."
+        ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
             "estimateId": {"type": "string", "description": "Estimate ID"},
-            "estimate": {"type": "object", "description": "Estimate data to update"},
+            "estimate": {"type": "object", "description": "Full estimate DTO to save"},
+            "tabSwitchFlag": {
+                "type": "boolean",
+                "description": "Validation flag (default false)",
+                "default": False,
+            },
         },
         ["leadId", "estimateId", "estimate"],
     ),
@@ -202,11 +214,25 @@ TOOLS: list[Tool] = [
     ),
     _tool(
         "movescout_estimates_pricing_calculate",
-        "Calculate pricing for an estimate",
+        (
+            "Calculate pricing via POST /api/services/app/Estimate/CalculateEstimationPricing. "
+            "The pricingRequest is the full estimate DTO with pricing-relevant fields: "
+            "pricingTariffId (e.g., 658=TPG), pricingLevelId/pricingLevel (e.g., 715=Level 1, 718=Level 4), "
+            "loadFrom/deliverTo (ISO dates; may be absent or null—API still returns HTTP 200), "
+            "valuationTypeId/tariffValuationType (e.g., 683='ECP - $0 Ded'), valuationAmount, valuationBracketId. "
+            "NOTE: Response contains misspelled field 'totalEstimatinPriceNet' (not 'Estimation'); "
+            "SMF total is nested at transportationSubItemCharges.totalSMFPriceNet."
+        ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
             "estimateId": {"type": "string", "description": "Estimate ID"},
-            "pricingRequest": {"type": "object", "description": "Pricing request data"},
+            "pricingRequest": {
+                "type": "object",
+                "description": (
+                    "Full estimate DTO. Key pricing fields: pricingTariffId, pricingLevelId, pricingLevel, "
+                    "loadFrom, deliverTo, valuationTypeId, tariffValuationType, valuationAmount, valuationBracketId"
+                ),
+            },
         },
         ["leadId", "estimateId", "pricingRequest"],
     ),
@@ -317,7 +343,9 @@ async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str
             f"/leads/{a['leadId']}/estimates", json=a["estimate"]
         ),
         "movescout_estimates_update": lambda a: client.put(
-            f"/leads/{a['leadId']}/estimates/{a['estimateId']}", json=a["estimate"]
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}",
+            params={"tabSwitchFlag": a.get("tabSwitchFlag", False)},
+            json=a["estimate"],
         ),
         "movescout_estimates_rooms_list": lambda a: client.get(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/rooms"
