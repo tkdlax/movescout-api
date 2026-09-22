@@ -40,6 +40,20 @@ ALLOWED_FILTER_FIELDS = {
     "dwellingTypeId",  # Dwelling Type (eq)
     "leadNonConforming.nonConformingFlag",  # Non-Conforming Flag (eq true)
     "leadMoSys.canadaGovMove",  # Canada Gov Move (eq true)
+    # P11 packets 28-38 live-proven fields (2026-09-22)
+    # CONTAINS fields
+    "coordinatorName",  # Coordinator (contains)
+    "modifiedUserName",  # Modified By (contains)
+    "localCarrierId",  # Local Carrier (contains) - UI gap: filter submits but sampled blank cells → totalCount 0
+    # EQ fields
+    "createdSource",  # Created Source (eq e.g. 5)
+    "mobileSyncStatusId",  # Mobile Sync Status (eq e.g. 204)
+    "lostReasonId",  # Lost Reason (eq e.g. 13)
+    "leadLMP.transferTypeId",  # Transfer Type (eq e.g. 1063)
+    # DATE PRESET fields
+    "leadMoveDate.loadToDate",  # Load To Date - date preset {id, value}
+    "leadMoveDate.expectedDeliverDate",  # Expected Delivery Date - date preset {id, value}
+    "leadMoveDate.scheduledDate",  # Appt Created Date (Scheduled Date) - date preset {id, value}
 }
 
 OP_MAP = {
@@ -66,6 +80,10 @@ DATE_PRESET_FIELDS = {
     "primaryLeadEstimate.effectiveDate",
     "primaryLeadEstimate.validThruDate",
     "lastModificationTime",
+    # P11 packets 28-38 date preset fields
+    "leadMoveDate.loadToDate",
+    "leadMoveDate.expectedDeliverDate",
+    "leadMoveDate.scheduledDate",
 }
 
 

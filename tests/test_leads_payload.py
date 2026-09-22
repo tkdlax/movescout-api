@@ -196,4 +196,107 @@ class TestP11ExpandedFilterFields:
     def test_p11_disallowed_field_raises_error(self):
         """Fields not in allowlist should raise ValueError."""
         with pytest.raises(ValueError, match="not allowed"):
-            build_kendo_filter("bookingAgentName", "contains", "test")
+            build_kendo_filter("unknownField", "contains", "test")
+
+
+class TestP11Packets28To38FilterFields:
+    """P11 packets 28-38 expanded filter fields tests - live-proven columns."""
+
+    # CONTAINS fields
+
+    def test_p11_contains_filter_booker_name(self):
+        """Booking Agent Name filter with contains operator."""
+        f = build_kendo_filter("bookerName", "contains", "Bailey's")
+        assert f["field"] == "bookerName"
+        assert f["operator"] == "contains"
+        assert f["value"] == "Bailey's"
+
+    def test_p11_contains_filter_coordinator_name(self):
+        """Coordinator filter with contains operator."""
+        f = build_kendo_filter("coordinatorName", "contains", "Smith")
+        assert f["field"] == "coordinatorName"
+        assert f["operator"] == "contains"
+        assert f["value"] == "Smith"
+
+    def test_p11_contains_filter_modified_user_name(self):
+        """Modified By filter with contains operator."""
+        f = build_kendo_filter("modifiedUserName", "contains", "admin")
+        assert f["field"] == "modifiedUserName"
+        assert f["operator"] == "contains"
+        assert f["value"] == "admin"
+
+    def test_p11_contains_filter_local_carrier_id(self):
+        """Local Carrier filter with contains operator (UI gap: blank cells → totalCount 0)."""
+        f = build_kendo_filter("localCarrierId", "contains", "123")
+        assert f["field"] == "localCarrierId"
+        assert f["operator"] == "contains"
+        assert f["value"] == "123"
+
+    # EQ fields
+
+    def test_p11_eq_filter_created_source(self):
+        """Created Source filter with eq operator."""
+        f = build_kendo_filter("createdSource", "eq", 5)
+        assert f["field"] == "createdSource"
+        assert f["operator"] == "eq"
+        assert f["value"] == 5
+
+    def test_p11_eq_filter_mobile_sync_status_id(self):
+        """Mobile Sync Status filter with eq operator."""
+        f = build_kendo_filter("mobileSyncStatusId", "eq", 204)
+        assert f["field"] == "mobileSyncStatusId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 204
+
+    def test_p11_eq_filter_lost_reason_id(self):
+        """Lost Reason filter with eq operator."""
+        f = build_kendo_filter("lostReasonId", "eq", 13)
+        assert f["field"] == "lostReasonId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 13
+
+    def test_p11_eq_filter_transfer_type_id(self):
+        """Transfer Type filter (nested leadLMP path) with eq operator."""
+        f = build_kendo_filter("leadLMP.transferTypeId", "eq", 1063)
+        assert f["field"] == "leadLMP.transferTypeId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 1063
+
+    # DATE PRESET fields
+
+    def test_p11_date_preset_load_to_date(self):
+        """Load To Date filter with date preset (Previous Month)."""
+        f = build_kendo_filter("leadMoveDate.loadToDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "leadMoveDate.loadToDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_date_preset_expected_deliver_date(self):
+        """Expected Delivery Date filter with date preset (Previous Month)."""
+        f = build_kendo_filter("leadMoveDate.expectedDeliverDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "leadMoveDate.expectedDeliverDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_date_preset_scheduled_date(self):
+        """Appt Created Date (Scheduled Date) filter with date preset."""
+        f = build_kendo_filter("leadMoveDate.scheduledDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "leadMoveDate.scheduledDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_combined_filters_packets_28_38(self):
+        """Combined filters scenario using packets 28-38 fields."""
+        raw = [
+            {"field": "bookerName", "op": "contains", "value": "Bailey's"},
+            {"field": "createdSource", "op": "eq", "value": 5},
+            {"field": "leadMoveDate.loadToDate", "op": "eq", "value": {"id": 5, "value": 30}},
+        ]
+        filters = prepare_lead_filters(raw, logic="and")
+        assert len(filters) == 3
+        assert filters[0]["field"] == "bookerName"
+        assert filters[0]["operator"] == "contains"
+        assert filters[1]["field"] == "createdSource"
+        assert filters[1]["value"] == 5
+        assert filters[2]["field"] == "leadMoveDate.loadToDate"
+        assert filters[2]["value"] == {"id": 5, "value": 30}

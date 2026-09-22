@@ -887,6 +887,10 @@ The following filter fields were captured in live traffic and have verified wire
 | Registration # | `registrationNumber` | contains | `"REG001"` | String match |
 | Sales Rep Name | `salesRepName` | contains | `"Beckstead"` | String match |
 | Created By | `createdUserName` | contains | `"admin"` | String match |
+| Booking Agent Name | `bookerName` | contains | `"Bailey's"` | P11 packet 28-38 |
+| Coordinator | `coordinatorName` | contains | `"Smith"` | P11 packet 28-38 |
+| Modified By | `modifiedUserName` | contains | `"admin"` | P11 packet 28-38 |
+| Local Carrier | `localCarrierId` | contains | `"123"` | P11 packet 28-38; **UI gap: filter submits but sampled blank cells → totalCount 0** |
 
 #### Eq Operator Fields
 
@@ -902,6 +906,10 @@ The following filter fields were captured in live traffic and have verified wire
 | Dwelling Type | `dwellingTypeId` | eq | `1` | Numeric ID |
 | Non-Conforming | `leadNonConforming.nonConformingFlag` | eq | `true` | Nested path, boolean |
 | Canada Gov Move | `leadMoSys.canadaGovMove` | eq | `true` | Nested path, boolean |
+| Created Source | `createdSource` | eq | `5` | P11 packet 28-38; numeric ID |
+| Mobile Sync Status | `mobileSyncStatusId` | eq | `204` | P11 packet 28-38; numeric ID |
+| Lost Reason | `lostReasonId` | eq | `13` | P11 packet 28-38; numeric ID |
+| Transfer Type | `leadLMP.transferTypeId` | eq | `1063` | P11 packet 28-38; nested path, numeric ID |
 
 #### Date Preset Fields (eq with {id, value} objects)
 
@@ -913,6 +921,9 @@ The following filter fields were captured in live traffic and have verified wire
 | Effective Date | `primaryLeadEstimate.effectiveDate` | eq | `{"id": 5, "value": 30}` | Nested path |
 | Valid Thru Date | `validThruDate` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
 | Last Modified | `lastModificationTime` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+| Load To Date | `leadMoveDate.loadToDate` | eq | `{"id": 5, "value": 30}` | P11 packet 28-38; nested path |
+| Expected Delivery Date | `leadMoveDate.expectedDeliverDate` | eq | `{"id": 5, "value": 30}` | P11 packet 28-38; nested path |
+| Appt Created Date | `leadMoveDate.scheduledDate` | eq | `{"id": 5, "value": 30}` | P11 packet 28-38; nested path (Scheduled Date) |
 
 #### Combined Filter Example (Packet 15)
 
@@ -935,21 +946,34 @@ Multiple filters can be combined with `logic: "and"`:
 - Each filter object: `{field, operator, value, condition: "and", date: "<HTTP date>"}`
 - Date presets use `{id, value}` objects — Previous Month = `{id: 5, value: 30}`
 
-#### Do NOT Invent Encodings For
+#### P11 Packets 28-38 — Newly Captured Fields (2026-09-22)
 
-The following columns were observed but their wire encodings were **not captured**:
+The following columns were captured in P11 packets 28-38 and are now live-proven:
 
-- Booking Agent Name
-- Coordinator
-- Created Source
-- Mobile Sync Status (different from mobileSyncFlag)
-- Lost Reason
-- Load To Date
-- Expected Delivery Date
-- Appt Created Date
-- Modified By
-- Transfer Type
-- Local Carrier
+**CONTAINS:**
+- `bookerName` (Booking Agent Name)
+- `coordinatorName` (Coordinator)
+- `modifiedUserName` (Modified By)
+- `localCarrierId` (Local Carrier) — **UI gap: filter submits but sampled blank cells → totalCount 0**
+
+**EQ:**
+- `createdSource` (Created Source) eq e.g. 5
+- `mobileSyncStatusId` (Mobile Sync Status) eq e.g. 204
+- `lostReasonId` (Lost Reason) eq e.g. 13
+- `leadLMP.transferTypeId` (Transfer Type) eq e.g. 1063
+
+**DATE PRESET (eq {id:5,value:30} Previous Month):**
+- `leadMoveDate.loadToDate` (Load To Date)
+- `leadMoveDate.expectedDeliverDate` (Expected Delivery Date)
+- `leadMoveDate.scheduledDate` (Appt Created Date / Scheduled Date)
+
+#### Local Carrier UI Gap
+
+The `localCarrierId` filter is allowlisted based on P11 live capture, but exhibits a UI gap:
+- The filter **submits correctly** via the MoveScout Pro UI
+- However, sampled leads had **blank Local Carrier cells**, resulting in `totalCount: 0`
+- The wire path is confirmed as `localCarrierId` with `contains` operator
+- This is documented for completeness; callers should be aware queries may return zero results until populated Local Carrier data is available
 
 See [movescout-middleware-project-plan.md](../movescout-middleware-project-plan.md) for filter syntax.
 
