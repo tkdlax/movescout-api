@@ -1,2 +1,4 @@
-mcp>=1.0.0
+# MCP SDK and types - pinned for compatibility with server.py lowlevel API
+mcp==2.2.0
+mcp-types==2.2.0
 httpx>=0.27.0
