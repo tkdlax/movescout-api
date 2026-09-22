@@ -51,9 +51,10 @@ Priority based on capture completeness and workflow dependencies:
 
 ### Known Gaps (Skip This Pass)
 
-- **Flow 01/015 — Create estimate without inventory**: Request body not recovered; skip until re-captured
+- ~~**Flow 01/015 — Create estimate without inventory**: Request body not recovered~~ → **P2 CLOSED** (2026-09-22)
 - **Flow 03 Room 69 (SIT)**: Empty response; catalog gap, not API gap
-- **P1–P10 new UI captures**: Await Jake's authorization before probing
+- ~~**P1 — Stock article add**~~ → **P1 CLOSED** (2026-09-22)
+- **P3–P10 new UI captures**: Await Jake's authorization / Explorer probing
 
 ---
 
@@ -270,9 +271,9 @@ Every PR that adds or modifies middleware routes must include:
 
 | Capability | Gap | Resolution |
 |------------|-----|------------|
-| Create estimate without inventory | Request body lost (Flow 01/015) | Re-capture needed (P2) |
-| Stock article add to inventory | P1 in progress | Await completion |
-| Pricing variants (classes/levels/dates) | P3 planned | Await probing |
+| ~~Create estimate without inventory~~ | ~~Request body lost (Flow 01/015)~~ | **P2 CLOSED** |
+| ~~Stock article add to inventory~~ | ~~P1 in progress~~ | **P1 CLOSED** |
+| Pricing variants (classes/levels/dates) | P3 planned | Explorer starting |
 | Lead lifecycle updates | P4 planned | Await probing |
 | Alliance/accessorial writes | P8 planned | Await probing |
 
@@ -280,45 +281,89 @@ Every PR that adds or modifies middleware routes must include:
 
 ---
 
-## P1 Findings (2026-09-22)
+## P1 — Stock Article Add (CLOSED 2026-09-22)
 
-### Solid Data from P1 Capture Pack
+### Write Path Confirmed
 
-Flow 04 (`04-stock-articles-pricing/`) provides **inventory readback** confirming stock article lines on estimate `2395896`:
+Flow 04 P1P2 capture pack provides the **full `CreateOrUpdateArticleForListInventory` request body** for stock article add:
 
-| articleId | Name | Room | roomId | qty | weight | cube | isCustomArticle | Line ID |
-|-----------|------|------|--------|-----|--------|------|-----------------|---------|
-| 870 | Air Conditioner | Living Room | 37 | 1 | 70 | 10 | **false** | 157950568 |
-| 874 | Armoire | Master Bedroom | 39 | 1 | 210 | 30 | **false** | 157950569 |
-| 879 | Bar, Stool | Bedroom 2 | 27 | 1 | 21 | 3 | **true** (!) | 157950570 |
-| 318996 | Mattress | Test Bedroom | 78846 | 3 | 0 | 0 | true | 157909052 |
+- **Endpoint:** `POST /api/services/app/Inventory/CreateOrUpdateArticleForListInventory`
+- **Body:** Array of inventory line items (same shape as update)
+- **Key fields for stock add:**
+  - `articleId: 870` (catalog Air Conditioner)
+  - `articleCode: "V005"` (catalog code)
+  - `roomId: 37` (Living Room)
+  - `shippingQty: 2` (quantity change)
+  - `isCustomArticle: false` (stock from catalog, not custom)
+  - `isQtyChange: true` (signals quantity update)
 
-**Key observation:** Articles 870/874 are true **catalog stock** (`isCustomArticle: false`, `articleCode: V005/V010`). Article 879 is flagged `isCustomArticle: true` despite having a library-looking name and code — this indicates it was created via `CreateArticleFromInventory`, not added from the catalog.
-
-**Pricing confirmed unchanged:** `GetEstimatePricingTotalJsonResponse` returns `totalEstimationPriceNet: 2771.90` (same as Flow 02 baseline).
-
-### Stock vs Custom Article Distinction
+### Stock vs Custom Article Distinction (Confirmed)
 
 | Creation Method | Upstream Endpoint | `isCustomArticle` | `articleCode` |
 |-----------------|-------------------|-------------------|---------------|
-| Add from catalog | `CreateOrUpdateArticleForListInventory` | `false` | Catalog code (e.g., V005) |
+| Add from catalog | `CreateOrUpdateArticleForListInventory` | `false` | Catalog code (e.g., V005, V010) |
 | Create custom | `CreateArticleFromInventory` | `true` | `9999` (custom indicator) |
 
-Both use the same inventory line shape in `leadSurveyDto`. The middleware `PUT .../inventory/lines` route handles both — the `isCustomArticle` flag distinguishes them in responses.
+Both use the same line shape in `leadSurveyDto`. The middleware `PUT .../inventory/lines` handles both.
 
-### Still Missing (Do Not Invent)
+### Fixtures Added
 
-1. **`CreateOrUpdateArticleForListInventory` request body** for adding stock items — only post-state inventory GET captured
-2. **Fresh `CalculateEstimationPricing` request** for P1 — pack includes Flow 02 HAR reuse, not new capture
-3. **Fresh `SaveEstimateWithTrueFlag` request** for P1 — pack includes stubby reused body
+- `tests/fixtures/stock_article_add_request.json` — Full stock add body from P1 capture
 
-**Next:** Explorer to re-capture the actual stock-add POST with full request/response before claiming P1 write is fully wired. P2 (create estimate without inventory) starting next.
+### Follow-Up Save
+
+After stock add, `SaveEstimateWithTrueFlag` is called with empty body `{}` and query params:
+- `estimateId=2395896`
+- `leadId=1674404`
+- `density=7`
 
 ---
 
-## P2–P10 (Queued)
+## P2 — Create Estimate Without Inventory (CLOSED 2026-09-22)
 
-Remain blocked on Explorer authorization. See Checklist for full queue.
+### UI vs API Flag Quirk (DOCUMENTED)
+
+**Captured endpoint:** `POST /api/services/app/Inventory/CreateOrUpdateEstimates` (same as with-inventory)
+
+**Critical observation:** The UI selects "Without Inventory" radio, navigates to `/create/false/...` route, but the request body still has:
+
+```json
+"isEstimateWithInventory": true
+```
+
+This is **not a middleware bug** — it's how MoveScout Pro UI sends the request. The middleware passes this value faithfully without modification.
+
+### Estimate Created
+
+- **Lead ID:** 1674404
+- **Estimate ID:** 2396567 (returned in response)
+- **Booker:** Bailey's Moving & Storage
+- **Move type:** Interstate (moveTypeId 119)
+
+### Fixtures Added
+
+- `tests/fixtures/create_estimate_without_inventory_request.json` — Full body with quirk documented
+
+### Middleware Behavior
+
+The `POST /leads/{id}/estimates` route passes `isEstimateWithInventory` as-is to upstream. Do not "fix" or invert this flag — it reflects observed MoveScout Pro behavior.
+
+---
+
+## P3–P10 (Queued)
+
+| Phase | Capability | Status |
+|-------|------------|--------|
+| P3 | Pricing variants (classes/levels/dates) | Explorer starting |
+| P4 | Lead lifecycle updates | Queued |
+| P5 | Document/attachment uploads | Queued |
+| P6 | Notes and comments | Queued |
+| P7 | Segment management | Queued |
+| P8 | Alliance/accessorial writes | Queued |
+| P9 | Auto-spot details | Queued |
+| P10 | Customer-facing notes | Queued |
+
+P3 pricing variants exploration is starting. Updates will follow as captures land.
 
 ---
 
@@ -331,4 +376,9 @@ This plan does not estimate calendar time. Implementation involves:
 - Documentation updates
 - Test fixtures from captures
 
-All wired captures from Flows 01–03 are implemented in this PR. P1 stock-article operations will follow in a subsequent PR once call captures land. Remaining blocked items (P2–P10) require Explorer sessions authorized by Jake.
+**Status (2026-09-22):**
+- Flows 01–03 middleware routes + MCP scaffold: **Implemented**
+- P1 (stock article add): **CLOSED** — Request body captured and fixture added
+- P2 (create estimate without inventory): **CLOSED** — Request body captured, quirk documented
+- P3 (pricing variants): Explorer starting
+- P4–P10: Queued for Explorer probing

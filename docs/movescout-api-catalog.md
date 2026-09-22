@@ -158,6 +158,16 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 | `POST Estimate/CalculateEstimationPricing` | `POST .../estimates/{eid}/calculate-pricing` | Full pricing calculation |
 | `GET GetEstimate/GetEstimateTariffByEffectiveDate` | `GET .../estimates/{eid}/tariff-effective` | Tariff lookup by date |
 
+### `isEstimateWithInventory` Flag Quirk (P2 Documented)
+
+When creating an estimate via **"Without Inventory"** in the MoveScout Pro UI:
+- The UI navigates to `/create/false/...` route (the `false` indicates without inventory)
+- **However**, the request body still contains `"isEstimateWithInventory": true`
+
+This appears to be a MoveScout Pro UI/API inconsistency. The middleware **passes the flag as-is** to the upstream API without modification.
+
+Do not attempt to "fix" or invert this flag based on UI intent — the middleware faithfully proxies the observed upstream behavior.
+
 ## Inventory Write Operations
 
 | Upstream | Middleware | Notes |
@@ -182,7 +192,7 @@ Both stock (catalog) and custom articles appear in `leadSurveyDto` with the same
 - `articleId: 874` (Armoire) → `isCustomArticle: false`, `articleCode: V010` — stock
 - `articleId: 318996` (Mattress) → `isCustomArticle: true`, `articleCode: 9999` — custom
 
-**Note:** The `CreateOrUpdateArticleForListInventory` request body for adding stock items is not yet captured. The middleware `PUT .../inventory/lines` route uses Flow 02 shapes; stock-add POST re-capture pending.
+**P1 stock add captured:** The `CreateOrUpdateArticleForListInventory` request body for stock articles is confirmed. Key fields for stock add: `articleId` (catalog ID), `articleCode` (e.g., V005), `roomId`, `shippingQty`, `isCustomArticle: false`, `isQtyChange: true`. See fixture `tests/fixtures/stock_article_add_request.json`.
 
 ### leadSurveyDto line item fields (inventory items)
 
