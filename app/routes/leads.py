@@ -20,6 +20,7 @@ from app.movescout.leads import (
     extract_single_lead,
     get_lead_by_id,
 )
+from app.movescout.move_type import get_move_type
 from app.movescout.pagination import (
     fetch_all_leads_paginated,
     leads_page_count_response,
@@ -329,5 +330,35 @@ async def update_lead(
     try:
         result = await with_movescout_client(db, user, callback)
         return _json_response(result)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/move-type")
+async def get_move_type_route(
+    request: Request,
+    origin_state: str = Query(alias="originState"),
+    destination_state: str = Query(alias="destinationState"),
+    origin_country: str = Query(default="US", alias="originCountry"),
+    destination_country: str = Query(default="US", alias="destinationCountry"),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Determine move type (Interstate/Intrastate/Local) based on origin/destination."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_move_type(
+            client,
+            origin_state=origin_state,
+            destination_state=destination_state,
+            origin_country=origin_country,
+            destination_country=destination_country,
+        )
+        result = parse_abp_response(response, action="get move type")
+        return {"moveType": result}
+
+    try:
+        return await with_movescout_client(db, user, callback)
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc

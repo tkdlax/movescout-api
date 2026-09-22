@@ -54,9 +54,30 @@ Minimum create fields (TBD — confirm via HAR): firstName, lastName, phone, dis
 
 `POST /api/services/app/Activity/GetAllActivitiesWithCombineData`
 
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/appointments` | `POST Activity/GetAllActivitiesWithCombineData` |
+| `GET /activities/{id}` | `GET Activity/GetActivityById` |
+
 ### CreateOrUpdateActivity
 
 `POST /api/services/app/Activity/CreateOrUpdateActivity`
+
+| Middleware | Upstream |
+|---|---|
+| `POST /leads/{id}/activities` | `POST Activity/CreateOrUpdateActivity?triggerWF=true` |
+
+### GetActivityById
+
+`GET /api/services/app/Activity/GetActivityById?Id={activityId}`
+
+### Move Type
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/move-type` | `GET Lead/GetMoveType` |
+
+Query params: `originState`, `destinationState`, `originCountry`, `destinationCountry`
 
 ## List of Values
 
@@ -124,6 +145,28 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 | `GET AutoMakeModel/GetAllMakeModelDetails` | `GET /reference/vehicles` |
 | `GET TransitGuideSeasonConfiguration/GetAllTransitGuideSeasonConfiguration` | `GET /reference/transit-seasons` |
 | `GET Dropdown/GetAllAgentList` | `GET /reference/agents` |
+| `GET Dropdown/GetMoveCoordinatorListBasedOnAgencyId` | `GET /reference/move-coordinators?agencyId=` |
+| `GET CustomTariffAPIService/GetCTListForEstimate` | `GET /reference/custom-tariffs?brandId=` |
+| `GET LeadSourceProgram/GetPaginatedLeadSourceProgramByAgencyId` | `GET /reference/lead-source-programs?agencyId=` |
+
+## Estimate Write Operations
+
+| Upstream | Middleware | Notes |
+|---|---|---|
+| `POST Inventory/CreateOrUpdateEstimates` | `POST /leads/{id}/estimates` | Create estimate with/without inventory |
+| `PUT Estimate/UpdateLeadEstimate` | `PUT /leads/{id}/estimates/{eid}` | Update tariff, pricing fields |
+| `POST Estimate/CalculateEstimationPricing` | `POST .../estimates/{eid}/calculate-pricing` | Full pricing calculation |
+| `GET GetEstimate/GetEstimateTariffByEffectiveDate` | `GET .../estimates/{eid}/tariff-effective` | Tariff lookup by date |
+
+## Inventory Write Operations
+
+| Upstream | Middleware | Notes |
+|---|---|---|
+| `POST Inventory/CreateOrUpdateRoom` | `POST .../estimates/{eid}/rooms` | Create/update room |
+| `POST Inventory/CreateArticleFromInventory` | `POST .../rooms/{rid}/articles` | Custom article |
+| `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items |
+| `POST InventoryCommon/SaveEstimateWithTrueFlag` | `POST .../estimates/{eid}/inventory/save` | Commit changes |
+| `GET Inventory/GetAllArticlesGroupByRoomSP` | `GET .../rooms/{rid}/articles` | Article catalog by room |
 
 ### leadSurveyDto line item fields (inventory items)
 

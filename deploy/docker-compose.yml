@@ -27,5 +27,17 @@ services:
       postgres:
         condition: service_healthy
 
+  mcp:
+    build:
+      context: ../mcp
+      dockerfile: Dockerfile
+    environment:
+      MIDDLEWARE_URL: http://api:8000
+      MIDDLEWARE_API_KEY: ${MCP_API_KEY:-}
+    depends_on:
+      - api
+    stdin_open: true
+    tty: true
+
 volumes:
   postgres-data:

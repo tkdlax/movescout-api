@@ -17,6 +17,9 @@ from app.movescout.reference_data import (
     get_agent_list,
     get_all_make_model_details,
     get_all_transit_guide_season_configuration,
+    get_custom_tariff_list,
+    get_lead_source_programs,
+    get_move_coordinator_list,
 )
 from app.movescout.responses import parse_abp_response
 from app.services.movescout_service import with_movescout_client
@@ -166,6 +169,73 @@ async def reference_price_classes(
     async def callback(client: Any) -> dict[str, Any]:
         response = await list_price_classes(client, booker_id)
         result = parse_abp_response(response, action="list price classes")
+        return _normalize_list_result(result)
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/move-coordinators")
+async def reference_move_coordinators(
+    request: Request,
+    agency_id: int = Query(alias="agencyId"),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Move coordinators for an agency — not cached (agency-specific)."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_move_coordinator_list(client, agency_id)
+        result = parse_abp_response(response, action="get move coordinators")
+        return _normalize_list_result(result)
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/custom-tariffs")
+async def reference_custom_tariffs(
+    request: Request,
+    brand_id: int = Query(alias="brandId"),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Custom tariff list for a brand — not cached (brand-specific)."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_custom_tariff_list(client, brand_id)
+        result = parse_abp_response(response, action="get custom tariffs")
+        return _normalize_list_result(result)
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/lead-source-programs")
+async def reference_lead_source_programs(
+    request: Request,
+    agency_id: int = Query(alias="agencyId"),
+    page: int = Query(default=1, ge=1),
+    max_result_size: int = Query(default=100, alias="maxResultSize", ge=1, le=1000),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Lead source programs for an agency — not cached (agency-specific, paginated)."""
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_lead_source_programs(
+            client, agency_id, page=page, page_size=max_result_size
+        )
+        result = parse_abp_response(response, action="get lead source programs")
         return _normalize_list_result(result)
 
     try:
