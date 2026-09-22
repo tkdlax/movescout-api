@@ -27,6 +27,10 @@ from app.movescout.pagination import (
     list_leads_page_response,
 )
 from app.movescout.responses import parse_abp_response
+from app.movescout.sts import (
+    get_all_agent_sales_rep_by_lead_id,
+    get_lead_estimate_sts_reg_details_by_id,
+)
 from app.services.csv_export import generate_csv_content, leads_to_csv_rows
 from app.services.lead_merge import apply_lead_defaults, deep_merge
 from app.services.movescout_service import with_movescout_client
@@ -262,6 +266,57 @@ async def query_leads(
 
     try:
         return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/{lead_id}/sts/agent-sales-reps")
+async def get_sts_agent_sales_reps(
+    request: Request,
+    lead_id: str,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Get STS agent sales reps for a lead.
+
+    P9 capture: GET LeadEstimateSTSRegDetails/GetAllAgentSalesRepByLeadId
+    Returns array of agent sales rep records (may be empty).
+    """
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_all_agent_sales_rep_by_lead_id(client, lead_id)
+        return parse_abp_response(response, action="get STS agent sales reps")
+
+    try:
+        result = await with_movescout_client(db, user, callback)
+        return _json_response(result)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/{lead_id}/sts/reg-details")
+async def get_sts_reg_details(
+    request: Request,
+    lead_id: str,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Get STS registration details for a lead.
+
+    P9 capture: GET LeadEstimateSTSRegDetails/GetLeadEstimateSTSRegDetailsById
+    May return 500 ABP error "Please select originating agent on lead."
+    when lead lacks originating agent configuration.
+    """
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_lead_estimate_sts_reg_details_by_id(client, lead_id)
+        return parse_abp_response(response, action="get STS reg details")
+
+    try:
+        result = await with_movescout_client(db, user, callback)
+        return _json_response(result)
     except MoveScoutError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 

@@ -13,6 +13,7 @@ from app.movescout.alliance import (
     list_service_items_types,
 )
 from app.movescout.client import MoveScoutError
+from app.movescout.estimates import get_email_templates_by_agency
 from app.movescout.reference_data import (
     get_agent_list,
     get_all_make_model_details,
@@ -236,6 +237,31 @@ async def reference_lead_source_programs(
             client, agency_id, page=page, page_size=max_result_size
         )
         result = parse_abp_response(response, action="get lead source programs")
+        return _normalize_list_result(result)
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/email-templates")
+async def reference_email_templates(
+    request: Request,
+    agency_id: int = Query(alias="agencyId"),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Email templates for an agency — not cached (agency-specific).
+
+    P10 observation: GET CustomerEmailTemplate/GetEmailTemplatesByAgencyId
+    No email send API was captured (modal was canceled).
+    """
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await get_email_templates_by_agency(client, agency_id)
+        result = parse_abp_response(response, action="get email templates")
         return _normalize_list_result(result)
 
     try:

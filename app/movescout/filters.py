@@ -17,6 +17,13 @@ ALLOWED_FILTER_FIELDS = {
     "leadId",
     "activityStart",
     "activityType",
+    # P11 live-captured filter fields (2026-09-22)
+    "id",  # Record Id
+    "leadCustomerDetail.lastName",
+    "leadCustomerDetail.firstName",
+    "leadCustomerDetail.primaryEmailAddress",
+    "leadcustomerdetail.homephone",  # Exact wire spelling; UI Phone Type quirk
+    "assignedDate",  # Supports date preset values {id, value}
 }
 
 OP_MAP = {
@@ -33,6 +40,16 @@ OP_MAP = {
 
 def current_http_date() -> str:
     return format_datetime(datetime.now(UTC), usegmt=True)
+
+
+DATE_PRESET_FIELDS = {"assignedDate", "creationTime", "effectiveDate", "validThruDate"}
+
+
+def is_date_preset_value(value: Any) -> bool:
+    """Check if value is a date preset object like {id: 5, value: 30}."""
+    if not isinstance(value, dict):
+        return False
+    return "id" in value and "value" in value
 
 
 def build_kendo_filter(
@@ -130,6 +147,21 @@ def build_last_n_days_filter(field: str, days: int) -> dict[str, Any]:
         "field": field,
         "operator": "eq",
         "value": {"id": 8, "value": str(days)},
+        "condition": "and",
+        "date": current_http_date(),
+    }
+
+
+# P11 Date Preset IDs (from live capture)
+DATE_PRESET_PREVIOUS_MONTH = {"id": 5, "value": 30}
+
+
+def build_previous_month_filter(field: str = "assignedDate") -> dict[str, Any]:
+    """Previous Month date preset (id=5, value=30) as captured in P11."""
+    return {
+        "field": field,
+        "operator": "eq",
+        "value": DATE_PRESET_PREVIOUS_MONTH,
         "condition": "and",
         "date": current_http_date(),
     }

@@ -858,6 +858,7 @@ Requires `X-API-Key` on POST; download accepts header or `?X-API-Key=` query par
 
 ## Filterable Lead Fields
 
+### Basic Filter Fields
 - agencyCode
 - dispositionId
 - moveTypeId
@@ -865,5 +866,84 @@ Requires `X-API-Key` on POST; download accepts header or `?X-API-Key=` query par
 - creationTime
 - registrationNumber
 - firstName, lastName, city, state, bookerName
+- leadId
+- activityStart, activityType
+
+### P11 Live-Captured Filter Fields (2026-09-22)
+
+The following filter fields were captured in live traffic and have verified wire shapes:
+
+| UI Column | `filters[].field` | Operator | Example Value | Notes |
+|-----------|-------------------|----------|---------------|-------|
+| Record Id | `id` | contains | `"1675262"` | String match |
+| Last Name | `leadCustomerDetail.lastName` | contains | `"Perera"` | Nested path |
+| First Name | `leadCustomerDetail.firstName` | contains | `"Anoma"` | Nested path |
+| Primary Email | `leadCustomerDetail.primaryEmailAddress` | contains | `"anoma@teamlassen.com"` | Nested path |
+| Primary Phone Type | `leadcustomerdetail.homephone` | contains | `"Home"` | **Exact wire spelling** (lowercase, homePhone path) |
+| Assigned Date | `assignedDate` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+
+**Wire format notes:**
+- Baseline (no filters): `filters: []`, `logic: ""`
+- With filters: `filters: [...]`, `logic: "and"`
+- Each filter object: `{field, operator, value, condition: "and", date: "<HTTP date>"}`
+- Date presets use `{id, value}` objects — Previous Month = `{id: 5, value: 30}`
+
+**Do not invent encodings** for the remaining 30+ columns in `FILTER_MAP.md`; only the six above are proven.
 
 See [movescout-middleware-project-plan.md](../movescout-middleware-project-plan.md) for filter syntax.
+
+## P9 — STS Registration Reads (2026-09-22)
+
+Read-only access to STS registration data. No write APIs were captured.
+
+### GetAllAgentSalesRepByLeadId
+
+`GET /api/services/app/LeadEstimateSTSRegDetails/GetAllAgentSalesRepByLeadId?leadId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/sts/agent-sales-reps` | `GET LeadEstimateSTSRegDetails/GetAllAgentSalesRepByLeadId` |
+
+Returns array of agent sales rep records (may be empty).
+
+### GetLeadEstimateSTSRegDetailsById
+
+`GET /api/services/app/LeadEstimateSTSRegDetails/GetLeadEstimateSTSRegDetailsById?Id={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/sts/reg-details` | `GET LeadEstimateSTSRegDetails/GetLeadEstimateSTSRegDetailsById` |
+
+**P9 capture:** May return 500 ABP error `"Please select originating agent on lead."` when lead lacks originating agent configuration. The middleware surfaces this as a normal upstream error.
+
+**Do not invent** Register/STS mutate endpoints.
+
+## P10 — Documents / Notes / Email (2026-09-22)
+
+Observed thin GETs. No upload or email send APIs were captured.
+
+### GetAllEstimateReportsByEstimateId
+
+`GET /api/services/app/Report/GetAllEstimateReportsByEstimateId?estimateId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/estimates/{estimateId}/reports` | `GET Report/GetAllEstimateReportsByEstimateId` |
+
+Returns list of estimate reports/documents. UI shows "Documents not found" when empty. No upload control was captured.
+
+### GetEmailTemplatesByAgencyId
+
+`GET /api/services/app/CustomerEmailTemplate/GetEmailTemplatesByAgencyId?agencyId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /reference/email-templates?agencyId={id}` | `GET CustomerEmailTemplate/GetEmailTemplatesByAgencyId` |
+
+Returns list of customer email templates for an agency. No email send API was captured (modal was canceled).
+
+### Notes (existing endpoints)
+
+- Lead note create/clear reuses `POST Lead/CreateOrUpdateLead` (`leadNote`/`combinedLeadNotes` fields) — already in scope
+- Estimate customer-facing notes: `GET GetEstimate/GetEstimateCustomerFacingNotesByUserId?estimateId={id}` — wired at `GET /leads/{id}/estimates/{estimateId}/notes`
+- Estimate note create/clear reuses `PUT Estimate/UpdateLeadEstimate` — already in scope

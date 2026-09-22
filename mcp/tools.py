@@ -25,13 +25,39 @@ def _tool(name: str, description: str, properties: dict, required: list[str] | N
 TOOLS: list[Tool] = [
     _tool(
         "movescout_leads_list",
-        "List leads with pagination and optional filters",
+        (
+            "List leads with pagination and optional filters via POST Lead/GetAllLead. "
+            "P11 capture evidence: supports filters[] array for per-column filtering. "
+            "Live-proven filter fields: leadCustomerDetail.lastName (contains), id (contains), "
+            "leadCustomerDetail.firstName (contains), leadCustomerDetail.primaryEmailAddress (contains), "
+            "leadcustomerdetail.homephone (contains, exact wire spelling), assignedDate (eq with date preset). "
+            "Date presets use {id, value} objects: Previous Month = {id: 5, value: 30}. "
+            "logic: '' (empty) for baseline, 'and' when filters are active. "
+            "Each filter object: {field, operator, value, condition: 'and', date: HTTP date}."
+        ),
         {
             "page": {"type": "integer", "description": "Page number (1-indexed)", "default": 1},
             "maxResultSize": {"type": "integer", "description": "Results per page", "default": 500},
             "defaultFilter": {"type": "integer", "description": "Lead filter (0-12)", "default": 3},
             "sortField": {"type": "string", "description": "Field to sort by"},
             "sortDir": {"type": "string", "description": "Sort direction (asc/desc)", "default": "desc"},
+            "filters": {
+                "type": "array",
+                "description": (
+                    "Array of filter objects for per-column filtering. Each filter: "
+                    "{field: string, operator: 'contains'|'eq', value: string|object, condition: 'and'}. "
+                    "Live-proven fields: leadCustomerDetail.lastName, id, leadCustomerDetail.firstName, "
+                    "leadCustomerDetail.primaryEmailAddress, leadcustomerdetail.homephone (exact wire spelling), "
+                    "assignedDate. For date fields like assignedDate, value is a preset object: "
+                    "{id: 5, value: 30} = Previous Month."
+                ),
+                "items": {"type": "object"},
+            },
+            "logic": {
+                "type": "string",
+                "description": "Filter logic: '' (empty) for no filters, 'and' when filters are active",
+                "default": "",
+            },
         },
     ),
     _tool(
@@ -486,20 +512,78 @@ TOOLS: list[Tool] = [
         },
         ["leadId", "estimateId", "stops"],
     ),
+    _tool(
+        "movescout_sts_agent_sales_reps",
+        (
+            "Get STS agent sales reps for a lead via GET LeadEstimateSTSRegDetails/GetAllAgentSalesRepByLeadId. "
+            "P9 capture evidence: Returns array of agent sales rep records (may be empty). "
+            "No STS write APIs were captured; this is read-only."
+        ),
+        {"leadId": {"type": "string", "description": "Lead ID"}},
+        ["leadId"],
+    ),
+    _tool(
+        "movescout_sts_reg_details",
+        (
+            "Get STS registration details for a lead via GET LeadEstimateSTSRegDetails/GetLeadEstimateSTSRegDetailsById. "
+            "P9 capture evidence: May return 500 ABP error 'Please select originating agent on lead.' "
+            "when lead lacks originating agent configuration. The error is surfaced as a normal upstream error. "
+            "No STS write APIs were captured; this is read-only."
+        ),
+        {"leadId": {"type": "string", "description": "Lead ID"}},
+        ["leadId"],
+    ),
+    _tool(
+        "movescout_estimates_reports_list",
+        (
+            "Get reports/documents for an estimate via GET Report/GetAllEstimateReportsByEstimateId. "
+            "P10 observation: Returns list of estimate reports/documents. "
+            "UI shows 'Documents not found' when empty. No upload control was captured; this is read-only."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+        },
+        ["leadId", "estimateId"],
+    ),
+    _tool(
+        "movescout_reference_email_templates",
+        (
+            "Get email templates for an agency via GET CustomerEmailTemplate/GetEmailTemplatesByAgencyId. "
+            "P10 observation: Returns list of customer email templates for the agency. "
+            "No email send API was captured (modal was canceled); this is read-only."
+        ),
+        {"agencyId": {"type": "integer", "description": "Agency ID"}},
+        ["agencyId"],
+    ),
 ]
 
 
 async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str, Any]) -> Any:
     """Execute an MCP tool by calling the appropriate middleware endpoint."""
     
-    routes = {
-        "movescout_leads_list": lambda a: client.get("/leads", params={
+    async def _leads_list(a: dict[str, Any]) -> httpx.Response:
+        filters = a.get("filters")
+        if filters:
+            return await client.post("/leads/query", json={
+                "page": a.get("page", 1),
+                "maxResultSize": a.get("maxResultSize", 500),
+                "defaultFilter": a.get("defaultFilter", 3),
+                "sortField": a.get("sortField"),
+                "sortDir": a.get("sortDir", "desc"),
+                "filters": filters,
+                "logic": a.get("logic", "and"),
+            })
+        return await client.get("/leads", params={
             "page": a.get("page", 1),
             "maxResultSize": a.get("maxResultSize", 500),
             "defaultFilter": a.get("defaultFilter", 3),
             "sortField": a.get("sortField"),
             "sortDir": a.get("sortDir", "desc"),
-        }),
+        })
+
+    routes = {
+        "movescout_leads_list": _leads_list,
         "movescout_leads_get": lambda a: client.get(f"/leads/{a['leadId']}"),
         "movescout_leads_create": lambda a: client.post("/leads", json=a["lead"]),
         "movescout_leads_update": lambda a: client.put(f"/leads/{a['leadId']}", json=a["lead"]),
@@ -621,6 +705,18 @@ async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str
         "movescout_estimates_extra_stops_save": lambda a: client.post(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/extra-stops",
             json=a["stops"],
+        ),
+        "movescout_sts_agent_sales_reps": lambda a: client.get(
+            f"/leads/{a['leadId']}/sts/agent-sales-reps"
+        ),
+        "movescout_sts_reg_details": lambda a: client.get(
+            f"/leads/{a['leadId']}/sts/reg-details"
+        ),
+        "movescout_estimates_reports_list": lambda a: client.get(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/reports"
+        ),
+        "movescout_reference_email_templates": lambda a: client.get(
+            "/reference/email-templates", params={"agencyId": a["agencyId"]}
         ),
     }
 

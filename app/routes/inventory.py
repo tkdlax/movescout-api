@@ -10,6 +10,7 @@ from app.movescout.alliance import get_alliance_by_lead_estimate_id
 from app.movescout.client import MoveScoutError
 from app.movescout.estimates import (
     calculate_estimation_pricing,
+    get_all_estimate_reports,
     get_brand_tariff_mapped_list,
     get_estimate_accessorial_details,
     get_estimate_auto_spot_details,
@@ -322,6 +323,32 @@ async def get_estimate_notes(
     async def callback(client: Any) -> Any:
         response = await get_estimate_customer_facing_notes(client, estimate_id)
         return parse_abp_response(response, action="get estimate notes")
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.get("/leads/{lead_id}/estimates/{estimate_id}/reports")
+async def get_estimate_reports(
+    request: Request,
+    lead_id: str,
+    estimate_id: str,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> Any:
+    """Get reports/documents for an estimate.
+
+    P10 observation: GET Report/GetAllEstimateReportsByEstimateId
+    UI shows "Documents not found" when result is empty.
+    No upload control was captured; this is read-only.
+    """
+    request.state.user_id = user.id
+
+    async def callback(client: Any) -> Any:
+        response = await get_all_estimate_reports(client, estimate_id)
+        return parse_abp_response(response, action="get estimate reports")
 
     try:
         return await with_movescout_client(db, user, callback)
