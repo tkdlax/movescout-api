@@ -88,3 +88,30 @@ async def get_all_articles_group_by_room(
             "roomId": room_id,
         },
     )
+
+
+async def create_or_update_article_for_inventory(
+    client: MoveScoutClient,
+    article: dict[str, Any],
+) -> Any:
+    """Update a single inventory article in place (qty, weight, cube changes).
+    
+    This is distinct from CreateOrUpdateArticleForListInventory which takes an array.
+    Use this for in-place edits on existing articles (e.g., qty bump, weight/cube change).
+    
+    Key fields (from P3-F packet evidence):
+    - estimatesId: Estimate ID
+    - articleId: Article catalog ID (required - identifies which article)
+    - shippingQty: New shipping quantity
+    - weight: Article weight
+    - cube: Article cube (may be string or int)
+    - isQtyChange: Set to true when editing quantity
+    - roomId, segmentId: Location identifiers
+    
+    The response is the full Calculate result (not just success/fail).
+    """
+    return await client.request(
+        "POST",
+        "/api/services/app/Inventory/CreateOrUpdateArticleForInventory",
+        json=article,
+    )

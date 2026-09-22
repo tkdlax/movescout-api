@@ -217,6 +217,33 @@ TOOLS: list[Tool] = [
         ["leadId", "estimateId", "lines"],
     ),
     _tool(
+        "movescout_estimates_inventory_article_update",
+        (
+            "Update a single inventory article in place via POST CreateOrUpdateArticleForInventory. "
+            "This is for in-place edits on existing articles (qty bump, weight/cube change). "
+            "Unlike the bulk lines endpoint, this takes a single article object. "
+            "P3-F evidence: Used for qty 2→3 bump on articleId 870, weight/cube 70/10→77/11 changes. "
+            "Key fields: estimatesId, articleId (required), shippingQty, weight, cube, isQtyChange=true, "
+            "roomId, segmentId, plus article flags (domestic, canada, maX3, maX4, grr, tariff400N, "
+            "tarriff104G, uasFlg, local, international, carton, bulky, etc.). "
+            "NOTE: Under-minimum inventory produces flat pricing. "
+            "Response includes full Calculate pricing result (totalEstimationPriceNet in pricingResponseJson)."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+            "article": {
+                "type": "object",
+                "description": (
+                    "Single article object with full inventory line fields. Required: articleId, "
+                    "shippingQty, roomId, segmentId. For edits set isQtyChange=true. "
+                    "Include weight, cube, and all tariff/flag fields from existing article."
+                ),
+            },
+        },
+        ["leadId", "estimateId", "article"],
+    ),
+    _tool(
         "movescout_estimates_inventory_save",
         "Save/commit inventory changes",
         {
@@ -240,12 +267,14 @@ TOOLS: list[Tool] = [
         (
             "Calculate pricing via POST /api/services/app/Estimate/CalculateEstimationPricing. "
             "The pricingRequest is the full estimate DTO with pricing-relevant fields. "
-            "TARIFFS: pricingTariffId is authoritative (658=TPG, 660=TPG GRR, 659=Allied Express +2.9%, "
-            "667=UAS +84.5%); legacy pricingTariff string may lag. "
-            "LEVELS: pricingLevelId/pricingLevel (715=Level 1, 718=Level 4, 724=Level 10, 804=Level 20) "
-            "DO affect totals (Level 1→20: +79.7%). "
-            "CLASSES: allianceDto.priceClassId is always null in calculate DTO—UI class selection does NOT "
-            "affect calculate results. Do not claim class pricing works. "
+            "TARIFFS: pricingTariffId is authoritative—658=TPG (baseline), 659=Allied Express (+2.9%), "
+            "660=TPG GRR (same as TPG), 667=UAS (+84.5%). 664=Local/Intrastate is UI-blocked with "
+            "'Are you sure?' confirmation that clears estimate details; no calculate observed. "
+            "Legacy pricingTariff string may lag the numeric ID. "
+            "LEVELS: pricingLevelId/pricingLevel DO affect totals—715=Level 1, 718=Level 4, "
+            "724=Level 10, 804=Level 20 (Level 1→20: +79.7%). P3-G confirms 715/724 with TPG tariff. "
+            "CLASSES: allianceDto.priceClassId is always null in calculate DTO—UI class selection "
+            "(e.g., Bailey's Consumer 2019 priceClassId=3976) does NOT affect calculate results. "
             "DATES: loadFrom/deliverTo may be absent or null—API still returns HTTP 200. "
             "ECP: valuationTypeId/tariffValuationType (683='ECP - $0 Ded', 684='$250 Ded', 685='$500 Ded'). "
             "UNDER-MIN: Inventory under minimum produces flat pricing regardless of qty/weight/cube changes. "
@@ -257,9 +286,9 @@ TOOLS: list[Tool] = [
             "pricingRequest": {
                 "type": "object",
                 "description": (
-                    "Full estimate DTO. Key pricing fields: pricingTariffId (authoritative), pricingLevelId, "
-                    "pricingLevel, loadFrom, deliverTo, valuationTypeId, tariffValuationType, valuationAmount, "
-                    "valuationBracketId, peakOrNonPeak (false=non-peak)"
+                    "Full estimate DTO. Key pricing fields: pricingTariffId (authoritative—658/659/660/667), "
+                    "pricingLevelId (715/718/724/804), pricingLevel, loadFrom, deliverTo, valuationTypeId, "
+                    "tariffValuationType, valuationAmount, valuationBracketId, peakOrNonPeak (false=non-peak)"
                 ),
             },
         },
@@ -392,6 +421,10 @@ async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str
         "movescout_estimates_inventory_lines_update": lambda a: client.put(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/inventory/lines",
             json=a["lines"],
+        ),
+        "movescout_estimates_inventory_article_update": lambda a: client.post(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/inventory/article",
+            json=a["article"],
         ),
         "movescout_estimates_inventory_save": lambda a: client.post(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/inventory/save",

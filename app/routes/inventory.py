@@ -30,6 +30,7 @@ from app.movescout.inventory import (
 )
 from app.movescout.inventory_write import (
     create_article_from_inventory,
+    create_or_update_article_for_inventory,
     create_or_update_article_for_list_inventory,
     create_or_update_estimates,
     create_or_update_room,
@@ -537,6 +538,44 @@ async def update_inventory_lines(
         response = await create_or_update_article_for_list_inventory(client, body)
         result = parse_abp_response(response, action="update inventory lines")
         return {"result": result, "estimateId": estimate_id}
+
+    try:
+        return await with_movescout_client(db, user, callback)
+    except MoveScoutError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/leads/{lead_id}/estimates/{estimate_id}/inventory/article")
+async def update_inventory_article(
+    request: Request,
+    lead_id: str,
+    estimate_id: str,
+    body: dict[str, Any],
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Update a single inventory article in place (qty, weight, cube changes).
+
+    This is distinct from the bulk /inventory/lines endpoint. Use this for
+    in-place edits on existing articles (e.g., qty bump 2→3, weight/cube changes).
+
+    Key fields from P3-F packet evidence:
+    - estimatesId: Estimate ID
+    - articleId: Article catalog ID (required)
+    - shippingQty: New shipping quantity
+    - weight: Article weight
+    - cube: Article cube (may be string or int)
+    - isQtyChange: Set to true when editing quantity
+    - roomId, segmentId: Location identifiers
+
+    Response is the full Calculate pricing result.
+    """
+    request.state.user_id = user.id
+    body["estimatesId"] = int(estimate_id) if estimate_id.isdigit() else estimate_id
+
+    async def callback(client: Any) -> dict[str, Any]:
+        response = await create_or_update_article_for_inventory(client, body)
+        return parse_abp_response(response, action="update inventory article")
 
     try:
         return await with_movescout_client(db, user, callback)

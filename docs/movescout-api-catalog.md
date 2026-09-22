@@ -257,9 +257,23 @@ Common fields: `valuationAmount=10000`, `valuationBracketId=696`
 | 659 | Allied Express | 2851.15 | +2.9% vs TPG |
 | 667 | UAS | 5115.12 | +84.5% vs TPG |
 | 661/662 | 400N / 104G | — | Not in live selector |
-| 664 | Local/Intrastate | — | UI confirm cancelled |
+| 664 | Local/Intrastate | — | UI guard blocks; see below |
 
 **Key:** `pricingTariffId` is authoritative; legacy `pricingTariff` string may lag. All runs had `peakOrNonPeak: false`.
+
+#### Local/Intrastate Tariff 664 — UI Guard (P3-E/P3-G)
+
+**Capture source:** `flows/06-pricing-variants/calls/p3e-local-intrastate/`, `p3g-local-intrastate/`
+
+Selecting **Local/Intrastate** (`pricingTariffId: 664`) in the MoveScout Pro UI triggers a destructive confirmation dialog:
+
+> *"Are you sure? This will clear Estimate Saved Details."*
+
+In both P3-E and P3-G captures, this confirmation was **cancelled** to avoid breaking the existing interstate inventory estimate. **No CalculateEstimationPricing request was sent** — these packets contain only meta/notes documenting the UI behavior.
+
+**Do not assume** the API will accept an interstate estimate with `pricingTariffId: 664`. The middleware proxies whatever is sent, but the UI guards against this scenario by warning users it will clear estimate details.
+
+This is **not an API behavior** — it's a UI safeguard that prevents sending incompatible tariff changes without explicit user confirmation.
 
 #### P3-F — Inventory Under-Minimum (2026-09-22 Capture)
 
@@ -267,11 +281,15 @@ Inventory modifications on under-minimum estimates produce **flat pricing** ($2,
 
 | Modification | APIs Called | Total |
 |--------------|-------------|-------|
-| Qty 2→3 (Air Conditioner 870) | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
-| Weight/Cube 70/10→77/11 | CreateOrUpdateArticleForInventory + Calculate | 2771.90 |
-| Carton 1.5-CP toggle | CalculateEstimationPricing only | 2771.90 |
+| Qty 2→3 (Air Conditioner 870) | `CreateOrUpdateArticleForInventory` (singular) + Calculate | 2771.90 |
+| Weight/Cube 70/10→77/11 | `CreateOrUpdateArticleForInventory` (singular) + Calculate | 2771.90 |
+| Carton 1.5-CP toggle | `CalculateEstimationPricing` only | 2771.90 |
 
 All modifications restored to baseline after capture.
+
+**Important distinction:** The qty bump and weight/cube edits use `POST Inventory/CreateOrUpdateArticleForInventory` (singular article object), **not** the batch `CreateOrUpdateArticleForListInventory` (array) endpoint. The singular endpoint is for in-place edits on existing articles without resending the full inventory state.
+
+**Carton toggle:** The "1.5 - CP" carton checkbox toggle only triggered `CalculateEstimationPricing` with no inventory save endpoint — do not invent a separate carton API from this observation.
 
 #### P3-G — Cross-Product (Tariff × Class × Level) (2026-09-22 Capture)
 
@@ -318,7 +336,8 @@ The middleware proxies this body unchanged to the upstream API.
 |---|---|---|
 | `POST Inventory/CreateOrUpdateRoom` | `POST .../estimates/{eid}/rooms` | Create/update room |
 | `POST Inventory/CreateArticleFromInventory` | `POST .../rooms/{rid}/articles` | Custom article only |
-| `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items (stock or custom) |
+| `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items (stock or custom, batch) |
+| `POST Inventory/CreateOrUpdateArticleForInventory` | `POST .../inventory/article` | Update single article in place |
 | `POST InventoryCommon/SaveEstimateWithTrueFlag` | `POST .../estimates/{eid}/inventory/save` | Commit changes |
 | `GET Inventory/GetAllArticlesGroupByRoomSP` | `GET .../rooms/{rid}/articles` | Article catalog by room |
 
@@ -327,6 +346,37 @@ The middleware proxies this body unchanged to the upstream API.
 **Capture source:** `flows/04-stock-articles-pricing/calls/07-CreateOrUpdateArticleForListInventory-stock-aircon-870/`
 
 The request body is an **array** of inventory line items (the entire current inventory state for the estimate). Adding a stock article means updating the full array including the new item with `isQtyChange: true` for the modified row.
+
+### CreateOrUpdateArticleForInventory — Single Article In-Place Edit (P3-F Documented)
+
+**Capture source:** `flows/06-pricing-variants/calls/p3f-qty-bump-870/`, `p3f-weight-cube/`
+
+`POST /api/services/app/Inventory/CreateOrUpdateArticleForInventory`
+
+This endpoint is for **in-place edits** on a single existing inventory article (qty bump, weight/cube change). It takes a single article object (not an array). The response includes the full Calculate pricing result.
+
+| Middleware | Upstream |
+|---|---|
+| `POST .../estimates/{eid}/inventory/article` | `POST Inventory/CreateOrUpdateArticleForInventory` |
+
+**Key request fields** (from P3-F packet `p3f-qty-bump-870/request.json`):
+- `estimatesId` — Estimate ID (required)
+- `articleId` — Article catalog ID (required, identifies which article)
+- `shippingQty` — New shipping quantity
+- `weight` — Article weight (lbs)
+- `cube` — Article cube (may be string or int)
+- `isQtyChange` — Set to `true` when editing quantity
+- `roomId`, `segmentId` — Location identifiers
+- Tariff flags: `domestic`, `canada`, `maX3`, `maX4`, `grr`, `tariff400N`, `tarriff104G`, `uasFlg`, `local`, `international`
+- Article flags: `carton`, `bulky`, `pbo`, `crateFlag`, `isCustomArticle`
+
+**P3-F observed operations:**
+| Modification | shippingQty | weight | cube | isQtyChange | Result |
+|--------------|-------------|--------|------|-------------|--------|
+| Qty bump (2→3) | 3 | 70 | 10 | true | HTTP 200, total $2,771.90 |
+| Weight/cube change | 2 | 77 | "11" | true | HTTP 200, total $2,771.90 |
+
+Note: Both operations returned identical totals because the inventory was under minimum weight threshold.
 
 ### SaveEstimateWithTrueFlag — Commit Inventory (Flow 04 / P1 Documented)
 
