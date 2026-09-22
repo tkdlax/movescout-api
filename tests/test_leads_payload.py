@@ -65,3 +65,126 @@ async def test_get_all_leads_posts_spa_payload():
     assert payload["sortField"] == ""
     assert payload["sortDir"] == "desc"
     assert "sortDescriptor" not in payload
+
+
+class TestP11ExpandedFilterFields:
+    """P11 expanded filter fields tests - live-proven columns."""
+
+    def test_p11_contains_filter_leadlmp_lmpid(self):
+        """LMP ID filter with contains operator."""
+        f = build_kendo_filter("leadLMP.lmpId", "contains", "ABC123")
+        assert f["field"] == "leadLMP.lmpId"
+        assert f["operator"] == "contains"
+        assert f["value"] == "ABC123"
+
+    def test_p11_contains_filter_created_user_name(self):
+        """Created By filter with contains operator."""
+        f = build_kendo_filter("createdUserName", "contains", "admin")
+        assert f["field"] == "createdUserName"
+        assert f["operator"] == "contains"
+        assert f["value"] == "admin"
+
+    def test_p11_eq_filter_appointment_type_id(self):
+        """Appointment Type filter with eq operator."""
+        f = build_kendo_filter("appointmentTypeId", "eq", 1)
+        assert f["field"] == "appointmentTypeId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 1
+
+    def test_p11_eq_filter_mobile_sync_flag(self):
+        """Mobile Sync Flag filter with eq true."""
+        f = build_kendo_filter("mobileSyncFlag", "eq", True)
+        assert f["field"] == "mobileSyncFlag"
+        assert f["operator"] == "eq"
+        assert f["value"] is True
+
+    def test_p11_eq_filter_is_qualified_lead(self):
+        """Is Qualified Lead filter with eq true."""
+        f = build_kendo_filter("isQualifiedLead", "eq", True)
+        assert f["field"] == "isQualifiedLead"
+        assert f["operator"] == "eq"
+        assert f["value"] is True
+
+    def test_p11_eq_filter_estimate_total(self):
+        """Estimate Total filter with eq numeric."""
+        f = build_kendo_filter("estimateTotal", "eq", 2771.90)
+        assert f["field"] == "estimateTotal"
+        assert f["operator"] == "eq"
+        assert f["value"] == 2771.90
+
+    def test_p11_eq_filter_funded_id(self):
+        """Funded ID filter with eq operator."""
+        f = build_kendo_filter("fundedId", "eq", 1)
+        assert f["field"] == "fundedId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 1
+
+    def test_p11_eq_filter_dwelling_type_id(self):
+        """Dwelling Type filter with eq operator."""
+        f = build_kendo_filter("dwellingTypeId", "eq", 2)
+        assert f["field"] == "dwellingTypeId"
+        assert f["operator"] == "eq"
+        assert f["value"] == 2
+
+    def test_p11_eq_filter_non_conforming_flag(self):
+        """Non-Conforming Flag filter (nested path)."""
+        f = build_kendo_filter("leadNonConforming.nonConformingFlag", "eq", True)
+        assert f["field"] == "leadNonConforming.nonConformingFlag"
+        assert f["operator"] == "eq"
+        assert f["value"] is True
+
+    def test_p11_eq_filter_canada_gov_move(self):
+        """Canada Gov Move filter (nested path)."""
+        f = build_kendo_filter("leadMoSys.canadaGovMove", "eq", True)
+        assert f["field"] == "leadMoSys.canadaGovMove"
+        assert f["operator"] == "eq"
+        assert f["value"] is True
+
+    def test_p11_date_preset_load_from_date(self):
+        """Load From Date filter with date preset."""
+        f = build_kendo_filter("leadMoveDate.loadFromDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "leadMoveDate.loadFromDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_date_preset_effective_date(self):
+        """Effective Date filter with date preset."""
+        f = build_kendo_filter("primaryLeadEstimate.effectiveDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "primaryLeadEstimate.effectiveDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_date_preset_valid_thru_date(self):
+        """Valid Thru Date filter with date preset."""
+        f = build_kendo_filter("validThruDate", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "validThruDate"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_date_preset_last_modification_time(self):
+        """Last Modification Time filter with date preset."""
+        f = build_kendo_filter("lastModificationTime", "eq", {"id": 5, "value": 30})
+        assert f["field"] == "lastModificationTime"
+        assert f["operator"] == "eq"
+        assert f["value"] == {"id": 5, "value": 30}
+
+    def test_p11_combined_filters_packet_15(self):
+        """Combined filters scenario (packet 15 style)."""
+        raw = [
+            {"field": "leadCustomerDetail.lastName", "op": "contains", "value": "Smith"},
+            {"field": "isQualifiedLead", "op": "eq", "value": True},
+            {"field": "assignedDate", "op": "eq", "value": {"id": 5, "value": 30}},
+        ]
+        filters = prepare_lead_filters(raw, logic="and")
+        assert len(filters) == 3
+        assert filters[0]["field"] == "leadCustomerDetail.lastName"
+        assert filters[0]["operator"] == "contains"
+        assert filters[1]["field"] == "isQualifiedLead"
+        assert filters[1]["value"] is True
+        assert filters[2]["field"] == "assignedDate"
+        assert filters[2]["value"] == {"id": 5, "value": 30}
+
+    def test_p11_disallowed_field_raises_error(self):
+        """Fields not in allowlist should raise ValueError."""
+        with pytest.raises(ValueError, match="not allowed"):
+            build_kendo_filter("bookingAgentName", "contains", "test")

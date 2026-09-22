@@ -869,18 +869,65 @@ Requires `X-API-Key` on POST; download accepts header or `?X-API-Key=` query par
 - leadId
 - activityStart, activityType
 
-### P11 Live-Captured Filter Fields (2026-09-22)
+### P11 Live-Captured Filter Fields (2026-09-22) — Expanded
 
 The following filter fields were captured in live traffic and have verified wire shapes:
+
+#### Contains Operator Fields
 
 | UI Column | `filters[].field` | Operator | Example Value | Notes |
 |-----------|-------------------|----------|---------------|-------|
 | Record Id | `id` | contains | `"1675262"` | String match |
 | Last Name | `leadCustomerDetail.lastName` | contains | `"Perera"` | Nested path |
 | First Name | `leadCustomerDetail.firstName` | contains | `"Anoma"` | Nested path |
-| Primary Email | `leadCustomerDetail.primaryEmailAddress` | contains | `"anoma@teamlassen.com"` | Nested path |
-| Primary Phone Type | `leadcustomerdetail.homephone` | contains | `"Home"` | **Exact wire spelling** (lowercase, homePhone path) |
+| Primary Email | `leadCustomerDetail.primaryEmailAddress` | contains | `"anoma@..."` | Nested path |
+| Primary Phone Type | `leadcustomerdetail.homephone` | contains | `"Home"` | **Exact wire spelling** (lowercase quirk) |
+| LMP ID | `leadLMP.lmpId` | contains | `"ABC123"` | Nested path |
+| Agency Code | `agencyCode` | contains | `"12345"` | String match |
+| Registration # | `registrationNumber` | contains | `"REG001"` | String match |
+| Sales Rep Name | `salesRepName` | contains | `"Beckstead"` | String match |
+| Created By | `createdUserName` | contains | `"admin"` | String match |
+
+#### Eq Operator Fields
+
+| UI Column | `filters[].field` | Operator | Example Value | Notes |
+|-----------|-------------------|----------|---------------|-------|
+| Appointment Type | `appointmentTypeId` | eq | `1` | Numeric ID |
+| Disposition | `dispositionId` | eq | `43` | Numeric ID |
+| Move Type | `moveTypeId` | eq | `1` | Numeric ID |
+| Mobile Sync Flag | `mobileSyncFlag` | eq | `true` | Boolean |
+| Is Qualified Lead | `isQualifiedLead` | eq | `true` | Boolean |
+| Estimate Total | `estimateTotal` | eq | `2771.90` | Numeric value |
+| Funded ID | `fundedId` | eq | `1` | Numeric ID |
+| Dwelling Type | `dwellingTypeId` | eq | `1` | Numeric ID |
+| Non-Conforming | `leadNonConforming.nonConformingFlag` | eq | `true` | Nested path, boolean |
+| Canada Gov Move | `leadMoSys.canadaGovMove` | eq | `true` | Nested path, boolean |
+
+#### Date Preset Fields (eq with {id, value} objects)
+
+| UI Column | `filters[].field` | Operator | Example Value | Notes |
+|-----------|-------------------|----------|---------------|-------|
 | Assigned Date | `assignedDate` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+| Creation Time | `creationTime` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+| Load From Date | `leadMoveDate.loadFromDate` | eq | `{"id": 5, "value": 30}` | Nested path |
+| Effective Date | `primaryLeadEstimate.effectiveDate` | eq | `{"id": 5, "value": 30}` | Nested path |
+| Valid Thru Date | `validThruDate` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+| Last Modified | `lastModificationTime` | eq | `{"id": 5, "value": 30}` | Previous Month preset |
+
+#### Combined Filter Example (Packet 15)
+
+Multiple filters can be combined with `logic: "and"`:
+
+```json
+{
+  "filters": [
+    {"field": "leadCustomerDetail.lastName", "operator": "contains", "value": "Smith", "condition": "and"},
+    {"field": "isQualifiedLead", "operator": "eq", "value": true, "condition": "and"},
+    {"field": "assignedDate", "operator": "eq", "value": {"id": 5, "value": 30}, "condition": "and"}
+  ],
+  "logic": "and"
+}
+```
 
 **Wire format notes:**
 - Baseline (no filters): `filters: []`, `logic: ""`
@@ -888,7 +935,21 @@ The following filter fields were captured in live traffic and have verified wire
 - Each filter object: `{field, operator, value, condition: "and", date: "<HTTP date>"}`
 - Date presets use `{id, value}` objects — Previous Month = `{id: 5, value: 30}`
 
-**Do not invent encodings** for the remaining 30+ columns in `FILTER_MAP.md`; only the six above are proven.
+#### Do NOT Invent Encodings For
+
+The following columns were observed but their wire encodings were **not captured**:
+
+- Booking Agent Name
+- Coordinator
+- Created Source
+- Mobile Sync Status (different from mobileSyncFlag)
+- Lost Reason
+- Load To Date
+- Expected Delivery Date
+- Appt Created Date
+- Modified By
+- Transfer Type
+- Local Carrier
 
 See [movescout-middleware-project-plan.md](../movescout-middleware-project-plan.md) for filter syntax.
 

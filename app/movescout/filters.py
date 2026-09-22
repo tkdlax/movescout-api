@@ -3,6 +3,7 @@ from email.utils import format_datetime
 from typing import Any
 
 ALLOWED_FILTER_FIELDS = {
+    # Legacy middleware fields
     "agencyCode",
     "dispositionId",
     "moveTypeId",
@@ -18,12 +19,27 @@ ALLOWED_FILTER_FIELDS = {
     "activityStart",
     "activityType",
     # P11 live-captured filter fields (2026-09-22)
-    "id",  # Record Id
-    "leadCustomerDetail.lastName",
-    "leadCustomerDetail.firstName",
-    "leadCustomerDetail.primaryEmailAddress",
-    "leadcustomerdetail.homephone",  # Exact wire spelling; UI Phone Type quirk
-    "assignedDate",  # Supports date preset values {id, value}
+    "id",  # Record Id (contains)
+    "leadCustomerDetail.lastName",  # Last Name (contains)
+    "leadCustomerDetail.firstName",  # First Name (contains)
+    "leadCustomerDetail.primaryEmailAddress",  # Primary Email (contains)
+    "leadcustomerdetail.homephone",  # Exact wire spelling; UI Phone Type quirk (contains)
+    "assignedDate",  # Date preset {id, value}
+    # P11 expanded live-proven fields (2026-09-22)
+    "leadLMP.lmpId",  # LMP ID (contains)
+    "appointmentTypeId",  # Appointment Type (eq)
+    "leadMoveDate.loadFromDate",  # Load From Date - date preset {id, value}
+    "primaryLeadEstimate.effectiveDate",  # Effective Date - date preset {id, value}
+    "validThruDate",  # Valid Thru Date - date preset {id, value}
+    "lastModificationTime",  # Last Modified - date preset {id, value}
+    "mobileSyncFlag",  # Mobile Sync Flag (eq true)
+    "isQualifiedLead",  # Is Qualified Lead (eq true)
+    "createdUserName",  # Created By (contains)
+    "estimateTotal",  # Estimate Total (eq numeric)
+    "fundedId",  # Funded ID (eq)
+    "dwellingTypeId",  # Dwelling Type (eq)
+    "leadNonConforming.nonConformingFlag",  # Non-Conforming Flag (eq true)
+    "leadMoSys.canadaGovMove",  # Canada Gov Move (eq true)
 }
 
 OP_MAP = {
@@ -42,7 +58,16 @@ def current_http_date() -> str:
     return format_datetime(datetime.now(UTC), usegmt=True)
 
 
-DATE_PRESET_FIELDS = {"assignedDate", "creationTime", "effectiveDate", "validThruDate"}
+DATE_PRESET_FIELDS = {
+    "assignedDate",
+    "creationTime",
+    "effectiveDate",
+    "validThruDate",
+    # P11 expanded date preset fields
+    "leadMoveDate.loadFromDate",
+    "primaryLeadEstimate.effectiveDate",
+    "lastModificationTime",
+}
 
 
 def is_date_preset_value(value: Any) -> bool:

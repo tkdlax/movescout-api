@@ -28,12 +28,20 @@ TOOLS: list[Tool] = [
         (
             "List leads with pagination and optional filters via POST Lead/GetAllLead. "
             "P11 capture evidence: supports filters[] array for per-column filtering. "
-            "Live-proven filter fields: leadCustomerDetail.lastName (contains), id (contains), "
-            "leadCustomerDetail.firstName (contains), leadCustomerDetail.primaryEmailAddress (contains), "
-            "leadcustomerdetail.homephone (contains, exact wire spelling), assignedDate (eq with date preset). "
-            "Date presets use {id, value} objects: Previous Month = {id: 5, value: 30}. "
+            "LIVE-PROVEN FILTER FIELDS: "
+            "CONTAINS operator: id (Record Id), leadCustomerDetail.lastName, leadCustomerDetail.firstName, "
+            "leadCustomerDetail.primaryEmailAddress, leadcustomerdetail.homephone (exact lowercase wire spelling), "
+            "leadLMP.lmpId, agencyCode, registrationNumber, salesRepName, createdUserName. "
+            "EQ operator: appointmentTypeId, dispositionId, moveTypeId, mobileSyncFlag (true), isQualifiedLead (true), "
+            "estimateTotal (numeric), fundedId, dwellingTypeId, leadNonConforming.nonConformingFlag (true), "
+            "leadMoSys.canadaGovMove (true). "
+            "DATE PRESETS (eq with {id, value} objects): assignedDate, creationTime, leadMoveDate.loadFromDate, "
+            "primaryLeadEstimate.effectiveDate, validThruDate, lastModificationTime. "
+            "Previous Month preset = {id: 5, value: 30}. "
             "logic: '' (empty) for baseline, 'and' when filters are active. "
-            "Each filter object: {field, operator, value, condition: 'and', date: HTTP date}."
+            "Each filter object: {field, operator, value, condition: 'and', date: HTTP date}. "
+            "DO NOT INVENT encodings for: Booking Agent Name, Coordinator, Created Source, Mobile Sync Status, "
+            "Lost Reason, Load To Date, Expected Delivery Date, Appt Created Date, Modified By, Transfer Type, Local Carrier."
         ),
         {
             "page": {"type": "integer", "description": "Page number (1-indexed)", "default": 1},
@@ -46,10 +54,14 @@ TOOLS: list[Tool] = [
                 "description": (
                     "Array of filter objects for per-column filtering. Each filter: "
                     "{field: string, operator: 'contains'|'eq', value: string|object, condition: 'and'}. "
-                    "Live-proven fields: leadCustomerDetail.lastName, id, leadCustomerDetail.firstName, "
-                    "leadCustomerDetail.primaryEmailAddress, leadcustomerdetail.homephone (exact wire spelling), "
-                    "assignedDate. For date fields like assignedDate, value is a preset object: "
-                    "{id: 5, value: 30} = Previous Month."
+                    "CONTAINS fields: id, leadCustomerDetail.lastName/firstName/primaryEmailAddress, "
+                    "leadcustomerdetail.homephone (exact lowercase), leadLMP.lmpId, agencyCode, registrationNumber, "
+                    "salesRepName, createdUserName. "
+                    "EQ fields: appointmentTypeId, dispositionId, moveTypeId, mobileSyncFlag, isQualifiedLead, "
+                    "estimateTotal, fundedId, dwellingTypeId, leadNonConforming.nonConformingFlag, leadMoSys.canadaGovMove. "
+                    "DATE PRESET fields (eq with {id, value}): assignedDate, creationTime, leadMoveDate.loadFromDate, "
+                    "primaryLeadEstimate.effectiveDate, validThruDate, lastModificationTime. "
+                    "Previous Month = {id: 5, value: 30}."
                 ),
                 "items": {"type": "object"},
             },
