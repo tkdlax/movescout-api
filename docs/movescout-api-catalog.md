@@ -158,19 +158,23 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 | `POST Estimate/CalculateEstimationPricing` | `POST .../estimates/{eid}/calculate-pricing` | Full pricing calculation |
 | `GET GetEstimate/GetEstimateTariffByEffectiveDate` | `GET .../estimates/{eid}/tariff-effective` | Tariff lookup by date |
 
-### `isEstimateWithInventory` Flag Quirk (P2 Documented)
+### `isEstimateWithInventory` Flag Quirk (Flow 05 / P2 Documented)
 
 When creating an estimate via **"Without Inventory"** in the MoveScout Pro UI:
 - The UI navigates to `/create/false/...` route (the `false` indicates without inventory)
 - **However**, the request body still contains `"isEstimateWithInventory": true`
 
+**Capture source:** `flows/05-create-estimate-no-inventory/calls/001-create-estimate-without-inventory/`
+
 This appears to be a MoveScout Pro UI/API inconsistency. The middleware **passes the flag as-is** to the upstream API without modification.
 
 Do not attempt to "fix" or invert this flag based on UI intent — the middleware faithfully proxies the observed upstream behavior.
 
-### CalculateEstimationPricing — Price Class Caveat (P3-A Documented)
+### CalculateEstimationPricing — Price Class Caveat (Flow 06 / P3-A Documented)
 
 `POST /api/services/app/Estimate/CalculateEstimationPricing` accepts a large (~90KB) estimate body and returns pricing totals.
+
+**Capture source:** `flows/06-pricing-variants/calls/00N-priceclass-{3976,346,4235,4257}/`
 
 **P3-A test matrix** (estimate 2395896, 4 price class variants):
 
@@ -196,6 +200,18 @@ See `docs/pricing-variants/P3A-price-class-matrix.md` for full details.
 | `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items (stock or custom) |
 | `POST InventoryCommon/SaveEstimateWithTrueFlag` | `POST .../estimates/{eid}/inventory/save` | Commit changes |
 | `GET Inventory/GetAllArticlesGroupByRoomSP` | `GET .../rooms/{rid}/articles` | Article catalog by room |
+
+### CreateOrUpdateArticleForListInventory — Stock Add (Flow 04 / P1 Documented)
+
+**Capture source:** `flows/04-stock-articles-pricing/calls/07-CreateOrUpdateArticleForListInventory-stock-aircon-870/`
+
+The request body is an **array** of inventory line items (the entire current inventory state for the estimate). Adding a stock article means updating the full array including the new item with `isQtyChange: true` for the modified row.
+
+### SaveEstimateWithTrueFlag — Commit Inventory (Flow 04 / P1 Documented)
+
+**Capture source:** `flows/04-stock-articles-pricing/calls/08-SaveEstimateWithTrueFlag-after-stock/`
+
+Called after inventory modifications to persist changes. Query params: `estimateId`, `leadId`, `density`. Empty request body (`Content-Length: 0`). Returns `{ "result": 1, ... }` on success.
 
 ### Stock vs Custom Article Distinction
 
