@@ -163,10 +163,26 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 | Upstream | Middleware | Notes |
 |---|---|---|
 | `POST Inventory/CreateOrUpdateRoom` | `POST .../estimates/{eid}/rooms` | Create/update room |
-| `POST Inventory/CreateArticleFromInventory` | `POST .../rooms/{rid}/articles` | Custom article |
-| `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items |
+| `POST Inventory/CreateArticleFromInventory` | `POST .../rooms/{rid}/articles` | Custom article only |
+| `POST Inventory/CreateOrUpdateArticleForListInventory` | `PUT .../inventory/lines` | Update line items (stock or custom) |
 | `POST InventoryCommon/SaveEstimateWithTrueFlag` | `POST .../estimates/{eid}/inventory/save` | Commit changes |
 | `GET Inventory/GetAllArticlesGroupByRoomSP` | `GET .../rooms/{rid}/articles` | Article catalog by room |
+
+### Stock vs Custom Article Distinction
+
+Both stock (catalog) and custom articles appear in `leadSurveyDto` with the same line shape. The `isCustomArticle` flag distinguishes them:
+
+| Creation Method | Upstream Endpoint | `isCustomArticle` | `articleCode` |
+|-----------------|-------------------|-------------------|---------------|
+| Add from catalog | `CreateOrUpdateArticleForListInventory` | `false` | Catalog code (e.g., V005, V010) |
+| Create custom | `CreateArticleFromInventory` | `true` | `9999` (custom indicator) |
+
+**P1 examples** (estimate 2395896):
+- `articleId: 870` (Air Conditioner) → `isCustomArticle: false`, `articleCode: V005` — stock
+- `articleId: 874` (Armoire) → `isCustomArticle: false`, `articleCode: V010` — stock
+- `articleId: 318996` (Mattress) → `isCustomArticle: true`, `articleCode: 9999` — custom
+
+**Note:** The `CreateOrUpdateArticleForListInventory` request body for adding stock items is not yet captured. The middleware `PUT .../inventory/lines` route uses Flow 02 shapes; stock-add POST re-capture pending.
 
 ### leadSurveyDto line item fields (inventory items)
 

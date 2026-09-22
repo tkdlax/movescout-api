@@ -280,26 +280,43 @@ Every PR that adds or modifies middleware routes must include:
 
 ---
 
-## Next Steps (Awaiting Captures)
+## P1 Findings (2026-09-22)
 
-### P1 — Stock Library Inventory Line Items (Authorized 2026-09-22)
+### Solid Data from P1 Capture Pack
 
-Jake authorized Explorer to begin **P1**. UI plan exists at `flows/04-stock-articles-pricing/` but call captures have not landed yet.
+Flow 04 (`04-stock-articles-pricing/`) provides **inventory readback** confirming stock article lines on estimate `2395896`:
 
-**What P1 will add once captures arrive:**
+| articleId | Name | Room | roomId | qty | weight | cube | isCustomArticle | Line ID |
+|-----------|------|------|--------|-----|--------|------|-----------------|---------|
+| 870 | Air Conditioner | Living Room | 37 | 1 | 70 | 10 | **false** | 157950568 |
+| 874 | Armoire | Master Bedroom | 39 | 1 | 210 | 30 | **false** | 157950569 |
+| 879 | Bar, Stool | Bedroom 2 | 27 | 1 | 21 | 3 | **true** (!) | 157950570 |
+| 318996 | Mattress | Test Bedroom | 78846 | 3 | 0 | 0 | true | 157909052 |
 
-1. **Stock article adds via `CreateOrUpdateArticleForListInventory`**
-   - Adds catalog `articleId`s (from `GetAllArticlesGroupByRoomSP`) to rooms
-   - Contrast with `CreateArticleFromInventory` (custom articles only)
-   - Captures qty/weight/cube payloads for library articles
+**Key observation:** Articles 870/874 are true **catalog stock** (`isCustomArticle: false`, `articleCode: V005/V010`). Article 879 is flagged `isCustomArticle: true` despite having a library-looking name and code — this indicates it was created via `CreateArticleFromInventory`, not added from the catalog.
 
-2. **Pricing recalculation after inventory changes**
-   - `CalculateEstimationPricing` with updated inventory
-   - Document field changes vs baseline captures
+**Pricing confirmed unchanged:** `GetEstimatePricingTotalJsonResponse` returns `totalEstimationPriceNet: 2771.90` (same as Flow 02 baseline).
 
-**Implementation will follow** when call folders with request/response bodies appear. Do not invent payloads—wait for solid captures from Explorer.
+### Stock vs Custom Article Distinction
 
-### P2–P10 (Queued)
+| Creation Method | Upstream Endpoint | `isCustomArticle` | `articleCode` |
+|-----------------|-------------------|-------------------|---------------|
+| Add from catalog | `CreateOrUpdateArticleForListInventory` | `false` | Catalog code (e.g., V005) |
+| Create custom | `CreateArticleFromInventory` | `true` | `9999` (custom indicator) |
+
+Both use the same inventory line shape in `leadSurveyDto`. The middleware `PUT .../inventory/lines` route handles both — the `isCustomArticle` flag distinguishes them in responses.
+
+### Still Missing (Do Not Invent)
+
+1. **`CreateOrUpdateArticleForListInventory` request body** for adding stock items — only post-state inventory GET captured
+2. **Fresh `CalculateEstimationPricing` request** for P1 — pack includes Flow 02 HAR reuse, not new capture
+3. **Fresh `SaveEstimateWithTrueFlag` request** for P1 — pack includes stubby reused body
+
+**Next:** Explorer to re-capture the actual stock-add POST with full request/response before claiming P1 write is fully wired. P2 (create estimate without inventory) starting next.
+
+---
+
+## P2–P10 (Queued)
 
 Remain blocked on Explorer authorization. See Checklist for full queue.
 
