@@ -80,10 +80,27 @@ TOOLS: list[Tool] = [
     ),
     _tool(
         "movescout_activities_create",
-        "Create an activity for a lead",
+        (
+            "Create or update an activity for a lead via POST /api/services/app/Activity/CreateOrUpdateActivity?triggerWF=true. "
+            "Supports Survey (1), Task (2), Event (3), and Reminder (4) activity types. "
+            "P7 capture evidence: Task create uses activityType=2, activityStatus=2 (Assigned), no id field. "
+            "Task cancel/update includes id field with activityStatus=3 (Cancelled). "
+            "Activity statuses: 2=Assigned, 3=Cancelled, 4=Completed. "
+            "Key fields: activityName, description, activityType, activityStatus, activityStart, activityEnd, "
+            "activityAssigneeId, leadId, reminderType (1=standard), locationType (2=Residential), activityLocation. "
+            "For updates, include the activity id; for creates, omit it. "
+            "Survey appointments (activityType=1) are handled separately via the appointments endpoint."
+        ),
         {
             "leadId": {"type": "string", "description": "Lead ID"},
-            "activity": {"type": "object", "description": "Activity data"},
+            "activity": {
+                "type": "object",
+                "description": (
+                    "Activity data. Key fields: activityName, description (HTML), activityType (1=Survey, 2=Task, 3=Event, 4=Reminder), "
+                    "activityStatus (2=Assigned, 3=Cancelled, 4=Completed), activityStart, activityEnd (ISO 8601), "
+                    "activityAssigneeId, reminderType, locationType, activityLocation. For updates include id field."
+                ),
+            },
         },
         ["leadId", "activity"],
     ),
@@ -131,6 +148,10 @@ TOOLS: list[Tool] = [
             "CLASS: allianceDto.priceClassId can be set but persistence into calculate is NOT confirmed—"
             "subsequent CalculateEstimationPricing still shows priceClassId=null. Do not claim class saves work. "
             "ECP: valuationTypeId/tariffValuationType/valuationAmount/valuationBracketId for deductibles. "
+            "ACCESSORIALS (P8): estimateAccessorialDto contains accessorial fields: "
+            "exclusiveUseOfVehicleCubicFtFlag (bool), exclusiveUseOfVehicleCubicFeet (int, cubic feet), "
+            "expeditedService (bool), spaceReservationCubicFtFlag, spaceReservationCubicFeet, "
+            "shuttleServiceOnOffOrigin/Destination, extraLaborOriginApply, waitingTimeOriginApply, etc. "
             "Query param tabSwitchFlag (default false) controls validation behavior."
         ),
         {
@@ -141,7 +162,9 @@ TOOLS: list[Tool] = [
                 "description": (
                     "Full estimate DTO. Key fields: pricingTariffId (authoritative), pricingLevelId, "
                     "pricingLevel, valuationTypeId, tariffValuationType, valuationAmount, valuationBracketId, "
-                    "allianceDto (priceClassId persistence unconfirmed), segmentDto, estimateSITDto, etc."
+                    "allianceDto (priceClassId persistence unconfirmed), segmentDto, estimateSITDto, "
+                    "estimateAccessorialDto (exclusiveUseOfVehicleCubicFtFlag, exclusiveUseOfVehicleCubicFeet, "
+                    "expeditedService, shuttle/labor/waiting fields)."
                 ),
             },
             "tabSwitchFlag": {
@@ -263,6 +286,52 @@ TOOLS: list[Tool] = [
         ["leadId", "estimateId"],
     ),
     _tool(
+        "movescout_estimates_accessorials_get",
+        (
+            "Get accessorial details for an estimate via GET GetEstimateAccessorialDetailsByEstimateId. "
+            "P8 capture evidence: Returns estimateAccessorialDto with fields for exclusive use of vehicle, "
+            "expedited service, shuttle service, extra labor, waiting time, stairs, elevator, excessive distance, "
+            "piano handling, appliance servicing, rigging, assembling, and more. "
+            "Key fields: exclusiveUseOfVehicleCubicFtFlag (bool), exclusiveUseOfVehicleCubicFeet (number), "
+            "expeditedService (bool), spaceReservationCubicFtFlag, shuttleServiceOnOffOrigin/Destination, "
+            "extraLaborOriginApply, waitingTimeOriginApply, isOriginStairsApply, isOriginElevatorApply, etc."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+        },
+        ["leadId", "estimateId"],
+    ),
+    _tool(
+        "movescout_estimates_alliance_get",
+        (
+            "Get alliance pricing data for an estimate via GET Alliance/GetAllianceByLeadEstimateId. "
+            "P8 capture evidence: Returns alliance quote data including priceClassId, total, quoteId, "
+            "quoteGuid, allianceEstimateNumber, originServiceDate, destinationServiceDate, quoteRequestDate. "
+            "Note: priceClassId may be null if no alliance price class is selected."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+        },
+        ["leadId", "estimateId"],
+    ),
+    _tool(
+        "movescout_estimates_auto_spot_get",
+        (
+            "Get auto spot (vehicle transport) details for an estimate via GET GetEstimateAutoSpotDetailsByEstimateId. "
+            "P8 capture evidence: Returns estimateAutoSpotDto with isContractAuto flag, contractChargeAmount, comment, "
+            "estimateAutoSpotVehicles array (vehicle details), and estimateAutoSpotPriceOptions array (pricing options). "
+            "NOTE: P8 capture showed empty vehicle/price-option arrays—Add Auto Spot was disabled in UI. "
+            "Auto Spot write API was NOT captured; do not invent write operations from this read."
+        ),
+        {
+            "leadId": {"type": "string", "description": "Lead ID"},
+            "estimateId": {"type": "string", "description": "Estimate ID"},
+        },
+        ["leadId", "estimateId"],
+    ),
+    _tool(
         "movescout_estimates_pricing_calculate",
         (
             "Calculate pricing via POST /api/services/app/Estimate/CalculateEstimationPricing. "
@@ -277,6 +346,10 @@ TOOLS: list[Tool] = [
             "(e.g., Bailey's Consumer 2019 priceClassId=3976) does NOT affect calculate results. "
             "DATES: loadFrom/deliverTo may be absent or null—API still returns HTTP 200. "
             "ECP: valuationTypeId/tariffValuationType (683='ECP - $0 Ded', 684='$250 Ded', 685='$500 Ded'). "
+            "ACCESSORIALS (P8): estimateAccessorialDto nested in request controls accessorial pricing: "
+            "exclusiveUseOfVehicleCubicFtFlag (bool), exclusiveUseOfVehicleCubicFeet (int), expeditedService (bool), "
+            "and other shuttle/labor/waiting time fields. P8 capture: enabling exclusive use (100 cu ft) "
+            "did not change Grand Total ($2,771.90) for the test estimate. "
             "UNDER-MIN: Inventory under minimum produces flat pricing regardless of qty/weight/cube changes. "
             "TYPO: Response contains 'totalEstimatinPriceNet' (missing 'o'); SMF at transportationSubItemCharges.totalSMFPriceNet."
         ),
@@ -288,7 +361,8 @@ TOOLS: list[Tool] = [
                 "description": (
                     "Full estimate DTO. Key pricing fields: pricingTariffId (authoritative—658/659/660/667), "
                     "pricingLevelId (715/718/724/804), pricingLevel, loadFrom, deliverTo, valuationTypeId, "
-                    "tariffValuationType, valuationAmount, valuationBracketId, peakOrNonPeak (false=non-peak)"
+                    "tariffValuationType, valuationAmount, valuationBracketId, peakOrNonPeak (false=non-peak), "
+                    "estimateAccessorialDto (exclusiveUseOfVehicleCubicFtFlag, exclusiveUseOfVehicleCubicFeet, expeditedService)"
                 ),
             },
         },
@@ -485,6 +559,15 @@ async def execute_tool(client: httpx.AsyncClient, name: str, arguments: dict[str
         ),
         "movescout_estimates_pricing_get": lambda a: client.get(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/pricing"
+        ),
+        "movescout_estimates_accessorials_get": lambda a: client.get(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/accessorials"
+        ),
+        "movescout_estimates_alliance_get": lambda a: client.get(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/alliance"
+        ),
+        "movescout_estimates_auto_spot_get": lambda a: client.get(
+            f"/leads/{a['leadId']}/estimates/{a['estimateId']}/auto-spot"
         ),
         "movescout_estimates_pricing_calculate": lambda a: client.post(
             f"/leads/{a['leadId']}/estimates/{a['estimateId']}/calculate-pricing",

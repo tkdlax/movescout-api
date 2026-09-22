@@ -109,6 +109,46 @@ Minimum create fields (TBD — confirm via HAR): firstName, lastName, phone, dis
 
 `GET /api/services/app/Activity/GetActivityById?Id={activityId}`
 
+### CreateOrUpdateActivity — Task Activities (P7 Documented)
+
+`POST /api/services/app/Activity/CreateOrUpdateActivity?triggerWF=true`
+
+**Capture source:** `flows/10-other-activities/calls/001-CreateOrUpdateActivity-Create-Task-9992843/`, `002-CreateOrUpdateActivity-Cancel-Task-9992843/`
+
+| Middleware | Upstream |
+|---|---|
+| `POST /leads/{id}/activities` | `POST Activity/CreateOrUpdateActivity?triggerWF=true` |
+
+**Activity Types:**
+| activityType | Name | Notes |
+|---:|---|---|
+| 1 | Survey | Survey appointments (existing workflow) |
+| 2 | Task | Follow-up tasks (P7 captured) |
+| 3 | Event | Not captured in P7 |
+| 4 | Reminder | Not captured in P7 |
+
+**Activity Statuses:**
+| activityStatus | Name |
+|---:|---|
+| 2 | Assigned |
+| 3 | Cancelled |
+| 4 | Completed |
+
+**P7 Task Create (001 packet):**
+- `activityType: 2` (Task)
+- `activityStatus: 2` (Assigned)
+- `reminderType: 1` (standard)
+- `locationType: 2` (Residential)
+- No `id` field for create; response assigns new id
+- Key fields: `activityName`, `description` (HTML), `activityStart`, `activityEnd`, `activityAssigneeId`, `leadId`, `activityLocation`
+
+**P7 Task Cancel (002 packet):**
+- Same endpoint with `id: 9992843` included
+- `activityStatus: 3` (Cancelled)
+- Fuller DTO with timestamps: `creationTime`, `lastModificationTime`, `creatorUserId`
+
+**Do not invent:** Event/Reminder create-reschedule operations were not captured in P7.
+
 ### Move Type
 
 | Middleware | Upstream |
@@ -175,6 +215,154 @@ Query params: `estimateId` (optional override). Returns `leadId`, `estimateId`, 
 | `POST Alliance/ListServiceItemCategories` | `GET /reference/service-item-categories` |
 | `POST Alliance/ListPriceClasses?input=` | `GET /reference/price-classes?bookerId=` |
 | `GET Alliance/GetAllianceByLeadEstimateId` | `GET /leads/{id}/estimates/{estimateId}/alliance` |
+
+### P8 — Accessorials and Alliance Reads (2026-09-22 Capture)
+
+**Capture source:** `flows/12-alliance-accessorials/`
+
+#### GetEstimateAccessorialDetailsByEstimateId
+
+`GET /api/services/app/GetEstimate/GetEstimateAccessorialDetailsByEstimateId?estimateId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/estimates/{estimateId}/accessorials` | `GET GetEstimate/GetEstimateAccessorialDetailsByEstimateId` |
+
+Returns the full `estimateAccessorialDto` with all accessorial configuration fields:
+
+**Exclusive Use / Space Reservation:**
+| Field | Type | Description |
+|-------|------|-------------|
+| `exclusiveUseOfVehicleCubicFtFlag` | bool | Enable exclusive use |
+| `exclusiveUseOfVehicleCubicFeet` | number | Cubic feet for exclusive use |
+| `spaceReservationCubicFtFlag` | bool | Enable space reservation |
+| `spaceReservationCubicFeet` | number | Cubic feet for space reservation |
+| `expeditedService` | bool | Expedited service flag |
+
+**Shuttle Service:**
+| Field | Type |
+|-------|------|
+| `shuttleServiceOnOffOrigin` | bool/null |
+| `shuttleServiceWeightOrigin` | number/null |
+| `shuttleServiceMilesOrigin` | number/null |
+| `shuttleServiceOnOffDestination` | bool/null |
+| (plus destination variants) | |
+
+**Labor/Waiting Time:**
+| Field | Type |
+|-------|------|
+| `extraLaborOriginApply` | bool |
+| `originExtraLabourRate` | number/null |
+| `waitingTimeOriginApply` | bool |
+| `originWaitingTimeRate` | number/null |
+| (plus destination and overtime variants) | |
+
+**Stairs/Elevator/Excessive Distance:**
+| Field | Type |
+|-------|------|
+| `isOriginStairsApply` | bool |
+| `stairsWeight`, `numberOfFlights` | number/null |
+| `isOriginElevatorApply` | bool |
+| `isOriginExcessiveDistanceApply` | bool |
+| (plus destination variants) | |
+
+**Piano/Appliance/Rigging/Assembling:**
+| Field | Type |
+|-------|------|
+| `isOriginPianoApply` | bool |
+| `pianoType`, `numberOfPianos` | varies |
+| `isOriginApplianceApply` | bool |
+| `isOriginRiggingApply` | bool |
+| `isOriginAssemblingApply` | bool |
+| (plus destination variants) | |
+
+#### UpdateLeadEstimate with Accessorials
+
+`PUT /api/services/app/Estimate/UpdateLeadEstimate?tabSwitchFlag=false`
+
+**P8 capture evidence:** `001-UpdateLeadEstimate-exclusive-use-enable/`, `002-UpdateLeadEstimate-exclusive-use-restore/`
+
+The `estimateAccessorialDto` is nested in the full estimate DTO:
+
+```json
+{
+  "id": 2395896,
+  "leadId": 1674404,
+  "estimateAccessorialDto": {
+    "estimatesId": 2395896,
+    "exclusiveUseOfVehicleCubicFtFlag": true,
+    "exclusiveUseOfVehicleCubicFeet": 100,
+    "expeditedService": false,
+    "spaceReservationCubicFtFlag": false,
+    ...
+  },
+  ...
+}
+```
+
+**P8 observed operations:**
+| Packet | exclusiveUseOfVehicleCubicFtFlag | exclusiveUseOfVehicleCubicFeet | HTTP |
+|--------|----------------------------------|-------------------------------|------|
+| 001-enable | `true` | 100 | 200 |
+| 002-restore | `false` | 100 | 200 |
+
+#### CalculateEstimationPricing with Accessorials
+
+`POST /api/services/app/Estimate/CalculateEstimationPricing`
+
+**P8 capture evidence:** `003-CalculateEstimationPricing-exclusive-use/`
+
+The calculate endpoint accepts the same nested `estimateAccessorialDto`. In P8 testing, enabling exclusive use (100 cu ft) with the test estimate did NOT change the Grand Total ($2,771.90) or SMF ($336.44) — pricing impact depends on inventory and tariff configuration.
+
+#### GetAllianceByLeadEstimateId
+
+`GET /api/services/app/Alliance/GetAllianceByLeadEstimateId?Id={estimateId}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/estimates/{estimateId}/alliance` | `GET Alliance/GetAllianceByLeadEstimateId` |
+
+**Response fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| `priceClassId` | int/null | Alliance price class (often null) |
+| `total` | number | Alliance total |
+| `quoteId` | int | Quote identifier |
+| `quoteGuid` | string/null | Quote GUID |
+| `allianceEstimateNumber` | string/null | Alliance estimate number |
+| `originServiceDate` | string/null | Origin service date |
+| `destinationServiceDate` | string/null | Destination service date |
+| `quoteRequestDate` | string/null | Quote request date |
+
+#### GetEstimateAutoSpotDetailsByEstimateId
+
+`GET /api/services/app/GetEstimate/GetEstimateAutoSpotDetailsByEstimateId?estimateId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/estimates/{estimateId}/auto-spot` | `GET GetEstimate/GetEstimateAutoSpotDetailsByEstimateId` |
+
+**Response fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| `estimatesId` | int | Estimate ID |
+| `isContractAuto` | bool/null | Contract auto flag |
+| `contractChargeAmount` | number/null | Contract charge |
+| `comment` | string/null | Comment |
+| `estimateAutoSpotVehicles` | array | Vehicle details (empty in P8) |
+| `estimateAutoSpotPriceOptions` | array | Pricing options (empty in P8) |
+
+**P8 negative finding:** Auto Spot "Add Auto Spot" was **disabled** in the UI during capture. The vehicle and price-option arrays were empty. **Do not invent** an Auto Spot write API from this read-only capture.
+
+#### GetEstimatePricingTotalJsonResponse
+
+`GET /api/services/app/GetEstimate/GetEstimatePricingTotalJsonResponse?estimateId={id}`
+
+| Middleware | Upstream |
+|---|---|
+| `GET /leads/{id}/estimates/{estimateId}/pricing` | `GET GetEstimate/GetEstimatePricingTotalJsonResponse` |
+
+Returns `estimatePricingTotalDto` with `pricingResponseJson` (stringified JSON) containing detailed pricing breakdown. See P3 documentation for field details.
 
 ### Other reference data
 
