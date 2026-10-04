@@ -1,0 +1,26 @@
+{
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Origin": "https://movescoutpro.sirva.com",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive",
+    "Content-Encoding": "gzip",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Tue, 22 Sep 2026 00:02:53 GMT",
+    "Permissions-Policy": "camera=*,geolocation=*,microphone=*,autoplay=*,fullscreen=*,picture-in-picture=*,sync-xhr=*,encrypted-media=*,oversized-images=*",
+    "Referrer-Policy": "no-referrer",
+    "Request-Context": "appId=cid-v1:6509c38a-eccf-4f18-9bc4-a3cf36f9212e",
+    "Server": "Microsoft-IIS/10.0",
+    "Set-Cookie": "<REDACTED>",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains;",
+    "Transfer-Encoding": "chunked",
+    "Vary": "Origin,Accept-Encoding",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "deny",
+    "X-Powered-By": "ASP.NET",
+    "X-XSS-Protection": "1; mode=block"
+  },
+  "body": {}
+}

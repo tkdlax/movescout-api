@@ -1,0 +1,415 @@
+{
+  "result": [
+    {
+      "id": 69,
+      "code": null,
+      "name": "Jacob Beckstead",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 181,
+      "code": null,
+      "name": "Chase Dixon",
+      "roleIds": [
+        8,
+        5
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 183,
+      "code": null,
+      "name": "Ed Smith",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 184,
+      "code": null,
+      "name": "Michelle Smith",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 145,
+      "code": null,
+      "name": "Michael Arveseth",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 146,
+      "code": null,
+      "name": "Christie Barkdull",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 147,
+      "code": null,
+      "name": "Cyndi Buhler",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 149,
+      "code": null,
+      "name": "Joan Dratch",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 150,
+      "code": null,
+      "name": "Jared Jensen",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 151,
+      "code": null,
+      "name": "Bracken Jones",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 152,
+      "code": null,
+      "name": "Spencer Jones",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 154,
+      "code": null,
+      "name": "Laura McNabb",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 159,
+      "code": null,
+      "name": "Elvis Hulleberg",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 160,
+      "code": null,
+      "name": "Rachelle Dickerson",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 161,
+      "code": null,
+      "name": "Abby Johnson",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 162,
+      "code": null,
+      "name": "Nancy Blegan",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 163,
+      "code": null,
+      "name": "Sherry Sadler",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 167,
+      "code": null,
+      "name": "Thomas Anderson",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 169,
+      "code": null,
+      "name": "Baylee Lopez",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 170,
+      "code": null,
+      "name": "Allison Rottman",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 171,
+      "code": null,
+      "name": "Kathy Deering",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 172,
+      "code": null,
+      "name": "Alex Bozzy",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 174,
+      "code": null,
+      "name": "Kayla Coco-Stotts",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 176,
+      "code": null,
+      "name": "Kara Drager",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 178,
+      "code": null,
+      "name": "Michelle Staley",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 179,
+      "code": null,
+      "name": "Lisa   Acree",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 180,
+      "code": null,
+      "name": "Barb Azeltine",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 671,
+      "code": null,
+      "name": "Kenneth Johnson",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 2755,
+      "code": null,
+      "name": "Rachel Nielsen",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 2821,
+      "code": null,
+      "name": "Vanessa Githinji",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3119,
+      "code": null,
+      "name": "Rick Chernicky",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3156,
+      "code": null,
+      "name": "Annette Austin",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3342,
+      "code": null,
+      "name": "Lori Clark",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3343,
+      "code": null,
+      "name": "Kasey Sale",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3687,
+      "code": null,
+      "name": "John Moats",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3711,
+      "code": null,
+      "name": "Lindsay Elsmore",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3847,
+      "code": null,
+      "name": "Lisa Ciscell",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3926,
+      "code": null,
+      "name": "LaVina Altebaumer",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 3956,
+      "code": null,
+      "name": "Vivian Roos",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4088,
+      "code": null,
+      "name": "Karie Stout",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4284,
+      "code": null,
+      "name": "Nancy Cosby",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4381,
+      "code": null,
+      "name": "Warren Porter",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4438,
+      "code": null,
+      "name": "Julie Breaux",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4698,
+      "code": null,
+      "name": "Kyla Cameron",
+      "roleIds": [
+        7
+      ],
+      "selecteIds": null
+    },
+    {
+      "id": 4756,
+      "code": null,
+      "name": "Denise Heidrick",
+      "roleIds": [
+        8
+      ],
+      "selecteIds": null
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

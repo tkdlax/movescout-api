@@ -1,0 +1,303 @@
+{
+  "result": [
+    {
+      "id": 749,
+      "name": "3",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 750,
+      "name": "3.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 751,
+      "name": "3.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 752,
+      "name": "3.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 753,
+      "name": "4",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 754,
+      "name": "4.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 755,
+      "name": "4.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 756,
+      "name": "4.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 757,
+      "name": "5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 758,
+      "name": "5.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 759,
+      "name": "5.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 760,
+      "name": "5.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 761,
+      "name": "6",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 762,
+      "name": "6.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 763,
+      "name": "6.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 764,
+      "name": "6.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 765,
+      "name": "7",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 766,
+      "name": "7.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 767,
+      "name": "7.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 768,
+      "name": "7.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 769,
+      "name": "8",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 770,
+      "name": "8.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 771,
+      "name": "8.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 772,
+      "name": "8.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 773,
+      "name": "9",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 774,
+      "name": "9.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 775,
+      "name": "9.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 776,
+      "name": "9.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 777,
+      "name": "10",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 778,
+      "name": "10.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 779,
+      "name": "10.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 780,
+      "name": "10.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 781,
+      "name": "11",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 782,
+      "name": "11.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 783,
+      "name": "11.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 784,
+      "name": "11.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 785,
+      "name": "12",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 786,
+      "name": "12.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 787,
+      "name": "12.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 788,
+      "name": "12.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 789,
+      "name": "13",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 790,
+      "name": "13.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 791,
+      "name": "13.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 792,
+      "name": "13.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 793,
+      "name": "14",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 794,
+      "name": "14.25",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 795,
+      "name": "14.5",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 796,
+      "name": "14.75",
+      "code": null,
+      "defaultCoordinatorId": null
+    },
+    {
+      "id": 797,
+      "name": "15",
+      "code": null,
+      "defaultCoordinatorId": null
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

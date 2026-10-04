@@ -1,0 +1,212 @@
+[
+  {
+    "id": 681,
+    "name": "Actual Cash Value",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 682,
+    "name": "Declared Value",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 683,
+    "name": "ECP - $0 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 684,
+    "name": "ECP - $250 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 685,
+    "name": "ECP - $500 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 686,
+    "name": "MVP - $0 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 687,
+    "name": "MVP - $250 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 688,
+    "name": "MVP - $500 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 689,
+    "name": "$0 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 690,
+    "name": "$250 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 691,
+    "name": "$500 Ded",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 692,
+    "name": "FVP $0 Deductible",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 693,
+    "name": "FVP $250 Deductible",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 694,
+    "name": "FVP $500 Deductible",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 695,
+    "name": "$6,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 696,
+    "name": "$10,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 697,
+    "name": "$15,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 698,
+    "name": "$20,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 699,
+    "name": "$25,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 700,
+    "name": "$30,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 701,
+    "name": "$35,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 702,
+    "name": "$40,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 703,
+    "name": "$50,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 704,
+    "name": "$60,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 705,
+    "name": "$75,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 706,
+    "name": "$100,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 707,
+    "name": "$125,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 708,
+    "name": "$150,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 709,
+    "name": "$175,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 710,
+    "name": "$200,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 711,
+    "name": "$225,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 712,
+    "name": "$250,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 713,
+    "name": "Over $250,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 714,
+    "name": "$5,000",
+    "tableName": "VALUATION_BRACKETS_LOV"
+  },
+  {
+    "id": 805,
+    "name": "150",
+    "tableName": "VALUATION_EXTRACTION"
+  },
+  {
+    "id": 806,
+    "name": "150",
+    "tableName": "VALUATION_EXTRACTION"
+  },
+  {
+    "id": 807,
+    "name": "Free",
+    "tableName": "VALUATION_FREEFVP_LOV"
+  },
+  {
+    "id": 808,
+    "name": "FVPFlatCharge",
+    "tableName": "VALUATION_FREEFVP_LOV"
+  },
+  {
+    "id": 809,
+    "name": "IncreasedBaseLiability",
+    "tableName": "VALUATION_FREEFVP_LOV"
+  },
+  {
+    "id": 811,
+    "name": "$0.60/lb. Released",
+    "tableName": "VALUATION_DEDUCTIBLE_LOV"
+  },
+  {
+    "id": 812,
+    "name": "Day",
+    "tableName": "SITValuation_FREQ"
+  },
+  {
+    "id": 813,
+    "name": "Month",
+    "tableName": "SITValuation_FREQ"
+  }
+]

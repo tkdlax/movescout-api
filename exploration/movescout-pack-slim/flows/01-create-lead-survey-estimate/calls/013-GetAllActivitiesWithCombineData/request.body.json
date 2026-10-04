@@ -1,0 +1,22 @@
+{
+  "name": "",
+  "compositeFilterDescriptorObj": {
+    "logic": "and",
+    "filters": [
+      {
+        "field": "activityType",
+        "operator": "eq",
+        "value": 1
+      }
+    ]
+  },
+  "filters": [],
+  "bulkList": [],
+  "sortDescriptorObj": {},
+  "defaultActivityFilterType": 1,
+  "leadId": 1674404,
+  "isDeletedViewable": true,
+  "sorting": "asc",
+  "maxResultCount": 15,
+  "skipCount": 0
+}

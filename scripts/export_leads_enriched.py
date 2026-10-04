@@ -28,9 +28,9 @@ from app.reports.lead_export_filters import (  # noqa: E402
 )
 from app.reports.lov_lookup import build_lov_lookup, resolve_lead_names  # noqa: E402
 from app.reports.pricing_summary import (  # noqa: E402
+    CANONICAL_NET_FIELDS,
     PRICING_META_COLUMNS,
     PRICING_SUB_FIELD_COLUMNS,
-    CANONICAL_NET_FIELDS,
     discover_dynamic_net_columns,
     empty_pricing_summary,
     fill_dynamic_net_columns,
@@ -192,7 +192,9 @@ def enrich_leads_with_pricing(
     completed = 0
     total = len(indexed)
 
-    def _task(item: tuple[int, str, dict[str, Any]]) -> tuple[int, dict[str, Any], dict[str, Any] | None]:
+    def _task(
+        item: tuple[int, str, dict[str, Any]],
+    ) -> tuple[int, dict[str, Any], dict[str, Any] | None]:
         index, lead_id, _lead = item
         summary, raw_pricing = fetch_pricing_for_lead(
             client,
@@ -256,7 +258,8 @@ def build_csv_rows(
 ) -> tuple[list[str], list[dict[str, Any]]]:
     resolved_leads = [resolve_lead_names(lead, lov_lookup) for lead in leads]
     lead_fieldnames = sorted({key for lead in resolved_leads for key in lead.keys()})
-    fieldnames = lead_fieldnames + [col for col in pricing_column_order if col not in lead_fieldnames]
+    extra_cols = [col for col in pricing_column_order if col not in lead_fieldnames]
+    fieldnames = lead_fieldnames + extra_cols
 
     rows: list[dict[str, Any]] = []
     for lead in resolved_leads:

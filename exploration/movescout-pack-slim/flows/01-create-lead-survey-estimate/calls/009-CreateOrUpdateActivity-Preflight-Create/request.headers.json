@@ -1,0 +1,17 @@
+{
+  "Accept": "*/*",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Access-Control-Request-Headers": "authorization,cache-control,content-type,expires,pragma,x-requested-with",
+  "Access-Control-Request-Method": "POST",
+  "Connection": "keep-alive",
+  "Host": "movescoutproapi.sirva.com",
+  "Origin": "https://movescoutpro.sirva.com",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-site",
+  "Signature": "sig1=:w9bkGcDd0e1I9n5cLyBEZwjRZsjT7+h7iNDX7h4nt3/y2um8/y4YtT00sjazj042kbP/UhC8RisNjEmphgiLAQ==:",
+  "Signature-Agent": "\"https://cursorusercontent.com\"",
+  "Signature-Input": "sig1=(\"@authority\" \"signature-agent\");created=1790035687;expires=1790035777;keyid=\"Vuxu4khgzIe0b30Nd6hq2envAuVBFMTDqorSNIUb_Oo\";alg=\"ed25519\";nonce=\"LS6K6JS4sejOttia9yCyWw\";tag=\"web-bot-auth\"",
+  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+}

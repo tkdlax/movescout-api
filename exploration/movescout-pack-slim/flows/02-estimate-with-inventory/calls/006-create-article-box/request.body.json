@@ -1,0 +1,9 @@
+{
+  "name": "Box",
+  "tenantId": 1,
+  "roomId": 78846,
+  "isGlobalArticle": false,
+  "domestic": true,
+  "canada": false,
+  "crateFlag": false
+}

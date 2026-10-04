@@ -1,0 +1,1495 @@
+tableName,id,name
+APPOINTMENT,1,AAS
+APPOINTMENT,2,BKFR
+APPOINTMENT,3,CAS
+APPOINTMENT,4,QLAB
+APPOINTMENT,5,VS
+BILLING_TYPE,6,COD
+BILLING_TYPE,7,NAT
+BILLING_TYPE,8,DP3
+BILLING_TYPE,9,GSA
+CUSTOMER_TYPE,10,Existing Business
+CUSTOMER_TYPE,11,New Business
+CUSTOMER_TYPE,12,CUSTOMER_TYPE
+Detail Disposition LOVs,13,Appointment Cancelled
+Detail Disposition LOVs,14,Capacity / Scheduling
+Detail Disposition LOVs,15,Incomplete Customer Info
+Detail Disposition LOVs,16,Move Date Has Passed
+Detail Disposition LOVs,17,Move too small
+Detail Disposition LOVs,18,Moving Themselves
+Detail Disposition LOVs,19,National Account Move
+Detail Disposition LOVs,20,No Contact
+Detail Disposition LOVs,21,No Longer Moving
+Detail Disposition LOVs,22,Not Serviceable
+Detail Disposition LOVs,23,Other
+Detail Disposition LOVs,24,Out of Time
+Detail Disposition LOVs,25,Past Experience
+Detail Disposition LOVs,26,Pricing
+DETAIL_DISP,27,Appointment Cancelled
+DETAIL_DISP,28,Capacity / Scheduling
+DETAIL_DISP,29,No Contact Could
+DETAIL_DISP,30,Incomplete Cust Info
+DETAIL_DISP,31,Move Date Has Passed
+DETAIL_DISP,32,No Longer Moving
+DETAIL_DISP,33,Not PT But NA Move
+DETAIL_DISP,34,Other
+DETAIL_DISP,35,Pricing
+DETAIL_DISP,36,Self Haul
+Disposition LOVs,37,Attempted Contact
+Disposition LOVs,38,Booked
+Disposition LOVs,39,Survey Completed
+Disposition LOVs,40,Duplicate
+Disposition LOVs,41,Inactive
+Disposition LOVs,42,Lost
+Disposition LOVs,43,New
+Disposition LOVs,44,Pending
+Disposition LOVs,45,Ready to book
+Disposition LOVs,46,Survey Scheduled
+Dwelling_Type,47,1 Bedroom Apt.
+Dwelling_Type,48,1 Bedroom House
+Dwelling_Type,49,2 Bedroom Apt.
+Dwelling_Type,50,2 Bedroom House
+Dwelling_Type,51,3 Bedroom House
+Dwelling_Type,52,3+ Bedroom Apt.
+Dwelling_Type,53,4+ Bedroom House
+Dwelling_Type,54,Small Move(1000 lbs.)
+Dwelling_Type,55,Small Move(2000 lbs.)
+FUNDED,56,AGT Funded
+FUNDED,57,AGT LMP
+Dwelling_Type,58,Studio
+Furnish Level LOVs,59,Light
+Furnish Level LOVs,60,Medium
+Furnish Level LOVs,61,Heavy
+LEAD_DISP,62,Booked
+LEAD_DISP,63,Duplicate
+LEAD_DISP,64,New
+LEAD_DISP,65,Not Booked
+LEAD_DISP,66,Pending
+LEAD_DISP,67,Survey Initiated
+LEAD_OUTCOME,68,Gave Referral
+LEAD_OUTCOME,69,Not a lead
+LEAD_OUTCOME,70,Opportunity created
+LEAD_OUTCOME,71,Reassigned
+LEAD_OUTCOME,72,Unable to reach
+LEAD_OUTCOME,73,Work in progress
+LEAD_QUALITY,74,1-Excellent
+LEAD_QUALITY,75,2-Very High
+LEAD_QUALITY,76,3-High
+LEAD_QUALITY,77,4-Fair
+LEAD_QUALITY,78,5-Poor
+LEAD_SOURCE,79,123Movers
+LEAD_SOURCE,80,Agent SEO
+LEAD_SOURCE,81,Allied.com
+LEAD_SOURCE,82,Bookfresh
+LEAD_SOURCE,83,Cold Calling
+LEAD_SOURCE,84,Direct Mail
+LEAD_SOURCE,85,Northamerican.com
+LEAD_SOURCE,86,Relocation.com
+LEAD_SOURCE,87,SEM Agent
+LEAD_SOURCE,88,SEM Vantage
+LEAD_SOURCE,89,Yellow Pages
+LEAD_SOURCE_TYPE,90,11000
+LEAD_SOURCE_TYPE,91,11001
+LEAD_SOURCE_TYPE,92,11002
+LEAD_SOURCE_TYPE,93,11003
+LEAD_SOURCE_TYPE,94,11004
+LEAD_SOURCE_TYPE,95,11005
+LEAD_SOURCE_TYPE,96,11006
+LEAD_SOURCE_TYPE,97,11007
+LEAD_SOURCE_TYPE,98,11111
+LEAD_STATUS,99,Converted
+LEAD_STATUS,100,Dead
+LEAD_STATUS,101,Dead
+LEAD_STATUS,102,Dead
+LEAD_STATUS,103,New
+LEAD_STATUS,104,Working
+LEAD_STATUS,105,Working
+LEAD_STATUS,106,Working
+LEAD_STATUS,107,Working
+LEAD_TYPE,108,Consumer
+LEAD_TYPE,109,National Account
+LEAD_TYPE,110,OA Survey
+LEAD_TYPE,111,Government
+MKT_CHNL,112,Affinity
+MKT_CHNL,113,Interactive
+MKT_CHNL,114,Lead Buying
+MKT_CHNL,115,Other
+MKT_CHNL,116,Referrals
+MKT_CHNL,117,Telephone
+MKT_CHNL,118,Sirva Military
+Move_Type,119,Interstate
+Move_Type,120,Local US
+Move_Type,121,Intrastate
+Move_Type,122,O&I
+Move_Type,123,Military
+Move_Type,124,International
+Move_Type,125,Cross Border
+Move_Type,126,Interprovincial
+Move_Type,127,Intraprovincial
+Move_Type,128,Alaska
+Move_Type,129,Hawaii
+Move_Type,130,Local/Intra
+Move_Type,131,Local Canada
+OWN_OR_RENT,132,Own
+OWN_OR_RENT,133,Rent
+PHONE_TYPE,134,Home
+PHONE_TYPE,135,Work
+PHONE_TYPE,136,Mobile/Cell
+PREFER_TIME,137,AM
+PREFER_TIME,138,Either
+PREFER_TIME,139,PM
+Prefered Lang,140,English
+Prefered Lang,141,French
+PREMISE_TYPE_CD,142,Apartment
+PREMISE_TYPE_CD,143,Business
+PREMISE_TYPE_CD,144,Single Family House
+SHIPPER_TYPE,145,Consumer
+SHIPPER_TYPE,146,National Account
+SHIPPER_TYPE,147,OA Survey
+SHIPPER_TYPE,148,Military
+SHIPPER_TYPE,149,GVT
+SHIPPER_TYPE,150,Non-GVT
+SIRVA_CATALOG,152,Canada Flag
+SIRVA_CATALOG,153,Canadian Govt.Flag
+SIRVA_CATALOG,154,Domestic Flag
+SIRVA_CATALOG,155,International Flag
+SOURCE_NAME,156,Affiliate Marketing
+SOURCE_NAME,157,Agent Affinity
+SOURCE_NAME,158,Agent Microsites
+SOURCE_NAME,159,Agent Website
+SOURCE_NAME,160,Aggregator Leads
+SOURCE_NAME,161,Billboards/Outdoor
+SOURCE_NAME,162,Bookfresh
+SOURCE_NAME,163,Corporate Affinity
+SOURCE_NAME,164,Customer Referrals
+SOURCE_NAME,165,Direct Mail
+SOURCE_NAME,166,Directory Assistance
+SOURCE_NAME,167,Display Banners
+SOURCE_NAME,168,Door Hangers
+SOURCE_NAME,169,Email Marketing
+SOURCE_NAME,170,Internet Radio
+SOURCE_NAME,171,Internet Yellow Pages
+SOURCE_NAME,172,Local Search Websites
+SOURCE_NAME,173,Magazine Advertisements
+SOURCE_NAME,174,Mobile Search
+SOURCE_NAME,175,Mortgage Referrals
+SOURCE_NAME,176,Newspaper Advertisements
+SOURCE_NAME,177,Other
+SOURCE_NAME,178,Paid Search
+SOURCE_NAME,179,Past Customers
+SOURCE_NAME,180,Print Yellow Pages
+SOURCE_NAME,181,Radio/TV
+SOURCE_NAME,182,Realtor Leads
+SOURCE_NAME,183,Sales Groups
+SOURCE_NAME,184,Select Leads
+SOURCE_NAME,185,Self Storage Facilities
+SOURCE_NAME,186,Social Media
+SOURCE_NAME,187,Telemarketing
+SOURCE_NAME,188,Text Link Ads
+SOURCE_NAME,189,Truck Signs
+SOURCE_NAME,190,White Pages
+DELIVERY_MODE,191,Air
+DELIVERY_MODE,192,Road
+DELIVERY_MODE,193,Sea
+UQ_DISPOSITION,194,New
+UQ_DISPOSITION,195,Fax/busy 
+UQ_DISPOSITION,196,No answer
+UQ_DISPOSITION,197,Left voicemail
+UQ_DISPOSITION,198,Prefer call back
+UQ_DISPOSITION,199,Do not call requested
+UQ_DISPOSITION,200,Not interested
+UQ_DISPOSITION,201,Wrong/disconnected #
+UQ_DISPOSITION,202,Converted to qualified
+SYNC_STATUS,203,Pending
+SYNC_STATUS,204,Completed
+SYNC_STATUS,205,Error
+MR_MS,206,Dr.
+MR_MS,207,Miss.
+MR_MS,208,Mr.
+MR_MS,209,Mrs.
+MR_MS,210,Ms.
+MR_MS,211,Prof.
+SHORT_DAY_NAME,212,Fr
+SHORT_DAY_NAME,213,Mo
+SHORT_DAY_NAME,214,Sa
+SHORT_DAY_NAME,215,Su
+SHORT_DAY_NAME,216,Th
+SHORT_DAY_NAME,217,Tu
+SHORT_DAY_NAME,218,We
+SHORT_MONTH_NAME,219,Apr
+SHORT_MONTH_NAME ,220,Aug
+SHORT_MONTH_NAME,221,Dec
+SHORT_MONTH_NAME,222,Feb
+SHORT_MONTH_NAME,223,Jan
+SHORT_MONTH_NAME,224,Jul
+SHORT_MONTH_NAME,225,Jun
+SHORT_MONTH_NAME,226,Mar
+SHORT_MONTH_NAME,227,May
+SHORT_MONTH_NAME,228,Nov
+SHORT_MONTH_NAME,229,Oct
+SHORT_MONTH_NAME,230,Sep
+AM_PM,231,am
+AM_PM,232,pm
+GENDER,233,Female
+GENDER,234,Male
+GENDER,235,Unknown
+Address Type LOV,236,Extra Delivery 1
+Address Type LOV,237,Extra Delivery 2
+Address Type LOV,238,Extra Delivery 3
+Address Type LOV,239,Extra Delivery 4
+Address Type LOV,240,Extra Delivery 5
+Address Type LOV,241,Extra Pickup 1
+Address Type LOV,242,Extra Pickup 2
+Address Type LOV,243,Extra Pickup 3
+Address Type LOV,244,Extra Pickup 4
+Address Type LOV,245,Extra Pickup 5
+Address Type LOV,246,Main Destination
+Address Type LOV,247,Main Origin
+Address Type LOV,248,Perm Dlv
+Address Type LOV,249,Perm PU
+Address Type LOV,250,Self Stg Dlv
+Address Type LOV,251,Self Stg PU
+Address Type LOV,252,SIT at Destination
+Address Type LOV,253,SIT at Origin
+Address Type LOV,254,Extra Pickup 6
+COUNTRY,255,Afghanistan
+COUNTRY,256,Albania
+COUNTRY,257,Algeria
+COUNTRY,258,American Samoa
+COUNTRY,259,Andorra
+COUNTRY,260,Angola
+COUNTRY,261,Anguilla
+COUNTRY,262,Antarctica
+COUNTRY,263,Antigua and Barbuda
+COUNTRY,264,Argentina
+COUNTRY,265,Armenia
+COUNTRY,266,Aruba
+COUNTRY,267,Australia
+COUNTRY,268,Austria
+COUNTRY,269,Azerbaijan
+COUNTRY,270,Bahamas
+COUNTRY,271,Bahrain
+COUNTRY,272,Bangladesh
+COUNTRY,273,Barbados
+COUNTRY,274,Belarus
+COUNTRY,275,Belgium
+COUNTRY,276,Belize
+COUNTRY,277,Benin
+COUNTRY,278,Bermuda
+COUNTRY,279,Bhutan
+COUNTRY,280,Bolivia
+COUNTRY,281,Bosnia and Herzegovina
+COUNTRY,282,Botswana
+COUNTRY,283,Bouvet Island
+COUNTRY,284,Brazil
+COUNTRY,285,British Indian Ocean Territory
+COUNTRY,286,British Virgin Islands
+COUNTRY,287,Brunei Darussalam
+COUNTRY,288,Bulgaria
+COUNTRY,289,Burkina Faso
+COUNTRY,290,Burundi
+COUNTRY,291,CA
+COUNTRY,292,Cambodia
+COUNTRY,293,Cameroon
+COUNTRY,294,Cape Verde
+COUNTRY,295,Cayman Islands
+COUNTRY,296,Central African Republic
+COUNTRY,297,Chad
+COUNTRY,298,Chile
+COUNTRY,299,China
+COUNTRY,300,Christmas Island
+COUNTRY,301,Cocos
+COUNTRY,302,Colombia
+COUNTRY,303,Comoros
+COUNTRY,304,Congo
+COUNTRY,305,Cook Islands
+COUNTRY,306,Costa Rica
+COUNTRY,307,Croatia
+COUNTRY,308,Cuba
+COUNTRY,309,Cyprus
+COUNTRY,310,Czech Republic
+COUNTRY,311,Democratic Republic of the Congo
+COUNTRY,312,Denmark
+COUNTRY,313,Djibouti
+COUNTRY,314,Dominica
+COUNTRY,315,Dominican Republic
+COUNTRY,316,East Timor
+COUNTRY,317,Ecuador
+COUNTRY,318,Egypt
+COUNTRY,319,El Salvador
+COUNTRY,320,Equatorial Guinea
+COUNTRY,321,Eritrea
+COUNTRY,322,Estonia
+COUNTRY,323,Ethiopia
+COUNTRY,324,Falkland Islands
+COUNTRY,325,Faroe Islands
+COUNTRY,326,Fiji
+COUNTRY,327,Finland
+COUNTRY,328,France
+COUNTRY,329,"France, Metropolitan"
+COUNTRY,330,French Guiana
+COUNTRY,331,French Polynesia
+COUNTRY,332,French Southern Territories
+COUNTRY,333,Gabon
+COUNTRY,334,Gambia
+COUNTRY,335,Georgia
+COUNTRY,336,Germany
+COUNTRY,337,Ghana
+COUNTRY,338,Gibraltar
+COUNTRY,339,Greece
+COUNTRY,340,Greenland
+COUNTRY,341,Grenada
+COUNTRY,342,Guadeloupe
+COUNTRY,343,Guam
+COUNTRY,344,Guatemala
+COUNTRY,345,Guernsey
+COUNTRY,346,Guinea
+COUNTRY,347,Guinea-Bissau
+COUNTRY,348,Guyana
+COUNTRY,349,Haiti
+COUNTRY,350,Heard and McDonald Islands
+COUNTRY,351,Honduras
+COUNTRY,352,Hong Kong
+COUNTRY,353,Hungary
+COUNTRY,354,Iceland
+COUNTRY,355,India
+COUNTRY,356,Indonesia
+COUNTRY,357,Iran
+COUNTRY,358,Iraq
+COUNTRY,359,Ireland
+COUNTRY,360,Israel
+COUNTRY,361,Italy
+COUNTRY,362,Ivory Coast
+COUNTRY,363,Jamaica
+COUNTRY,364,Japan
+COUNTRY,365,Jersey
+COUNTRY,366,Jordan
+COUNTRY,367,Kazakhstan
+COUNTRY,368,Kenya
+COUNTRY,369,Kiribati
+COUNTRY,370,Kosovo
+COUNTRY,371,Kuwait
+COUNTRY,372,Kyrgyzstan
+COUNTRY,373,Laos
+COUNTRY,374,Latvia
+COUNTRY,375,Lebanon
+COUNTRY,376,Lesotho
+COUNTRY,377,Liberia
+COUNTRY,378,Libya
+COUNTRY,379,Liechtenstein
+COUNTRY,380,Lithuania
+COUNTRY,381,Luxembourg
+COUNTRY,382,Macau
+COUNTRY,383,Macedonia
+COUNTRY,384,Madagascar
+COUNTRY,385,Malawi
+COUNTRY,386,Malaysia
+COUNTRY,387,Maldives
+COUNTRY,388,Mali
+COUNTRY,389,Malta
+COUNTRY,390,Man (Isle of)
+COUNTRY,391,Marshall Islands
+COUNTRY,392,Martinique
+COUNTRY,393,Mauritania
+COUNTRY,394,Mauritius
+COUNTRY,395,Mayotte
+COUNTRY,396,Mexico
+COUNTRY,397,Micronesia
+COUNTRY,398,Moldova
+COUNTRY,399,Monaco
+COUNTRY,400,Mongolia
+COUNTRY,401,Montserrat
+COUNTRY,402,Morocco
+COUNTRY,403,Mozambique
+COUNTRY,404,Myanmar
+COUNTRY,405,Namibia
+COUNTRY,406,Nauru
+COUNTRY,407,Nepal
+COUNTRY,408,Netherlands
+COUNTRY,409,Netherlands Antilles
+COUNTRY,410,New Caledonia
+COUNTRY,411,New Zealand
+COUNTRY,412,Nicaragua
+COUNTRY,413,Niger
+COUNTRY,414,Nigeria
+COUNTRY,415,Niue
+COUNTRY,416,Norfolk Island
+COUNTRY,417,North Korea
+COUNTRY,418,Northern Mariana Islands
+COUNTRY,419,Norway
+COUNTRY,420,Oman
+COUNTRY,421,Pakistan
+COUNTRY,422,Palau
+COUNTRY,423,Panama
+COUNTRY,424,Papua New Guinea
+COUNTRY,425,Paraguay
+COUNTRY,426,Peru
+COUNTRY,427,Philippines
+COUNTRY,428,Pitcairn
+COUNTRY,429,Poland
+COUNTRY,430,Portugal
+COUNTRY,431,Puerto Rico
+COUNTRY,432,Qatar
+COUNTRY,433,Reunion
+COUNTRY,434,Romania
+COUNTRY,435,Russia
+COUNTRY,436,Russian Federation
+COUNTRY,437,Rwanda
+COUNTRY,438,S. Georgia and S. Sandwich Islands
+COUNTRY,439,Saint Kitts and Nevis
+COUNTRY,440,Saint Lucia
+COUNTRY,441,Saint Vincent and the Grenadin
+COUNTRY,442,Samoa
+COUNTRY,443,San Marino
+COUNTRY,444,Sao Tome and Principe
+COUNTRY,445,Saudi Arabia
+COUNTRY,446,Senegal
+COUNTRY,447,Serbia
+COUNTRY,448,Seychelles
+COUNTRY,449,Sierra Leone
+COUNTRY,450,Singapore
+COUNTRY,451,Slovakia
+COUNTRY,452,Slovenia
+COUNTRY,453,Solomon Islands
+COUNTRY,454,Somalia
+COUNTRY,455,South Africa
+COUNTRY,456,South Korea
+COUNTRY,457,Spain
+COUNTRY,458,Sri Lanka
+COUNTRY,459,St. Helena
+COUNTRY,460,St. Pierre and Miquelon
+COUNTRY,461,Sudan
+COUNTRY,462,Suriname
+COUNTRY,463,Svalbard and Jan Mayen Islands
+COUNTRY,464,Swaziland
+COUNTRY,465,Sweden
+COUNTRY,466,Switzerland
+COUNTRY,467,Syria
+COUNTRY,468,Taiwan
+COUNTRY,469,Tajikistan
+COUNTRY,470,Tanzania
+COUNTRY,471,Thailand
+COUNTRY,472,Togo
+COUNTRY,473,Tokelau
+COUNTRY,474,Tonga
+COUNTRY,475,Trinidad and Tobago
+COUNTRY,476,Tunisia
+COUNTRY,477,Turkey
+COUNTRY,478,Turkmenistan
+COUNTRY,479,Turks and Caicos Islands
+COUNTRY,480,Tuvalu
+COUNTRY,481,Uganda
+COUNTRY,482,Ukraine
+COUNTRY,483,United Arab Emirates
+COUNTRY,484,United Kingdom
+COUNTRY,485,Uruguay
+COUNTRY,486,US
+COUNTRY,487,US Minor Outlying Islands
+COUNTRY,488,Virgin Islands
+COUNTRY,489,Uzbekistan
+COUNTRY,490,Vanuatu
+COUNTRY,491,Vatican City State
+COUNTRY,492,Venezuela
+COUNTRY,493,Viet Nam
+COUNTRY,494,Wallis and Futuna Islands
+COUNTRY,495,Western Sahara
+COUNTRY,496,Yemen
+COUNTRY,497,Yugoslavia
+COUNTRY,498,Zambia
+COUNTRY,499,Zimbabwe
+COUNTRY_CODE,500,Albania
+COUNTRY_CODE,501,Argentina
+COUNTRY_CODE,502,Australia
+COUNTRY_CODE,503,Austria
+COUNTRY_CODE,504,Belgium
+COUNTRY_CODE,505,Brazil
+COUNTRY_CODE,506,Canada
+COUNTRY_CODE,507,Chile
+COUNTRY_CODE,508,China
+COUNTRY_CODE,509,Colombia
+COUNTRY_CODE,510,Czech Republic
+COUNTRY_CODE,511,Denmark
+COUNTRY_CODE,512,Finland
+COUNTRY_CODE,513,France
+COUNTRY_CODE,514,Germany
+COUNTRY_CODE,515,Ghana
+COUNTRY_CODE,516,Gibraltar
+COUNTRY_CODE,517,Greece
+COUNTRY_CODE,518,Greenland
+COUNTRY_CODE,519,Grenada
+COUNTRY_CODE,520,Guadeloupe
+COUNTRY_CODE,521,Guam
+COUNTRY_CODE,522,Guatemala
+COUNTRY_CODE,523,Guinea
+COUNTRY_CODE,524,Guinea-bissau
+COUNTRY_CODE,525,Guyana
+COUNTRY_CODE,526,Haiti
+COUNTRY_CODE,527,Heard and Mc Donald Islands
+COUNTRY_CODE,528,Holy See (Vatican City State)
+COUNTRY_CODE,529,Honduras
+COUNTRY_CODE,530,Hong Kong
+COUNTRY_CODE,531,Hungary
+COUNTRY_CODE,532,Iceland
+COUNTRY_CODE,533,Ireland
+COUNTRY_CODE,534,Israel
+COUNTRY_CODE,535,Italy
+COUNTRY_CODE,536,Japan
+COUNTRY_CODE,537,Korea
+COUNTRY_CODE,538,Lithuania
+COUNTRY_CODE,539,Luxembourg
+COUNTRY_CODE,540,Mexico
+COUNTRY_CODE,541,Netherlands
+COUNTRY_CODE,542,New Zealand
+COUNTRY_CODE,543,Norway
+COUNTRY_CODE,544,Philippines
+COUNTRY_CODE,545,Portugal
+COUNTRY_CODE,546,Romania
+COUNTRY_CODE,547,Singapore
+COUNTRY_CODE,548,South Africa
+COUNTRY_CODE,549,South Georgia and the South Sandwich Islands
+COUNTRY_CODE,550,Spain
+COUNTRY_CODE,551,Sweden
+COUNTRY_CODE,552,Switzerland
+COUNTRY_CODE,553,Taiwan
+COUNTRY_CODE,554,Turkey
+COUNTRY_CODE,555,United Kingdom
+COUNTRY_CODE,556,Uruguay
+COUNTRY_CODE,557,United States
+Sirva Canadian State Picklist,558,AB
+Sirva Canadian State Picklist,559,BC
+Sirva Canadian State Picklist,560,MB
+Sirva Canadian State Picklist,561,NB
+Sirva Canadian State Picklist,562,NL
+Sirva Canadian State Picklist,563,NS
+Sirva Canadian State Picklist,564,NT
+Sirva Canadian State Picklist,565,NU
+Sirva Canadian State Picklist,566,ON
+Sirva Canadian State Picklist,567,PE
+Sirva Canadian State Picklist,568,QC
+Sirva Canadian State Picklist,569,SK
+Sirva Canadian State Picklist,570,YT
+STATE_ABBREV,571,AA
+STATE_ABBREV,572,AB
+STATE_ABBREV,573,AE
+STATE_ABBREV,574,AK
+STATE_ABBREV,575,AL
+STATE_ABBREV,576,AP
+STATE_ABBREV,577,AR
+STATE_ABBREV,578,AS
+STATE_ABBREV,579,AZ
+STATE_ABBREV,580,BC
+STATE_ABBREV,581,CA
+STATE_ABBREV,582,CO
+STATE_ABBREV,583,CT
+STATE_ABBREV,584,DC
+STATE_ABBREV,585,DE
+STATE_ABBREV,586,FL
+STATE_ABBREV,587,FM
+STATE_ABBREV,588,GA
+STATE_ABBREV,589,GU
+STATE_ABBREV,590,HI
+STATE_ABBREV,591,IA
+STATE_ABBREV,592,ID
+STATE_ABBREV,593,IL
+STATE_ABBREV,594,IN
+STATE_ABBREV,595,KS
+STATE_ABBREV,596,KY
+STATE_ABBREV,597,LA
+STATE_ABBREV,598,MA
+STATE_ABBREV,599,MB
+STATE_ABBREV,600,MD
+STATE_ABBREV,601,ME
+STATE_ABBREV,602,MH
+STATE_ABBREV,603,MI
+STATE_ABBREV,604,MN
+STATE_ABBREV,605,MO
+STATE_ABBREV,606,MP
+STATE_ABBREV,607,MS
+STATE_ABBREV,608,MT
+STATE_ABBREV,609,National
+STATE_ABBREV,610,NB
+STATE_ABBREV,611,NC
+STATE_ABBREV,612,ND
+STATE_ABBREV,613,NE
+STATE_ABBREV,614,NH
+STATE_ABBREV,615,NJ
+STATE_ABBREV,616,NL
+STATE_ABBREV,617,NM
+STATE_ABBREV,618,NS
+STATE_ABBREV,619,NT
+STATE_ABBREV,620,NU
+STATE_ABBREV,621,NV
+STATE_ABBREV,622,NY
+STATE_ABBREV,623,OH
+STATE_ABBREV,624,OK
+STATE_ABBREV,625,ON
+STATE_ABBREV,626,OR
+STATE_ABBREV,627,PA
+STATE_ABBREV,628,PE
+STATE_ABBREV,629,PR
+STATE_ABBREV,630,PW
+STATE_ABBREV,631,QC
+STATE_ABBREV,632,QL
+STATE_ABBREV,633,RI
+STATE_ABBREV,634,SA
+STATE_ABBREV,635,SC
+STATE_ABBREV,636,SD
+STATE_ABBREV,637,SK
+STATE_ABBREV,638,TN
+STATE_ABBREV,639,TS
+STATE_ABBREV,640,TX
+STATE_ABBREV,641,US-Central
+STATE_ABBREV,642,US-East
+STATE_ABBREV,643,US-West
+STATE_ABBREV,644,UT
+STATE_ABBREV,645,VA
+STATE_ABBREV,646,VI
+STATE_ABBREV,647,VT
+STATE_ABBREV,648,WA
+STATE_ABBREV,649,WI
+STATE_ABBREV,650,WV
+STATE_ABBREV,651,WY
+STATE_ABBREV,652,YK
+STATE_ABBREV,653,YT
+Pricing Tariff LOV,654,Local
+Pricing Tariff LOV,655,PriceLock
+Pricing Tariff LOV,656,PriceLock GRR
+Pricing Tariff LOV,657,Blue Express
+Pricing Tariff LOV,658,TPG
+Pricing Tariff LOV,659,Allied Express
+Pricing Tariff LOV,660,TPG GRR
+Pricing Tariff LOV,661,400N
+Pricing Tariff LOV,662,104G
+Pricing Tariff LOV,663,Capacity Plus
+Pricing Tariff LOV,664,Local/Intrastate
+Pricing Tariff LOV,665,Truckload Express
+Pricing Tariff LOV,666,TX Max4
+Pricing Tariff LOV,667,UAS
+Pricing Tariff LOV,668,NAVL-12A
+Pricing Tariff LOV,669,ALLV-2A
+Pricing Tariff LOV,670,CA Max4
+Pricing Tariff LOV,671,Canada Govt.
+Pricing Tariff LOV,672,Intra - 400N
+Pricing Tariff LOV,673,Canada Non-Govt
+Pricing Tariff LOV,674,Canada Intraprovincial
+Pricing Tariff LOV,675,Canada Local
+Pricing Tariff LOV,676,Auto Only
+Pricing Tariff LOV,677,AVL
+Estimate_Type,678,Binding
+Estimate_Type,679,Non Binding
+Estimate_Type,680,Not To Exceed
+VALUATION_DEDUCTIBLE_LOV,681,Actual Cash Value
+VALUATION_DEDUCTIBLE_LOV,682,Declared Value
+VALUATION_DEDUCTIBLE_LOV,683,ECP - $0 Ded
+VALUATION_DEDUCTIBLE_LOV,684,ECP - $250 Ded
+VALUATION_DEDUCTIBLE_LOV,685,ECP - $500 Ded
+VALUATION_DEDUCTIBLE_LOV,686,MVP - $0 Ded
+VALUATION_DEDUCTIBLE_LOV,687,MVP - $250 Ded
+VALUATION_DEDUCTIBLE_LOV,688,MVP - $500 Ded
+VALUATION_DEDUCTIBLE_LOV,689,$0 Ded
+VALUATION_DEDUCTIBLE_LOV,690,$250 Ded
+VALUATION_DEDUCTIBLE_LOV,691,$500 Ded
+VALUATION_DEDUCTIBLE_LOV,692,FVP $0 Deductible
+VALUATION_DEDUCTIBLE_LOV,693,FVP $250 Deductible
+VALUATION_DEDUCTIBLE_LOV,694,FVP $500 Deductible
+VALUATION_BRACKETS_LOV,695,"$6,000"
+VALUATION_BRACKETS_LOV,696,"$10,000"
+VALUATION_BRACKETS_LOV,697,"$15,000"
+VALUATION_BRACKETS_LOV,698,"$20,000"
+VALUATION_BRACKETS_LOV,699,"$25,000"
+VALUATION_BRACKETS_LOV,700,"$30,000"
+VALUATION_BRACKETS_LOV,701,"$35,000"
+VALUATION_BRACKETS_LOV,702,"$40,000"
+VALUATION_BRACKETS_LOV,703,"$50,000"
+VALUATION_BRACKETS_LOV,704,"$60,000"
+VALUATION_BRACKETS_LOV,705,"$75,000"
+VALUATION_BRACKETS_LOV,706,"$100,000"
+VALUATION_BRACKETS_LOV,707,"$125,000"
+VALUATION_BRACKETS_LOV,708,"$150,000"
+VALUATION_BRACKETS_LOV,709,"$175,000"
+VALUATION_BRACKETS_LOV,710,"$200,000"
+VALUATION_BRACKETS_LOV,711,"$225,000"
+VALUATION_BRACKETS_LOV,712,"$250,000"
+VALUATION_BRACKETS_LOV,713,"Over $250,000"
+VALUATION_BRACKETS_LOV,714,"$5,000"
+Sirva_YM_LOV,715,Level 1
+Sirva_YM_LOV,716,Level 2
+Sirva_YM_LOV,717,Level 3
+Sirva_YM_LOV,718,Level 4
+Sirva_YM_LOV,719,Level 5
+Sirva_YM_LOV,720,Level 6
+Sirva_YM_LOV,721,Level 7
+Sirva_YM_LOV,722,Level 8
+Sirva_YM_LOV,723,Level 9
+Sirva_YM_LOV,724,Level 10
+Sirva_YM_LOV,725,Level 11
+Sirva_YM_LOV,726,Level 12
+Sirva_YM_LOV,727,Level 13
+Sirva_YM_LOV,728,Level 14
+Sirva_YM_LOV,729,Level 15
+Time_LOV,730,Regular Time
+Time_LOV,731,Time-And-A-Half
+Time_LOV,732,Over Time
+Time_LOV,733,Double Time
+LineHaul_Mode_LOV,734,Distance Rate
+LineHaul_Mode_LOV,735,Hourly Rate
+LineHaul_Mode_LOV,736,Per Piece Rate
+Payment_Method,737,AM
+Payment_Method,738,AV
+Payment_Method,739,CCK
+Payment_Method,740,CHK
+Payment_Method,741,CRN
+Payment_Method,742,CSH
+Payment_Method,743,DN
+Payment_Method,744,MA
+Payment_Method,745,MO
+Payment_Method,746,NO
+Payment_Method,747,PCK
+Payment_Method,748,VI
+SIRVA_QLAB_DENSITY,749,3
+SIRVA_QLAB_DENSITY,750,3.25
+SIRVA_QLAB_DENSITY,751,3.5
+SIRVA_QLAB_DENSITY,752,3.75
+SIRVA_QLAB_DENSITY,753,4
+SIRVA_QLAB_DENSITY,754,4.25
+SIRVA_QLAB_DENSITY,755,4.5
+SIRVA_QLAB_DENSITY,756,4.75
+SIRVA_QLAB_DENSITY,757,5
+SIRVA_QLAB_DENSITY,758,5.25
+SIRVA_QLAB_DENSITY,759,5.5
+SIRVA_QLAB_DENSITY,760,5.75
+SIRVA_QLAB_DENSITY,761,6
+SIRVA_QLAB_DENSITY,762,6.25
+SIRVA_QLAB_DENSITY,763,6.5
+SIRVA_QLAB_DENSITY,764,6.75
+SIRVA_QLAB_DENSITY,765,7
+SIRVA_QLAB_DENSITY,766,7.25
+SIRVA_QLAB_DENSITY,767,7.5
+SIRVA_QLAB_DENSITY,768,7.75
+SIRVA_QLAB_DENSITY,769,8
+SIRVA_QLAB_DENSITY,770,8.25
+SIRVA_QLAB_DENSITY,771,8.5
+SIRVA_QLAB_DENSITY,772,8.75
+SIRVA_QLAB_DENSITY,773,9
+SIRVA_QLAB_DENSITY,774,9.25
+SIRVA_QLAB_DENSITY,775,9.5
+SIRVA_QLAB_DENSITY,776,9.75
+SIRVA_QLAB_DENSITY,777,10
+SIRVA_QLAB_DENSITY,778,10.25
+SIRVA_QLAB_DENSITY,779,10.5
+SIRVA_QLAB_DENSITY,780,10.75
+SIRVA_QLAB_DENSITY,781,11
+SIRVA_QLAB_DENSITY,782,11.25
+SIRVA_QLAB_DENSITY,783,11.5
+SIRVA_QLAB_DENSITY,784,11.75
+SIRVA_QLAB_DENSITY,785,12
+SIRVA_QLAB_DENSITY,786,12.25
+SIRVA_QLAB_DENSITY,787,12.5
+SIRVA_QLAB_DENSITY,788,12.75
+SIRVA_QLAB_DENSITY,789,13
+SIRVA_QLAB_DENSITY,790,13.25
+SIRVA_QLAB_DENSITY,791,13.5
+SIRVA_QLAB_DENSITY,792,13.75
+SIRVA_QLAB_DENSITY,793,14
+SIRVA_QLAB_DENSITY,794,14.25
+SIRVA_QLAB_DENSITY,795,14.5
+SIRVA_QLAB_DENSITY,796,14.75
+SIRVA_QLAB_DENSITY,797,15
+APPOINTMENT,798,MS-Pro
+FUNDED,799,CORP LMP
+Sirva_YM_LOV,800,Level 16
+Sirva_YM_LOV,801,Level 17
+Sirva_YM_LOV,802,Level 18
+Sirva_YM_LOV,803,Level 19
+Sirva_YM_LOV,804,Level 20
+VALUATION_EXTRACTION,805,150
+VALUATION_EXTRACTION,806,150
+VALUATION_FREEFVP_LOV,807,Free
+VALUATION_FREEFVP_LOV,808,FVPFlatCharge
+VALUATION_FREEFVP_LOV,809,IncreasedBaseLiability
+VALUATION_DEDUCTIBLE_LOV,811,$0.60/lb. Released
+SITValuation_FREQ,812,Day
+SITValuation_FREQ,813,Month
+,814,
+,815,
+,816,
+Reference_Type,817,ABL
+Reference_Type,818,AC
+Reference_Type,819,ADN
+Reference_Type,820,BDG
+Reference_Type,821,BLN
+Reference_Type,822,CCN
+Reference_Type,823,CHG
+Reference_Type,824,CID
+Reference_Type,825,CLI
+Reference_Type,826,CLK
+Reference_Type,827,CO
+Reference_Type,828,DEC
+Reference_Type,829,DIV
+Reference_Type,830,EMP
+Reference_Type,831,ETA
+Reference_Type,832,FDO
+Reference_Type,833,FMO
+Reference_Type,834,FN
+Reference_Type,835,FPP
+Reference_Type,836,GBL
+Reference_Type,837,GEE
+Reference_Type,838,ID
+Reference_Type,839,LMP
+Reference_Type,840,LOA
+Reference_Type,841,MHG
+Reference_Type,842,MO
+Reference_Type,843,MTN
+Reference_Type,844,NC
+Reference_Type,845,OA
+Reference_Type,846,ORD
+Reference_Type,847,ORG
+Reference_Type,848,PN
+Reference_Type,849,PO
+Reference_Type,850,RA
+Reference_Type,851,RAA
+Reference_Type,852,RDC
+Reference_Type,853,REQ
+Reference_Type,854,RGA
+Reference_Type,855,RIN
+Reference_Type,856,SBL
+Reference_Type,857,SC
+Reference_Type,858,SEC
+Reference_Type,859,SO
+Reference_Type,860,SRN
+Reference_Type,861,SSN
+Reference_Type,862,SYS
+Reference_Type,863,TFC
+Reference_Type,864,VIT
+ExportToExcel,869,Option
+ExpotBatchSize,870,BatchSize
+Dwelling_Type,871,2 Bedroom House 2
+DashboardSPTimeout,872,DashboardSPTimeout
+Shipment_Type,873,HHG
+Shipment_Type,874,O&I
+NonMSPUserRoleType,883,Driver
+NonMSPUserRoleType,884,Crew
+WGT_ADD_CODE_CONSUMER,885,V019
+WGT_ADD_CODE_CONSUMER,886,V186
+WGT_ADD_CODE_CONSUMER,887,V343
+WGT_ADD_CODE_CONSUMER,888,V414
+WGT_ADD_CODE_CONSUMER,889,V179
+UserType,896,Intl
+UserType,897,UsCanada
+International_Modes,898,Sea
+International_Modes,899,Air
+International_Modes,900,Land
+IntlCountry,901,China
+IntlCountry,902,Hong Kong
+IntlCountry,903,Malaysia
+IntlCountry,904,Singapore
+IntlCountry,905,India
+IntlCountry,906,UAE
+Residence_Type,907,Condominum
+Residence_Type,908,HDB Appartment walk up
+Residence_Type,909,HDB Appartment with lift access
+Residence_Type,910,Hotel
+Residence_Type,911,Landed Property
+Residence_Type,912,Office
+Residence_Type,913,Self Storage Unit
+Residence_Type,914,Serviced Appartment
+Residence_Type,915,Town House
+Residence_Type,917,Duplex
+Residence_Type,918,High Rise Appartment
+Residence_Type,919,Hotel
+Residence_Type,920,Low Rise Appartment
+Residence_Type,921,Penthouse
+Residence_Type,922,Office
+Residence_Type,923,Self Storage Unit
+Residence_Type,924,Serviced Appartments
+Residence_Type,925,Villa
+Inter_Move_Types,927,Export - Own Booked
+Inter_Move_Types,928,Export - Agent Booked
+Inter_Move_Types,929,Intercity Local Removal
+Inter_Move_Types,930,Intercity Local Removal - Agent Booked
+Inter_Move_Types,931,Local Removal
+Inter_Move_Types,932,Local Removal - Agent Booked
+Inter_Move_Types,933,Business Relocation
+Inter_Move_Types,934,Business Relocation - Agent Booked
+Inter_Move_Types,935,Export - Own Booked
+Inter_Move_Types,936,Export - Agent Booked
+Inter_Move_Types,937,Local Removal
+Inter_Move_Types,938,Local Removal - Agent Booked
+Inter_Move_Types,939,Business Relocation
+Inter_Move_Types,940,Business Relocation - Agent Booked
+Inter_Move_Types,941,Export - Own Booked
+Inter_Move_Types,942,Export - Agent Booked
+Inter_Move_Types,943,Intercity Local Removal
+Inter_Move_Types,944,Intercity Local Removal - Agent Booked
+Inter_Move_Types,945,Local Removal
+Inter_Move_Types,946,Local Removal - Agent Booked
+Inter_Move_Types,947,Business Relocation
+Inter_Move_Types,948,Business Relocation - Agent Booked
+Inter_Move_Types,949,Export - Own Booked
+Inter_Move_Types,950,Export - Agent Booked
+Inter_Move_Types,951,Local Removal
+Inter_Move_Types,952,Local Removal - Agent Booked
+Inter_Move_Types,953,Business Relocation
+Inter_Move_Types,954,Business Relocation - Agent Booked
+Inter_Move_Types,955,Export - Own Booked
+Inter_Move_Types,956,Export - Agent Booked
+Inter_Move_Types,957,Intercity Local Removal
+Inter_Move_Types,958,Intercity Local Removal - Agent Booked
+Inter_Move_Types,959,Local Removal
+Inter_Move_Types,960,Local Removal - Agent Booked
+Inter_Move_Types,961,Business Relocation
+Inter_Move_Types,962,Business Relocation - Agent Booked
+Inter_Move_Types,963,Export - Own Booked
+Inter_Move_Types,964,Export - Agent Booked
+Inter_Move_Types,965,Intercity Local Removal
+Inter_Move_Types,966,Intercity Local Removal - Agent Booked
+Inter_Move_Types,967,Local Removal
+Inter_Move_Types,968,Local Removal - Agent Booked
+Inter_Move_Types,969,Business Relocation
+Inter_Move_Types,970,Business Relocation - Agent Booked
+Inter_Move_Types,971,Crate Hire
+Inter_ItemUse_Types,972,Residence
+Inter_ItemUse_Types,973,Sea Freight
+Inter_ItemUse_Types,974,Air Freight
+Inter_ItemUse_Types,975,Storage
+Inter_ItemUse_Types,976,Not Going
+Inter_ItemUse_Types,977,2nd Addr
+Inter_ItemUse_Types,978,Disposal
+Inter_ItemUse_Types,979,Local Move
+Inter_ItemUse_Types,980,Optional Item
+Inter_ItemUse_Types,981,Residence
+Inter_ItemUse_Types,982,Sea Freight
+Inter_ItemUse_Types,983,Air Freight
+Inter_ItemUse_Types,984,Storage
+Inter_ItemUse_Types,985,Not Going
+Inter_ItemUse_Types,986,2nd Addr
+Inter_ItemUse_Types,987,3rd Addr
+Inter_ItemUse_Types,988,Disposal
+Inter_ItemUse_Types,989,Local Move
+Inter_ItemUse_Types,990,Optional Item
+Inter_ItemUse_Types,991,Residence
+Inter_ItemUse_Types,992,Sea Freight
+Inter_ItemUse_Types,993,Air Freight
+Inter_ItemUse_Types,994,Storage
+Inter_ItemUse_Types,995,Not Going
+Inter_ItemUse_Types,996,Address2
+Inter_ItemUse_Types,997,Address3
+Inter_ItemUse_Types,998,Disposal
+Inter_ItemUse_Types,999,Local Move
+Inter_ItemUse_Types,1000,Optional Item
+Inter_ItemUse_Types,1001,Residence
+Inter_ItemUse_Types,1002,Sea Freight
+Inter_ItemUse_Types,1003,Air Freight
+Inter_ItemUse_Types,1004,Storage
+Inter_ItemUse_Types,1005,Not Going
+Inter_ItemUse_Types,1006,Optional
+Inter_ItemUse_Types,1007,Address2
+Inter_ItemUse_Types,1008,Charity
+Inter_ItemUse_Types,1009,Pack Day 1
+Inter_ItemUse_Types,1010,Pack Day 2
+Inter_ItemUse_Types,1011,Pack Day 3
+Inter_ItemUse_Types,1012,Pack Day 4
+Inter_ItemUse_Types,1013,Disposal
+Inter_ItemUse_Types,1014,Local Move
+Inter_ItemUse_Types,1015,Residence
+Inter_ItemUse_Types,1016,Sea Freight
+Inter_ItemUse_Types,1017,Air Freight
+Inter_ItemUse_Types,1018,Storage
+Inter_ItemUse_Types,1019,Not Going
+Inter_ItemUse_Types,1020,Address2
+Inter_ItemUse_Types,1021,Address3
+Inter_ItemUse_Types,1022,Optional
+Inter_ItemUse_Types,1023,LCL
+Inter_ItemUse_Types,1024,Domestic Move
+Inter_ItemUse_Types,1025,Residence
+Inter_ItemUse_Types,1026,Sea Freight
+Inter_ItemUse_Types,1027,Air Freight
+Inter_ItemUse_Types,1028,Storage
+Inter_ItemUse_Types,1029,Not Going
+Inter_ItemUse_Types,1030,Address2
+Inter_ItemUse_Types,1031,Address3
+Inter_ItemUse_Types,1032,Optional
+Inter_NoteTemplates_Types,1033,To Be Crated(Large)
+Inter_NoteTemplates_Types,1034,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1035,To Be Crated(Small)
+Inter_NoteTemplates_Types,1036,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1037,Heavy Item
+Inter_NoteTemplates_Types,1038,Handyman Required
+Inter_NoteTemplates_Types,1039,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1040,Crating Declined
+Inter_NoteTemplates_Types,1041,Dismantle by Handyman
+Inter_NoteTemplates_Types,1042,Dismantle by Allied
+Inter_NoteTemplates_Types,1043,Dismantle by Customer
+Inter_NoteTemplates_Types,1044,Recommended don't disassemble
+Inter_NoteTemplates_Types,1045,Factory packed / wrapped
+Inter_NoteTemplates_Types,1046,Fragile Item
+Inter_NoteTemplates_Types,1047,Hand Hoisting
+Inter_NoteTemplates_Types,1048,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1049,Moisture Absorbers
+Inter_NoteTemplates_Types,1050,Original Box
+Inter_NoteTemplates_Types,1051,Owner Packed
+Inter_NoteTemplates_Types,1052,Special Care and Attention
+Inter_NoteTemplates_Types,1053,Special Handling Required
+Inter_NoteTemplates_Types,1054,Special Wrapping
+Inter_NoteTemplates_Types,1055,Specialist Required
+Inter_NoteTemplates_Types,1056,Stair Carry
+,1057,
+,1058,
+,1059,
+,1060,
+,1061,
+,1062,
+TransferType,1063,AAS
+TransferType,1064,CAS
+TransferType,1065,Warm Transfer
+TransferType,1066,Cold Transfer
+TransferType,1067,VS
+DashboardCharts,1068,Amcharts
+International_Status,1071,Inquiry
+International_Status,1072,Pending
+RevisedEstimate_Auto_SendType,1073,0
+,1074,
+,1075,
+,1076,
+,1077,
+,1078,
+,1079,
+,1080,
+,1081,
+,1082,
+,1083,
+Canada_Pricing_Country_code,1084,CAN
+Canada_Pricing_Country_code,1085,USA
+Method_Of_Invoice,1086,COD
+ProductTax,1087,GST
+ProductTax,1088,HST
+ProductTax,1089,QST
+PricingOption,1090,Not Applicable
+PricingOption,1091,Standard Price
+UnitOfMeasure,1092,$100
+UnitOfMeasure,1093,$1000
+UnitOfMeasure,1094,Carton
+UnitOfMeasure,1095,Cover
+UnitOfMeasure,1096,Cubic Ft.
+UnitOfMeasure,1097,Cwt
+UnitOfMeasure,1098,Days
+UnitOfMeasure,1099,Dollars
+UnitOfMeasure,1100,Each
+UnitOfMeasure,1101,Flat
+UnitOfMeasure,1102,Hours
+UnitOfMeasure,1103,lb
+UnitOfMeasure,1104,Mile
+UnitOfMeasure,1105,Miles
+PricingTemplateOwner,1106,North American
+PricingTemplateOwner,1107,Allied
+CanadaPricingMethod,1108,Cost Plus Margin
+CanadaPricingMethod,1109,Cost Plus Markup
+CanadaPricingMethod,1110,Tariff Less Discount
+CanadaPricingMethod,1111,Minumum Margin
+CanadaPricingMethod,1112,Sell Minimum
+CanadaPricingMethod,1113,Sell Flat Rate 
+CanadaPricingMethod,1114,Added to Percent
+CanadaPricingMethod,1115,Not Applicable
+CanadaSchedule,1116,Blue
+CanadaSchedule,1117,Green
+CanadaSchedule,1118,Yellow
+CanadaSchedule,1119,Red
+CanadaSchedule,1120,Gold
+CanadaSchedule,1121,Platinum
+CanadaSchedule,1122,Black
+ProductTax,1123,GSTBK
+ProductTax,1124,GSTonAR
+PricingOption,1125,TPG
+Inter_Move_Types,1126, Inter City
+Inter_Move_Types,1127,Inter City Agent Booked
+Inter_Move_Types,1128, Inter City
+Inter_Move_Types,1129,Inter City Agent Booked
+Inter_Move_Types,1130, Inter City
+Inter_Move_Types,1131,Inter City Agent Booked
+Inter_Move_Types,1132, Inter City
+Inter_Move_Types,1133,Inter City Agent Booked
+Inter_Move_Types,1134, Inter City
+Inter_Move_Types,1135,Inter City Agent Booked
+Inter_Move_Types,1136, Inter City
+Inter_Move_Types,1137,Inter City Agent Booked
+Auto_Rush_Fee,1138,RushFee
+Inter_NoteTemplates_Types,1163,To Be Crated(Large)
+Inter_NoteTemplates_Types,1164,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1165,To Be Crated(Small)
+Inter_NoteTemplates_Types,1166,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1167,Heavy Item
+Inter_NoteTemplates_Types,1168,Handyman Required
+Inter_NoteTemplates_Types,1169,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1170,Crating Declined
+Inter_NoteTemplates_Types,1171,Dismantle by Handyman
+Inter_NoteTemplates_Types,1172,Dismantle by Allied
+Inter_NoteTemplates_Types,1173,Dismantle by Customer
+Inter_NoteTemplates_Types,1174,Recommended don't disassemble
+Inter_NoteTemplates_Types,1175,Factory packed / wrapped
+Inter_NoteTemplates_Types,1176,Fragile Item
+Inter_NoteTemplates_Types,1177,Hand Hoisting
+Inter_NoteTemplates_Types,1178,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1179,Moisture Absorbers
+Inter_NoteTemplates_Types,1180,Original Box
+Inter_NoteTemplates_Types,1181,Owner Packed
+Inter_NoteTemplates_Types,1182,Special Care and Attention
+Inter_NoteTemplates_Types,1183,Special Handling Required
+Inter_NoteTemplates_Types,1184,Special Wrapping
+Inter_NoteTemplates_Types,1185,Specialist Required
+Inter_NoteTemplates_Types,1186,Stair Carry
+Inter_NoteTemplates_Types,1187,To Be Crated(Large)
+Inter_NoteTemplates_Types,1188,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1189,To Be Crated(Small)
+Inter_NoteTemplates_Types,1190,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1191,Heavy Item
+Inter_NoteTemplates_Types,1192,Handyman Required
+Inter_NoteTemplates_Types,1193,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1194,Crating Declined
+Inter_NoteTemplates_Types,1195,Dismantle by Handyman
+Inter_NoteTemplates_Types,1196,Dismantle by Allied
+Inter_NoteTemplates_Types,1197,Dismantle by Customer
+Inter_NoteTemplates_Types,1198,Recommended don't disassemble
+Inter_NoteTemplates_Types,1199,Factory packed / wrapped
+Inter_NoteTemplates_Types,1200,Fragile Item
+Inter_NoteTemplates_Types,1201,Hand Hoisting
+Inter_NoteTemplates_Types,1202,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1203,Moisture Absorbers
+Inter_NoteTemplates_Types,1204,Original Box
+Inter_NoteTemplates_Types,1205,Owner Packed
+Inter_NoteTemplates_Types,1206,Special Care and Attention
+Inter_NoteTemplates_Types,1207,Special Handling Required
+Inter_NoteTemplates_Types,1208,Special Wrapping
+Inter_NoteTemplates_Types,1209,Specialist Required
+Inter_NoteTemplates_Types,1210,Stair Carry
+Inter_NoteTemplates_Types,1211,To Be Crated(Large)
+Inter_NoteTemplates_Types,1212,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1213,To Be Crated(Small)
+Inter_NoteTemplates_Types,1214,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1215,Heavy Item
+Inter_NoteTemplates_Types,1216,Handyman Required
+Inter_NoteTemplates_Types,1217,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1218,Crating Declined
+Inter_NoteTemplates_Types,1219,Dismantle by Allied
+Inter_NoteTemplates_Types,1220,Dismantle by Customer
+Inter_NoteTemplates_Types,1221,Dismantle by Handyman
+Inter_NoteTemplates_Types,1222,Recommended don't disassemble
+Inter_NoteTemplates_Types,1223,Factory packed / wrapped
+Inter_NoteTemplates_Types,1224,Fragile Item
+Inter_NoteTemplates_Types,1225,Hand Hoisting
+Inter_NoteTemplates_Types,1226,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1227,Original Box
+Inter_NoteTemplates_Types,1228,Owner Packed
+Inter_NoteTemplates_Types,1229,Special Care and Attention
+Inter_NoteTemplates_Types,1230,Special Handling Required
+Inter_NoteTemplates_Types,1231,Special Wrapping
+Inter_NoteTemplates_Types,1232,Specialist Required
+Inter_NoteTemplates_Types,1233,Stair Carry
+Inter_NoteTemplates_Types,1234,To Be Crated(Large)
+Inter_NoteTemplates_Types,1235,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1236,To Be Crated(Small)
+Inter_NoteTemplates_Types,1237,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1238,Heavy Item
+Inter_NoteTemplates_Types,1239,Handyman Required
+Inter_NoteTemplates_Types,1240,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1241,Crating Declined
+Inter_NoteTemplates_Types,1242,Dismantle by Handyman
+Inter_NoteTemplates_Types,1243,Dismantle by Allied
+Inter_NoteTemplates_Types,1244,Dismantle by Customer
+Inter_NoteTemplates_Types,1245,Recommended don't disassemble
+Inter_NoteTemplates_Types,1246,Factory packed / wrapped
+Inter_NoteTemplates_Types,1247,Fragile Item
+Inter_NoteTemplates_Types,1248,Hand Hoisting
+Inter_NoteTemplates_Types,1249,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1250,Original Box
+Inter_NoteTemplates_Types,1251,Owner Packed
+Inter_NoteTemplates_Types,1252,Packing Material
+Inter_NoteTemplates_Types,1253,Special Care and Attention
+Inter_NoteTemplates_Types,1254,Special Handling Required
+Inter_NoteTemplates_Types,1255,Special Wrapping
+Inter_NoteTemplates_Types,1256,Specialist Required
+Inter_NoteTemplates_Types,1257,Stair Carry
+Inter_NoteTemplates_Types,1258,To Be Crated(Large)
+Inter_NoteTemplates_Types,1259,To Be Crated(Medium)
+Inter_NoteTemplates_Types,1260,To Be Crated(Small)
+Inter_NoteTemplates_Types,1261,To Be Crated(Picture)
+Inter_NoteTemplates_Types,1262,Handyman Required
+Inter_NoteTemplates_Types,1263,IKEA-assembly not guaranteed
+Inter_NoteTemplates_Types,1264,Crating Declined
+Inter_NoteTemplates_Types,1265,Dismantle by Handyman
+Inter_NoteTemplates_Types,1266,Dismantle by Allied
+Inter_NoteTemplates_Types,1267,Dismantle by Customer
+Inter_NoteTemplates_Types,1268,Recommended don't disassemble
+Inter_NoteTemplates_Types,1269,Factory packed / wrapped
+Inter_NoteTemplates_Types,1270,Fragile Item
+Inter_NoteTemplates_Types,1271,Hand Hoisting
+Inter_NoteTemplates_Types,1272,Hoisting/ Crane lifting
+Inter_NoteTemplates_Types,1273,Original Box
+Inter_NoteTemplates_Types,1274,Owner Packed
+Inter_NoteTemplates_Types,1275,Special Care and Attention
+Inter_NoteTemplates_Types,1276,Special Handling Required
+Inter_NoteTemplates_Types,1277,Special Wrapping
+Inter_NoteTemplates_Types,1278,Specialist Required
+Inter_NoteTemplates_Types,1279,Stair Carry
+InterRoomSurveyWeightExclude,1280,Not To Ship
+InterRoomSurveyWeightExclude,1281,Items Not Moving
+CanadaSchedule,1282,White
+Residence_Type,1283,Condominium
+Residence_Type,1284,Hotel
+Residence_Type,1285,High Rise Appartment
+Residence_Type,1286,Landed Property
+Residence_Type,1287,Office
+Residence_Type,1288,Row House
+Residence_Type,1289,Serviced Appartments
+Residence_Type,1290,Self Storage Unit
+Residence_Type,1291,Town House
+Residence_Type,1292,Villa
+Residence_Type,1293,Hotel
+Residence_Type,1294,High Rise Appartment
+Residence_Type,1295,Landed Property
+Residence_Type,1296,Low Rise Appartment with lift
+Residence_Type,1297,Office
+Residence_Type,1298,Serviced Appartments
+Residence_Type,1299,Self Storage Unit
+Residence_Type,1300,Town House
+Residence_Type,1301,Village House
+Residence_Type,1302,Walkup Appartment
+Residence_Type,1303,Condo
+Residence_Type,1304,Hotel
+Residence_Type,1305,Landed Property
+Residence_Type,1306,Landed Property Gated
+Residence_Type,1307,Office
+Residence_Type,1308,Serviced Appartments
+Residence_Type,1309,Self Storage Unit
+Residence_Type,1310,Town House
+Residence_Type,1311,Compound
+Residence_Type,1312,Hotel
+Residence_Type,1313,High Rise Appartment
+Residence_Type,1314,Line House
+Residence_Type,1315,Office
+Residence_Type,1316,Serviced Appartments
+Residence_Type,1317,Self Storage Unit
+Residence_Type,1318,Town House
+Residence_Type,1319,Villa
+CaliforniaCountyList,1320,Alameda County
+CaliforniaCountyList,1321,Alpine County
+CaliforniaCountyList,1322,Amador County
+CaliforniaCountyList,1323,Butte County
+CaliforniaCountyList,1324,Calaveras County
+CaliforniaCountyList,1325,Colusa County
+CaliforniaCountyList,1326,Contra Costa County
+CaliforniaCountyList,1327,Del Norte County
+CaliforniaCountyList,1328,El Dorado County
+CaliforniaCountyList,1329,Fresno County
+CaliforniaCountyList,1330,Glenn County
+CaliforniaCountyList,1331,Humboldt County
+CaliforniaCountyList,1332,Imperial County
+CaliforniaCountyList,1333,Inyo County
+CaliforniaCountyList,1334,Kern County
+CaliforniaCountyList,1335,Kings County
+CaliforniaCountyList,1336,Lake County
+CaliforniaCountyList,1337,Lassen County
+CaliforniaCountyList,1338,Los Angeles County
+CaliforniaCountyList,1339,Madera County
+CaliforniaCountyList,1340,Marin County
+CaliforniaCountyList,1341,Mariposa County
+CaliforniaCountyList,1342,Mendocino County
+CaliforniaCountyList,1343,Merced County
+CaliforniaCountyList,1344,Modoc County
+CaliforniaCountyList,1345,Mono County
+CaliforniaCountyList,1346,Monterey County
+CaliforniaCountyList,1347,Napa County
+CaliforniaCountyList,1348,Nevada County
+CaliforniaCountyList,1349,Orange County
+CaliforniaCountyList,1350,Placer County
+CaliforniaCountyList,1351,Plumas County
+CaliforniaCountyList,1352,Riverside County
+CaliforniaCountyList,1353,Sacramento County
+CaliforniaCountyList,1354,San Benito County
+CaliforniaCountyList,1355,San Bernardino County
+CaliforniaCountyList,1356,San Diego County
+CaliforniaCountyList,1357,San Francisco County
+CaliforniaCountyList,1358,San Joaquin County
+CaliforniaCountyList,1359,San Luis Obispo County
+CaliforniaCountyList,1360,San Mateo County
+CaliforniaCountyList,1361,Santa Barbara County
+CaliforniaCountyList,1362,Santa Clara County
+CaliforniaCountyList,1363,Shasta County
+CaliforniaCountyList,1364,Sierra County
+CaliforniaCountyList,1365,Siskiyou County
+CaliforniaCountyList,1366,Solano County
+CaliforniaCountyList,1367,Santa Cruz County
+CaliforniaCountyList,1368,Sonoma County
+CaliforniaCountyList,1369,Stanislaus County
+CaliforniaCountyList,1370,Sutter County
+CaliforniaCountyList,1371,Tehama County
+CaliforniaCountyList,1372,Toulumne County
+CaliforniaCountyList,1373,Trinity County
+CaliforniaCountyList,1374,Tulare County
+CaliforniaCountyList,1375,Ventura County
+CaliforniaCountyList,1376,Yolo County
+CaliforniaCountyList,1377,Yuba County
+MobileSyncLeadSurveyDateTime,1379,SurveyDate
+International_Status,1380,Booked
+International_Status,1381,Lost
+International_Status,1382,Cancelled
+Inter_ItemUse_Types,1383,Local Move
+IntlSurveyType,1384,Email
+IntlSurveyType,1385,Inspect
+IntlSurveyType,1386,Non-Surveyed
+IntlSurveyType,1387,Phone
+IntlSurveyType,1388,ReSurvey
+IntlSurveyType,1389,Self Survey
+IntlSurveyType,1390,Video
+MobileSyncLeadSurveyDateTime,1391,SurveyDate
+MobilePdfDocumentSync,1392,MobilePdfDocumentSyncFlag
+IntlCountry,1393,New Zealand
+IntlCountry,1394,Australia
+LMPMoveTypeConfigFlag,1395,0
+ESignPdfFile_Sequence,1396,StandardMovePacket
+ESignPdfFile_Sequence,1397,DOV
+ESignPdfFile_Sequence,1398,EOS
+ESignPdfFile_Sequence,1399,Inventory
+ESignPdfFile_Sequence,1400,Waiver
+Inter_Move_Types,1401,Business relocation
+Inter_Move_Types,1402,Country
+Inter_Move_Types,1403,Country to store
+Inter_Move_Types,1404,Export
+Inter_Move_Types,1405,Import
+Inter_Move_Types,1406,Interstate
+Inter_Move_Types,1407,Local
+Inter_Move_Types,1408,Local to store
+Inter_Move_Types,1409,Store out
+Inter_Move_Types,1410,"Store out, interstate"
+Inter_Move_Types,1412,Business relocation
+Inter_Move_Types,1413,Country
+Inter_Move_Types,1414,Country to store
+Inter_Move_Types,1415,Export
+Inter_Move_Types,1416,Import
+Inter_Move_Types,1417,Interstate
+Inter_Move_Types,1418,Local
+Inter_Move_Types,1419,Local to store
+Inter_Move_Types,1420,Store out
+Inter_Move_Types,1421,"Store out, interstate"
+Inter_ItemUse_Types,1423,Store
+Inter_ItemUse_Types,1424,Sea freight
+Inter_ItemUse_Types,1425,Road freight
+Inter_ItemUse_Types,1426,Address 2
+Inter_ItemUse_Types,1427,Air freight
+Inter_ItemUse_Types,1428,Optional
+Inter_ItemUse_Types,1429,Not Going
+Inter_ItemUse_Types,1430,Residence
+Inter_ItemUse_Types,1431,Store
+Inter_ItemUse_Types,1432,Sea freight
+Inter_ItemUse_Types,1433,Road freight
+Inter_ItemUse_Types,1434,Address 2
+Inter_ItemUse_Types,1435,Air freight
+Inter_ItemUse_Types,1436,Optional
+Inter_ItemUse_Types,1437,Not Going
+Inter_ItemUse_Types,1438,Residence
+IntlRateRequestEmailAddress,1439,Allied.Rates@SIRVA.com
+IntlRateRequestEmailAddress,1440,nairates@SIRVA.com
+APPOINTMENT,1441,OAS
+TransferType,1442,OAS
+AgencySMTPBrandEmailAddress,1443,AVL
+AgencySMTPBrandEmailAddress,1444,NAVL
+AgencySMTPBrandEmailAddress,1447,AVL
+AgencySMTPBrandEmailAddress,1448,NAVL
+enableSistrs,1449,1
+Canada_Pricing_Country_code,1450,CDL
+Canada_Pricing_Country_code,1451,FTM
+Canada_Pricing_Country_code,1452,INU
+Canada_Pricing_Country_code,1453,LAB
+Canada_Pricing_Country_code,1454,NUN
+Canada_Pricing_Country_code,1455,NWT
+Canada_Pricing_Country_code,1456,YUK
+Method_Of_Invoice,1457,Agent to Bills
+Method_Of_Invoice,1458, Van Line to Bills
+ESigDataTagMax,1459,visibility
+Inter_ItemUse_Types,1460,Address 3
+Inter_NoteTemplates_Types,1462,Double bubble & hard cardboard wrap
+Inter_NoteTemplates_Types,1463,Electrician
+Inter_NoteTemplates_Types,1464,Handyman
+Inter_NoteTemplates_Types,1465,Heavy item
+Inter_NoteTemplates_Types,1466,Crating declined
+Inter_NoteTemplates_Types,1467,Fragile item
+Inter_NoteTemplates_Types,1469,Double bubble & hard cardboard wrap
+Inter_NoteTemplates_Types,1470,Electrician
+Inter_NoteTemplates_Types,1471,Handyman
+Inter_NoteTemplates_Types,1472,Heavy item
+Inter_NoteTemplates_Types,1473,Crating declined
+Inter_NoteTemplates_Types,1474,Fragile item
+IntlChkListDriveWay,1475,None
+IntlChkListDriveWay,1476,Steep
+IntlChkListDriveWay,1477,Flat
+IntlChkListDriveWay,1478,Long
+IntlChkListDriveWayLength,1479,5
+IntlChkListDriveWayLength,1480,10
+IntlChkListDriveWayLength,1481,15
+IntlChkListDriveWayLength,1482,50+
+IntlChkListDriveWayLength,1483,100+
+IntlChkListAdjoiningResidenceObstructed,1484,Yes
+IntlChkListAdjoiningResidenceObstructed,1485,No
+IntlChkListAdjoiningResidenceObstructed,1486,N/A
+IntlChkListStreetAccess,1487,Wide
+IntlChkListStreetAccess,1488,Narrow
+IntlChkListStreetAccess,1489,Steep
+IntlChkListStreetAccess,1490,Flat
+IntlChkListStreetAccess,1491,Normal
+IntlChkListStreetAccess,1492,Oneway
+IntlChkListStreetAccess,1493,Cul de sac
+IntlChkListStreetAccess,1494,Roundabout
+IntlChkListStreetAccess,1495,Speed humps
+IntlChkListStreetAccess,1496,Permit required
+IntlChkListStreetAccess,1497,No through road
+IntlChkListTreeOrPowerlines,1498,Overhanging
+IntlChkListTreeOrPowerlines,1499,Low
+IntlChkListTreeOrPowerlinesActions,1500,Care required
+IntlChkListTreeOrPowerlinesActions,1501,Use low vehicle
+IntlChkListStepsCount,1502,< 10
+IntlChkListStepsCount,1503,< 20
+IntlChkListStepsCount,1504,20+
+IntlChkListSteps,1505,Internal
+IntlChkListSteps,1506,External
+IntlChkListResidence,1507,Single storey
+IntlChkListResidence,1508,Split level
+IntlChkListResidence,1509,Multi storey
+IntlChkListResidence,1510,Apartment
+IntlChkListTypesOfLift,1511,Passenger
+IntlChkListTypesOfLift,1512,Goods
+IntlChkListTypesOfLift,1513,N/A
+IntlChkListParking,1514,DriveWay
+IntlChkListParking,1515,On road
+IntlChkListVehicleSize,1516,Small
+IntlChkListVehicleSize,1517,Rigid
+IntlChkListVehicleSize,1518,Semi
+ESigDataTagMax,1519,visibility
+Canada_SelfHaul_LOV,1520,No
+Canada_SelfHaul_LOV,1521,Self
+Canada_SelfHaul_LOV,1522,Crew Through
+IntlChkListCarryDistance,1523,< 10
+IntlChkListCarryDistance,1524,< 20
+IntlChkListCarryDistance,1525,< 50
+IntlChkListCarryDistance,1526,50+
+PMQuoteShipmentType,1527,Door
+PMQuoteShipmentType,1528,Port
+PMQuoteShipmentType,1529,Warehouse
+PMQuoteShipmentMode,1530,AIR
+PMQuoteShipmentMode,1531,FCL
+PMQuoteShipmentMode,1532,LCL
+PMQuoteShipmentContainerSize,1533,20'
+PMQuoteShipmentContainerSize,1534,40'
+PMQuoteShipmentContainerSize,1535,40HC'
+PMQuoteShipmentContainerSize,1536,45HC'
+InternationalRelocationReason,1537,Relocating to the country for the first time
+InternationalRelocationReason,1538,Returning to home country after more than 1 year abroad
+InternationalRelocationReason,1539,Shipping items to a friend / relative
+InternationalRelocationReason,1540,Moving items to a 2nd residence / holiday home
+InternationalRelocationReason,1541,Other
+Inter_NoteTemplates_Types,1542,Extra Man
+Inter_NoteTemplates_Types,1543,Dismantled by Owner
+Inter_NoteTemplates_Types,1544,Extra Man
+Inter_NoteTemplates_Types,1545,Dismantled by Owner
+Inter_Move_Types,1546,Salvage Collection
+Inter_Move_Types,1547,Salvage Collection
+Inter_NoteTemplates_Types,1548,Disassembly
+Inter_NoteTemplates_Types,1549,Disassembly

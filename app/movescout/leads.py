@@ -12,21 +12,38 @@ def build_get_all_lead_payload(
     page_size: int = 100,
     sort_field: str | None = None,
     sort_dir: str = "desc",
-    logic: str = "and",
+    logic: str = "",
+    sorting: str = "asc",
 ) -> dict[str, Any]:
-    """Body for POST /api/services/app/Lead/GetAllLead (MoveScout SPA shape)."""
+    """Body for POST /api/services/app/Lead/GetAllLead (MoveScout SPA shape).
+
+    Wire format captured in P11 (2026-09-22):
+    - logic: "" for baseline (no filters), "and" when filters[] is non-empty
+    - sorting: "asc" or "desc" (wire field; distinct from sort_dir)
+    - sortDescriptor: {} (empty object in all captures)
+    """
+    effective_filters = filters or []
+    effective_logic = logic if logic else ("and" if effective_filters else "")
+
     payload: dict[str, Any] = {
         "name": "",
+        "logic": effective_logic,
         "bulkList": [],
-        "filters": filters or [],
-        "sortField": sort_field or "",
-        "sortDir": sort_dir,
+        "filters": effective_filters,
+        "sortDescriptor": {},
+        "searchKeyWord": None,
         "defaultFilterLead": default_filter,
+        "allSelectedLead": False,
+        "leadsId": [],
+        "loadVirtualSurveyCompleted": False,
+        "dashboarNavigationLeads": False,
+        "sorting": sorting,
         "maxResultCount": page_size,
         "skipCount": movescout_skip_count(page, page_size),
     }
-    if logic:
-        payload["logic"] = logic
+    if sort_field:
+        payload["sortField"] = sort_field
+        payload["sortDir"] = sort_dir
     return payload
 
 
@@ -39,7 +56,8 @@ async def get_all_leads(
     page_size: int = 100,
     sort_field: str | None = None,
     sort_dir: str = "desc",
-    logic: str = "and",
+    logic: str = "",
+    sorting: str = "asc",
 ) -> Any:
     payload = build_get_all_lead_payload(
         default_filter=default_filter,
@@ -49,6 +67,7 @@ async def get_all_leads(
         sort_field=sort_field,
         sort_dir=sort_dir,
         logic=logic,
+        sorting=sorting,
     )
     return await client.request("POST", "/api/services/app/Lead/GetAllLead", json=payload)
 

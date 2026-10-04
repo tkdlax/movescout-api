@@ -144,7 +144,8 @@ def main() -> int:
                     "disposition": lead.get("disposition"),
                 }
             )
-        print(json.dumps({"totalCount": total_count, "returned": len(rows), "leads": rows}, indent=2))
+        output = {"totalCount": total_count, "returned": len(rows), "leads": rows}
+        print(json.dumps(output, indent=2))
         return 0
 
     seen: set[str] = set()

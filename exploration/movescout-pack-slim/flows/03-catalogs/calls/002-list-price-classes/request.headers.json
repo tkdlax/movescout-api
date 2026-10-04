@@ -1,0 +1,5 @@
+{
+  "Accept": "application/json",
+  "Origin": "https://movescoutpro.sirva.com",
+  "Authorization": "Bearer [REDACTED]"
+}

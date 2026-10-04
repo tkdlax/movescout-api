@@ -3,6 +3,7 @@ from email.utils import format_datetime
 from typing import Any
 
 ALLOWED_FILTER_FIELDS = {
+    # Legacy middleware fields
     "agencyCode",
     "dispositionId",
     "moveTypeId",
@@ -17,6 +18,43 @@ ALLOWED_FILTER_FIELDS = {
     "leadId",
     "activityStart",
     "activityType",
+    # P11 live-captured filter fields (2026-09-22)
+    "id",  # Record Id (contains)
+    "leadCustomerDetail.lastName",  # Last Name (contains)
+    "leadCustomerDetail.firstName",  # First Name (contains)
+    "leadCustomerDetail.primaryEmailAddress",  # Primary Email (contains)
+    "leadcustomerdetail.homephone",  # Exact wire spelling; UI Phone Type quirk (contains)
+    "assignedDate",  # Date preset {id, value}
+    # P11 expanded live-proven fields (2026-09-22)
+    "leadLMP.lmpId",  # LMP ID (contains)
+    "appointmentTypeId",  # Appointment Type (eq)
+    "leadMoveDate.loadFromDate",  # Load From Date - date preset {id, value}
+    "primaryLeadEstimate.effectiveDate",  # Effective Date - date preset {id, value}
+    "primaryLeadEstimate.validThruDate",  # Valid Thru Date - date preset {id, value}
+    "lastModificationTime",  # Last Modified - date preset {id, value}
+    "mobileSyncFlag",  # Mobile Sync Flag (eq true)
+    "isQualifiedLead",  # Is Qualified Lead (eq true)
+    "createdUserName",  # Created By (contains)
+    "estimateTotal",  # Estimate Total (eq numeric)
+    "fundedId",  # Funded ID (eq)
+    "dwellingTypeId",  # Dwelling Type (eq)
+    "leadNonConforming.nonConformingFlag",  # Non-Conforming Flag (eq true)
+    "leadMoSys.canadaGovMove",  # Canada Gov Move (eq true)
+    # P11 packets 28-38 live-proven fields (2026-09-22)
+    # CONTAINS fields
+    "coordinatorName",  # Coordinator (contains)
+    "modifiedUserName",  # Modified By (contains)
+    # Local Carrier (contains) - UI gap: filter submits but blank cells → 0 matches
+    "localCarrierId",
+    # EQ fields
+    "createdSource",  # Created Source (eq e.g. 5)
+    "mobileSyncStatusId",  # Mobile Sync Status (eq e.g. 204)
+    "lostReasonId",  # Lost Reason (eq e.g. 13)
+    "leadLMP.transferTypeId",  # Transfer Type (eq e.g. 1063)
+    # DATE PRESET fields
+    "leadMoveDate.loadToDate",  # Load To Date - date preset {id, value}
+    "leadMoveDate.expectedDeliverDate",  # Expected Delivery Date - date preset {id, value}
+    "leadMoveDate.scheduledDate",  # Appt Created Date (Scheduled Date) - date preset {id, value}
 }
 
 OP_MAP = {
@@ -33,6 +71,28 @@ OP_MAP = {
 
 def current_http_date() -> str:
     return format_datetime(datetime.now(UTC), usegmt=True)
+
+
+DATE_PRESET_FIELDS = {
+    "assignedDate",
+    "creationTime",
+    # P11 expanded date preset fields
+    "leadMoveDate.loadFromDate",
+    "primaryLeadEstimate.effectiveDate",
+    "primaryLeadEstimate.validThruDate",
+    "lastModificationTime",
+    # P11 packets 28-38 date preset fields
+    "leadMoveDate.loadToDate",
+    "leadMoveDate.expectedDeliverDate",
+    "leadMoveDate.scheduledDate",
+}
+
+
+def is_date_preset_value(value: Any) -> bool:
+    """Check if value is a date preset object like {id: 5, value: 30}."""
+    if not isinstance(value, dict):
+        return False
+    return "id" in value and "value" in value
 
 
 def build_kendo_filter(
@@ -130,6 +190,21 @@ def build_last_n_days_filter(field: str, days: int) -> dict[str, Any]:
         "field": field,
         "operator": "eq",
         "value": {"id": 8, "value": str(days)},
+        "condition": "and",
+        "date": current_http_date(),
+    }
+
+
+# P11 Date Preset IDs (from live capture)
+DATE_PRESET_PREVIOUS_MONTH = {"id": 5, "value": 30}
+
+
+def build_previous_month_filter(field: str = "assignedDate") -> dict[str, Any]:
+    """Previous Month date preset (id=5, value=30) as captured in P11."""
+    return {
+        "field": field,
+        "operator": "eq",
+        "value": DATE_PRESET_PREVIOUS_MONTH,
         "condition": "and",
         "date": current_http_date(),
     }

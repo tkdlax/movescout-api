@@ -1,0 +1,45 @@
+{
+  "result": [
+    {
+      "priceClassID": "3976",
+      "description": "Bailey's Consumer 2019"
+    },
+    {
+      "priceClassID": "346",
+      "description": "Baileys Moving & Storage"
+    },
+    {
+      "priceClassID": "4235",
+      "description": "BGRS - Canada"
+    },
+    {
+      "priceClassID": "4231",
+      "description": "BGRS - Domestic"
+    },
+    {
+      "priceClassID": "4257",
+      "description": "BGRS - Domestic - General Motors"
+    },
+    {
+      "priceClassID": "3871",
+      "description": "Military - DP3 Non-Peak Pricing"
+    },
+    {
+      "priceClassID": "3868",
+      "description": "Military - DP3 Peak Pricing"
+    },
+    {
+      "priceClassID": "2705",
+      "description": "SIRVA - International"
+    },
+    {
+      "priceClassID": "2684",
+      "description": "SIRVA Relo. - Enterprise"
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

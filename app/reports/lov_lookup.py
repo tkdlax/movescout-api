@@ -55,7 +55,9 @@ def _field_base_for_table(table_name: str) -> str | None:
     return None
 
 
-def _store_lookup_entry(lookup: dict[str, dict[Any, str]], field_base: str, entry_id: Any, name: str) -> None:
+def _store_lookup_entry(
+    lookup: dict[str, dict[Any, str]], field_base: str, entry_id: Any, name: str
+) -> None:
     bucket = lookup.setdefault(field_base, {})
     bucket[entry_id] = name
     try:

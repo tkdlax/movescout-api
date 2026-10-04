@@ -1,0 +1,5 @@
+{
+  "method": "GET",
+  "url": "https://movescoutproapi.sirva.com//api/services/app/GetEstimate/GetEstimateTariffByEffectiveDate?estimateId=2395896&tariffId=658&tariffName=TPG&effectiveDate=2026-09-21T00%3A00%3A00.000Z",
+  "headers": {}
+}

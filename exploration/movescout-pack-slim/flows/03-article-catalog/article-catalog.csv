@@ -1,0 +1,367 @@
+articleId,articleName,articleCode,cube,weightLbs,roomId,roomName,isActive,domestic,canada,international,local,carton,pbo,mattcp,bulky,crateFlag
+1,1.5 - CP,E,1.5,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+3,3.0 - CP,F,3.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+309,4.5 - CP,G,4.5,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+311,6.0 - CP,H,6.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+313,6.5 - CP,J,6.5,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+315,Book Carton - CP,4,7.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+340,Dish Pack - CP,A,10.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+383,Matt. Crib - CP,L,0.0,0.0,1,Cartons,True,True,False,True,True,True,False,True,False,False
+389,Matt. Double - CP,M,0.0,0.0,1,Cartons,True,True,False,True,True,True,False,True,False,False
+458,Matt. Q/K - CP,N,0.0,0.0,1,Cartons,True,True,False,True,True,True,False,True,False,False
+461,Matt. Q/K Split - CP,3,0.0,0.0,1,Cartons,True,True,False,False,False,True,False,True,False,False
+464,Matt. Single - CP,3,0.0,0.0,1,Cartons,True,True,False,True,False,True,False,True,False,False
+467,Mattress Cover - CP,1,0.0,0.0,1,Cartons,True,True,False,False,False,True,False,True,False,False
+469,Mirror Crt. - CP,D,3.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+1269,TV Carton - CP,5,15.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+1272,Wardrobe - CP,K,10.0,0.0,1,Cartons,True,True,False,True,True,True,False,False,False,False
+997,Fish Tank 1,V139,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+998,Fish Tank 2,V140,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+999,Fish Tank 3,V141,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1011,Furniture 1,V153,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1012,Furniture 2,V154,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1013,Furniture 3,V155,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1018,Glass Top 1,V160,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1019,Glass Top 2,V161,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1020,Glass Top 3,V162,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1021,Glass Top 4,V163,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1022,Glass Top 5,V164,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1023,Glass Top 6,V165,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1024,Glass Top 7,V166,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1025,Glass Top 8,V167,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1026,Glass Top 9,V168,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1066,Marble 1,V210,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1067,Marble 2,V211,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1068,Marble 3,V212,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1069,Marble 4,V213,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1070,Marble 5,V214,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1071,Marble 6,V215,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1072,Marble 7,V216,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1073,Marble 8,V217,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1074,Marble 9,V218,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1078,Mirror 1,V222,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1079,Mirror 2,V223,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1080,Mirror 3,V224,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1081,Mirror 4,V225,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1082,Mirror 5,V226,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1083,Mirror 6,V227,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1084,Mirror 7,V228,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1085,Mirror 8,V229,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1086,Mirror 9,V230,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1087,Misc. Crate 1,V231,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1088,Misc. Crate 2,V232,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1089,Misc. Crate 3,V233,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1090,Misc. Crate 4,V234,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1091,Misc. Crate 5,V235,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1092,Misc. Crate 6,V236,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1093,Misc. Crate 7,V237,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1094,Misc. Crate 8,V238,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1095,Misc. Crate 9,V239,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1129,Picture 1,V273,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1130,Picture 2,V274,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1131,Picture 3,V275,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1132,Picture 4,V276,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1133,Picture 5,V277,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1134,Picture 6,V278,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1135,Picture 7,V279,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1136,Picture 8,V280,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1137,Picture 9,V281,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1141,Plasma TV 1,V286,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1142,Plasma TV 2,V287,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1143,Plasma TV 3,V288,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1198,Statue 1,V346,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1199,Statue 2,V347,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+1200,Statue 3,V348,0.0,0.0,74,Crates,True,True,False,True,True,False,False,False,False,True
+2,1.5 - PBO,P000,1.5,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+308,3.0 - PBO,P001,3.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+310,4.5 - PBO,P002,4.5,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+312,6.0 - PBO,P003,6.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+314,6.5 - PBO,P004,6.5,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+317,Book Carton - PBO,P005,7.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+341,Dish Pack - PBO,P008,10.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+384,Matt. Crib - PBO,P006,0.0,0.0,2,PBO,True,True,False,True,True,False,True,True,False,False
+390,Matt. Double - PBO,P007,0.0,0.0,2,PBO,True,True,False,True,True,False,True,True,False,False
+459,Matt. Q/K - PBO,P016,0.0,0.0,2,PBO,True,True,False,True,True,False,True,True,False,False
+462,Matt. Q/K Split - PBO,P011,0.0,0.0,2,PBO,True,True,False,True,True,False,True,True,False,False
+465,Matt. Single - PBO,P017,0.0,0.0,2,PBO,True,True,False,True,True,False,True,True,False,False
+468,Mattress Cover - PBO,P013,0.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+470,Mirror Crt. - PBO,P014,3.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+1270,TV Carton - PBO,P020,15.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+1273,Wardrobe - PBO,P019,10.0,0.0,2,PBO,True,True,False,True,True,False,True,False,False,False
+878,"Bar, Portable",V014,15.0,0.0,14,Barn,True,True,False,True,True,False,False,False,False,False
+879,"Bar, Stool",V015,3.0,0.0,14,Barn,True,True,False,True,True,False,False,False,False,False
+1202,"Stool, Bar",V350,3.0,0.0,14,Barn,True,True,False,True,True,False,False,False,False,False
+866,2 Wheel Dollies,V001,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+867,4 Wheel Dollies,V002,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+869,A Frame Dollies,V004,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+870,Air Conditioner,V005,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+874,Armoire,V010,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+876,Baker's Rack,V012,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+877,Bankers Box,V013,4.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+878,"Bar, Portable",V014,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+879,"Bar, Stool",V015,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+880,Barbells lbs.,V016,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+881,Basinette,V017,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+884,"BBQ Grill, Large",V020,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+885,"BBQ Grill, Small",V021,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+886,"Bed, Bunk (Set 2)",V022,70.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+887,"Bed, Footboard",V023,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+888,"Bed, Full/Dbl.",V024,60.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+889,"Bed, Headboard",V025,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+890,"Bed, King",V026,70.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+891,"Bed, Metal Frame",V027,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+892,"Bed, Queen",V028,65.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+893,"Bed, Rollaway",V029,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+894,"Bed, Single",V030,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+895,"Bed, Waterbed Base",V031,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+896,"Bed, Youth",V032,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+898,"Bench, Harvest",V034,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+899,"Bench, Vanity",V035,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+900,Bicycle,V036,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+901,Birdbath,V037,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+905,Book Carts,V041,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+906,Bookcase,V042,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+907,"Bookshelf, Large",V043,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+908,"Bookshelf, Small",V044,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+909,Bowling Bag / Ball,V045,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+910,Buffet,V046,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+911,"Cabinet, China",V048,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+912,"Cabinet, Corner",V049,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+913,"Cabinet, Curio",V051,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+914,"Cabinet, Filing 2D",V052,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+915,"Cabinet, Filing 4D",V053,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+916,"Cabinet, Kitchen",V054,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+917,"Cabinet, Metal",V055,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+918,"Cabinet, Utility",V057,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+924,CD Rack,V063,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+925,"Chair, Aluminum",V064,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+926,"Chair, Arm",V065,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+927,"Chair, Boudoir",V066,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+928,"Chair, Child's",V067,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+929,"Chair, Dining",V068,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+930,"Chair, Folding",V069,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+931,"Chair, High",V070,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+932,"Chair, Kitchenette",V071,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+933,"Chair, Lounge",V072,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+934,"Chair, Metal",V073,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+935,"Chair, Occasional",V074,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+936,"Chair, Overstuffed",V076,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+937,"Chair, Plastic",V077,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+938,"Chair, Rocker",V078,12.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+939,"Chair, Straight",V079,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+940,"Chair, Wood",V081,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+941,Chair/Card Table Fold.,V082,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+942,Chairs,V083,6.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+943,"Chaise, Aluminum",V084,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+944,"Chaise, Metal",V085,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+945,"Chaise, Plastic",V086,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+946,"Chaise, Wood",V087,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+947,Chest,V088,18.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+948,"Chest, Bachelor",V089,12.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+949,"Chest, Cedar",V090,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+950,"Coat Rack, Large",V091,12.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+951,"Coat Rack, Small",V092,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+952,Computer/Printer,V094,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+953,Conf. Table,V095,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+954,Cooler,V096,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+955,Copier,V097,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+956,"Cot, Folding",V098,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+957,Credenza,V099,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+958,Crib,V100,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+959,Cushion,V101,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+960,Deck Plate,V102,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+961,Dehumidifier,V103,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+963,"Desk, Computer",V105,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+964,"Desk, Credenza",V106,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+965,"Desk, Office",V107,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+966,"Desk, Secretary",V108,35.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+967,"Desk, SM/Winthrop",V109,22.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+968,Desks w/Return,V110,35.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+971,Dishwasher,V113,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+973,Drafting Table,V115,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+974,"Dresser, Double",V116,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+975,"Dresser, Mirror",V117,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+976,"Dresser, Single",V118,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+977,"Dresser, Triple",V119,50.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+978,"Dresser, Vanity",V120,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+979,Dryer,V121,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+980,End Table,V122,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+981,Entertainment Ctr.,V123,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+982,Exec Desks,V124,35.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+983,Exercise Machine,V125,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+984,Exercycle,V126,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+985,Fan,V127,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+989,Fax,V131,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+990,File 2dr Lateral,V132,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+991,File 2dr Vertical,V133,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+992,File 3-4dr Lateral,V134,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+993,File 5dr Lateral,V135,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+994,File 5dr Vertical,V136,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+995,File Cabinets,V137,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+996,Fireplace Equip.,V138,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1000,Flat Bed Truck,V142,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1001,Flat Files,V143,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1002,Folding Chair,V144,1.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1003,Folding Table,V145,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1004,Footlocker,V146,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1005,Footstool,V147,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1006,Fork Lift,V148,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1008,"Freezer, 10 cf or <",V150,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1009,"Freezer, 11 to 15 cf.",V151,45.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1010,"Freezer, 16 cf or >",V152,60.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1014,Futon,V156,35.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1015,Game Table,V157,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1016,Garden Hose,V158,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1027,Glider,V169,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1030,Golf Clubs,V172,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1031,Grandfather Clock,V173,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1032,Hamper,V174,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1033,"Heater, Gas/Electric",V175,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1038,Hutch--Large,V182,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1039,Hutch--Small,V183,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1037,"Hutch, Top",V180,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1040,Ironing Board,V184,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1048,"Ladder, 3' Step",V192,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1049,"Ladder, 8' Metal",V193,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1051,"Ladder, Extension",V195,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1053,"Lamp, Floor/Pole",V197,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1054,Large Table,V198,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1056,Lawn Roller,V200,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1057,Lawn Spreader,V201,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1059,Letter Carton,V203,4.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1062,Luggage,V206,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1063,Machine Carts,V207,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1064,Magazine Rack,V208,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1065,Map Case,V209,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1075,Masonite - 6ft,V219,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1076,Microwave Oven,V220,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1096,Miscellaneous 10 Cu,V240,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1097,Miscellaneous 100 Cu,V241,100.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1098,Miscellaneous 15 Cu,V242,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1099,Miscellaneous 20 Cu,V243,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1100,Miscellaneous 25 Cu,V244,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1101,Miscellaneous 5 Cu,V245,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1102,Miscellaneous 50 Cu,V246,50.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1105,"Mower, Hand",V249,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1106,"Mower, Power",V250,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1107,Music Cabinet,V251,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1108,O/S Furniture,V252,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1109,Office Machine - LG,V253,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1110,Office Machine - SM,V254,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1111,Ottoman,V255,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1112,Outdoor Child Gym,V256,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1113,Outdoor Child Slide,V257,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1114,Outdoor Furniture,V258,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1115,Outdoor Swing,V259,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1116,Panel Cart,V260,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1117,PC,V261,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1118,Pet Carrier,V262,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1127,Picnic Bench,V271,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1128,Picnic Table,V272,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1138,Ping Pong Table,V282,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1139,Plant Stand,V283,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1140,"Plant, Artificial",V284,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1144,"Plastic Cont., Large",V289,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1146,Playpen,V291,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1147,Pool Table Comp.,V292,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1148,Pool Table Slate,V293,100.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1149,"Power Tool, Hand",V294,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1150,"Power Tool, Stand",V295,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1151,"Ramp, Large",V296,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1152,"Ramp, Small",V297,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1153,"Range, 20"" Wide",V298,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1154,"Range, 30"" Wide",V299,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1155,"Range, 36"" Wide",V300,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1156,Record Storage,V301,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1157,Refrig 11 cf. or >,V302,60.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1158,"Refrig., 6 cf. or <",V303,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1159,"Refrig., 7 to 10 cf.",V304,45.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1160,Reg. Desks,V305,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1164,"Rug, Lg. Roll / Pad",V309,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1165,"Rug, Sm. Roll/ Pad",V310,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1166,Safe Jack,V311,0.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1167,Safes,V312,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1169,"Satellite, Small",V315,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1171,Serving Cart,V317,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1172,"Sewing Mach, Portable",V318,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1173,"Sewing Mach., Console",V319,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1174,Sewing Mach.w/ Cabinet,V320,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1175,"Shelf, Large",V321,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1176,"Shelf, Metal",V323,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1177,"Shelf, Small",V324,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1178,Shelving,V326,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1179,Sideboard,V327,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1182,Skis,V330,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1183,Sled,V331,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1184,Small Table,V332,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1186,Snowblower,V334,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1187,Snowboard,V335,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1188,"Sofa, 3 Cushion",V336,50.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1189,"Sofa, 4 Cushion",V337,60.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1190,"Sofa, Hide",V338,60.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1191,"Sofa, Loveseat",V339,35.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1192,"Sofa, Sec.",V340,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1193,"Sofa, Wicker",V341,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1196,Speaker,V344,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1197,Speaker Stand,V345,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1201,Stereo Rack,V349,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1202,"Stool, Bar",V350,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1203,Storage Cabinet,V351,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1204,Suitcase,V352,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1205,Swing,V353,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1206,"Table, Card",V354,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1207,"Table, Changing",V355,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1208,"Table, Childs",V356,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1209,"Table, Coffee / End",V357,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1210,"Table, Dining",V358,30.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1211,"Table, Drafting",V359,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1212,"Table, Drop / Occas",V360,18.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1213,"Table, Kitchenette",V361,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1214,"Table, Large Outdoor",V362,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1215,"Table, Leaf",V363,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1216,"Table, Microwave",V364,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1217,"Table, Night",V365,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1218,"Table, Small Outdoor",V366,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1219,"Table, Utility",V367,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1220,Tea Cart,V368,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1221,Tech Benches,V369,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1222,Tire,V370,3.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1223,Tire w/ Rim,V371,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1225,"Toolchest, Large",V373,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1226,"Toolchest, Medium",V374,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1227,"Toolchest, Small",V375,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1228,Tote Box,V376,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1229,"Tote, Plastic Large",V377,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1230,"Tote, Plastic Medium",V378,6.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1231,"Tote, Plastic Small",V379,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1232,Toy Chest,V380,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1237,Trampoline,V386,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1238,Transfer File,V387,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1239,Trash Can,V388,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1240,"Trash Can, Large",V390,7.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1241,"Trash Can, Small",V391,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1243,Tri-Wall Tubs,V393,27.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1242,Tricycle,V392,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1244,Trunk,V394,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1245,Tube,V395,2.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301076,TV  38” and Under,V419,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301077,TV  39” – 46”,V420,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301078,TV  47” – 56”,V421,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301079,TV 57” – 64”,V422,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301080,TV 65” – 84”,V423,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+301081,TV 85” and Over,V424,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1246,"TV, 19""",V396,10.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1247,"TV, 25""-27""",V397,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1248,"TV, 32""-36""",V398,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1249,"TV, Console",V399,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1250,"TV, Portable",V400,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1252,Umbrella,V402,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1255,Vacuum Cleaner,V405,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1257,Wagon,V407,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1258,"Wardrobe, Large",V408,40.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1259,"Wardrobe, Small",V409,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1260,Washing Machine,V410,25.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1261,Water Cooler,V411,15.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1262,Wheelbarrow,V412,8.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1265,WhiteBoard,V415,5.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False
+1268,Work Bench,V418,20.0,0.0,71,Air,True,True,False,True,True,False,False,False,False,False

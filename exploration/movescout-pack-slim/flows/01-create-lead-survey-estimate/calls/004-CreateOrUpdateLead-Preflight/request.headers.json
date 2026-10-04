@@ -1,0 +1,17 @@
+{
+  "Accept": "*/*",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Access-Control-Request-Headers": "authorization,cache-control,content-type,expires,pragma,x-requested-with",
+  "Access-Control-Request-Method": "POST",
+  "Connection": "keep-alive",
+  "Host": "movescoutproapi.sirva.com",
+  "Origin": "https://movescoutpro.sirva.com",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-site",
+  "Signature": "<redacted>",
+  "Signature-Agent": "<redacted>",
+  "Signature-Input": "<redacted>",
+  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+}

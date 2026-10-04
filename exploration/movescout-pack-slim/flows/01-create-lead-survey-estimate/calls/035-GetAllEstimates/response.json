@@ -1,0 +1,52 @@
+{
+  "result": {
+    "totalCount": 1,
+    "items": [
+      {
+        "id": 2395868,
+        "leadId": 1674404,
+        "brandId": 2,
+        "brandName": "Allied Van Lines",
+        "estimateName": "Test Estimate Revised",
+        "firstName": "Test",
+        "lastName": "Lead",
+        "origin": "500 North Pine Street IL Mount Prospect",
+        "destination": " 1250 Market Street CA San Francisco",
+        "estimateStatus": 1,
+        "registration": "",
+        "registrationDate": null,
+        "moveTypeId": 119,
+        "pricingTariffId": 658,
+        "dispositionId": 43,
+        "dispositionName": null,
+        "isEstimateWithInventory": true,
+        "isOnlyLeadSurveyCreated": false,
+        "isModifyBookedEstimate": false,
+        "isPrimaryEstimate": true,
+        "isOnlyViewable": false,
+        "loadFrom": null,
+        "loadTo": null,
+        "deliverFrom": null,
+        "deliverTo": null,
+        "totalEstimationPriceNet": 0.0,
+        "totalEstimationSellPriceNet": 0.0,
+        "createdUserName": "JacobBeckstead",
+        "modifiedUserName": "JacobBeckstead",
+        "creatorUserId": null,
+        "lastModifierUserId": null,
+        "lastModificationTime": "2026-09-22T01:28:07.7918365",
+        "creationTime": "2026-09-22T00:33:39.437756",
+        "isSyncFromMobile": false,
+        "isEstimateRated": false,
+        "destinationAgentId": 0,
+        "tariffForRetail": "",
+        "createdSource": 1
+      }
+    ]
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

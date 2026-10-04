@@ -1,0 +1,17 @@
+{
+  "activityName": "Lead, Test, Mount Prospect, IL, Interstate",
+  "description": "Cust Name: Test Lead<br>Email: test.lead@example.com<br>Home Phone: 4155550138<br>Work Phone: <br>Cell Phone: <br>Origin Address: 500 North Pine Street, Mount Prospect, IL, 60056, US<br>Dest. Address: 1250 Market Street, San Francisco, CA, 94102, US<br><p><p><b>   Survey Type: </b>On-Site Survey</p></p>",
+  "activityType": 1,
+  "activityStart": "2026-09-28T16:00:00.000Z",
+  "activityEnd": "2026-09-28T17:00:00.000Z",
+  "activityStartTime": "2026-09-28T16:00:00.000Z",
+  "activityEndTime": "2026-09-28T17:00:00.000Z",
+  "activityStatus": 2,
+  "reminderType": 1,
+  "appointmentType": 2,
+  "locationType": 2,
+  "activityLocation": "500 North Pine Street, Mount Prospect, IL, US",
+  "activityAssigneeId": 69,
+  "organiserId": 69,
+  "leadId": 1674404
+}

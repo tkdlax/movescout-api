@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
+from app.reports.fiscal_week import fiscal_week_end_label, fiscal_week_number, week_ending_saturday
 from app.reports.lead_filters import (
     MOVE_TYPE_LABEL_TO_ID,
     build_report_lead_filters,
@@ -13,7 +14,6 @@ from app.reports.sales_data import (
     fetch_leads_for_report,
     transform_leads_to_rows,
 )
-from app.reports.fiscal_week import fiscal_week_end_label, fiscal_week_number, week_ending_saturday
 from app.reports.sales_report import bucket, build_html, tally, week_start
 
 

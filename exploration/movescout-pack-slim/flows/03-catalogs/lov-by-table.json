@@ -1,0 +1,6196 @@
+{
+  "APPOINTMENT": [
+    {
+      "id": 1,
+      "name": "AAS"
+    },
+    {
+      "id": 2,
+      "name": "BKFR"
+    },
+    {
+      "id": 3,
+      "name": "CAS"
+    },
+    {
+      "id": 4,
+      "name": "QLAB"
+    },
+    {
+      "id": 5,
+      "name": "VS"
+    },
+    {
+      "id": 798,
+      "name": "MS-Pro"
+    },
+    {
+      "id": 1441,
+      "name": "OAS"
+    }
+  ],
+  "BILLING_TYPE": [
+    {
+      "id": 6,
+      "name": "COD"
+    },
+    {
+      "id": 7,
+      "name": "NAT"
+    },
+    {
+      "id": 8,
+      "name": "DP3"
+    },
+    {
+      "id": 9,
+      "name": "GSA"
+    }
+  ],
+  "CUSTOMER_TYPE": [
+    {
+      "id": 10,
+      "name": "Existing Business"
+    },
+    {
+      "id": 11,
+      "name": "New Business"
+    },
+    {
+      "id": 12,
+      "name": "CUSTOMER_TYPE"
+    }
+  ],
+  "Detail Disposition LOVs": [
+    {
+      "id": 13,
+      "name": "Appointment Cancelled"
+    },
+    {
+      "id": 14,
+      "name": "Capacity / Scheduling"
+    },
+    {
+      "id": 15,
+      "name": "Incomplete Customer Info"
+    },
+    {
+      "id": 16,
+      "name": "Move Date Has Passed"
+    },
+    {
+      "id": 17,
+      "name": "Move too small"
+    },
+    {
+      "id": 18,
+      "name": "Moving Themselves"
+    },
+    {
+      "id": 19,
+      "name": "National Account Move"
+    },
+    {
+      "id": 20,
+      "name": "No Contact"
+    },
+    {
+      "id": 21,
+      "name": "No Longer Moving"
+    },
+    {
+      "id": 22,
+      "name": "Not Serviceable"
+    },
+    {
+      "id": 23,
+      "name": "Other"
+    },
+    {
+      "id": 24,
+      "name": "Out of Time"
+    },
+    {
+      "id": 25,
+      "name": "Past Experience"
+    },
+    {
+      "id": 26,
+      "name": "Pricing"
+    }
+  ],
+  "DETAIL_DISP": [
+    {
+      "id": 27,
+      "name": "Appointment Cancelled"
+    },
+    {
+      "id": 28,
+      "name": "Capacity / Scheduling"
+    },
+    {
+      "id": 29,
+      "name": "No Contact Could"
+    },
+    {
+      "id": 30,
+      "name": "Incomplete Cust Info"
+    },
+    {
+      "id": 31,
+      "name": "Move Date Has Passed"
+    },
+    {
+      "id": 32,
+      "name": "No Longer Moving"
+    },
+    {
+      "id": 33,
+      "name": "Not PT But NA Move"
+    },
+    {
+      "id": 34,
+      "name": "Other"
+    },
+    {
+      "id": 35,
+      "name": "Pricing"
+    },
+    {
+      "id": 36,
+      "name": "Self Haul"
+    }
+  ],
+  "Disposition LOVs": [
+    {
+      "id": 37,
+      "name": "Attempted Contact"
+    },
+    {
+      "id": 38,
+      "name": "Booked"
+    },
+    {
+      "id": 39,
+      "name": "Survey Completed"
+    },
+    {
+      "id": 40,
+      "name": "Duplicate"
+    },
+    {
+      "id": 41,
+      "name": "Inactive"
+    },
+    {
+      "id": 42,
+      "name": "Lost"
+    },
+    {
+      "id": 43,
+      "name": "New"
+    },
+    {
+      "id": 44,
+      "name": "Pending"
+    },
+    {
+      "id": 45,
+      "name": "Ready to book"
+    },
+    {
+      "id": 46,
+      "name": "Survey Scheduled"
+    }
+  ],
+  "Dwelling_Type": [
+    {
+      "id": 47,
+      "name": "1 Bedroom Apt."
+    },
+    {
+      "id": 48,
+      "name": "1 Bedroom House"
+    },
+    {
+      "id": 49,
+      "name": "2 Bedroom Apt."
+    },
+    {
+      "id": 50,
+      "name": "2 Bedroom House"
+    },
+    {
+      "id": 51,
+      "name": "3 Bedroom House"
+    },
+    {
+      "id": 52,
+      "name": "3+ Bedroom Apt."
+    },
+    {
+      "id": 53,
+      "name": "4+ Bedroom House"
+    },
+    {
+      "id": 54,
+      "name": "Small Move(1000 lbs.)"
+    },
+    {
+      "id": 55,
+      "name": "Small Move(2000 lbs.)"
+    },
+    {
+      "id": 58,
+      "name": "Studio"
+    },
+    {
+      "id": 871,
+      "name": "2 Bedroom House 2"
+    }
+  ],
+  "FUNDED": [
+    {
+      "id": 56,
+      "name": "AGT Funded"
+    },
+    {
+      "id": 57,
+      "name": "AGT LMP"
+    },
+    {
+      "id": 799,
+      "name": "CORP LMP"
+    }
+  ],
+  "Furnish Level LOVs": [
+    {
+      "id": 59,
+      "name": "Light"
+    },
+    {
+      "id": 60,
+      "name": "Medium"
+    },
+    {
+      "id": 61,
+      "name": "Heavy"
+    }
+  ],
+  "LEAD_DISP": [
+    {
+      "id": 62,
+      "name": "Booked"
+    },
+    {
+      "id": 63,
+      "name": "Duplicate"
+    },
+    {
+      "id": 64,
+      "name": "New"
+    },
+    {
+      "id": 65,
+      "name": "Not Booked"
+    },
+    {
+      "id": 66,
+      "name": "Pending"
+    },
+    {
+      "id": 67,
+      "name": "Survey Initiated"
+    }
+  ],
+  "LEAD_OUTCOME": [
+    {
+      "id": 68,
+      "name": "Gave Referral"
+    },
+    {
+      "id": 69,
+      "name": "Not a lead"
+    },
+    {
+      "id": 70,
+      "name": "Opportunity created"
+    },
+    {
+      "id": 71,
+      "name": "Reassigned"
+    },
+    {
+      "id": 72,
+      "name": "Unable to reach"
+    },
+    {
+      "id": 73,
+      "name": "Work in progress"
+    }
+  ],
+  "LEAD_QUALITY": [
+    {
+      "id": 74,
+      "name": "1-Excellent"
+    },
+    {
+      "id": 75,
+      "name": "2-Very High"
+    },
+    {
+      "id": 76,
+      "name": "3-High"
+    },
+    {
+      "id": 77,
+      "name": "4-Fair"
+    },
+    {
+      "id": 78,
+      "name": "5-Poor"
+    }
+  ],
+  "LEAD_SOURCE": [
+    {
+      "id": 79,
+      "name": "123Movers"
+    },
+    {
+      "id": 80,
+      "name": "Agent SEO"
+    },
+    {
+      "id": 81,
+      "name": "Allied.com"
+    },
+    {
+      "id": 82,
+      "name": "Bookfresh"
+    },
+    {
+      "id": 83,
+      "name": "Cold Calling"
+    },
+    {
+      "id": 84,
+      "name": "Direct Mail"
+    },
+    {
+      "id": 85,
+      "name": "Northamerican.com"
+    },
+    {
+      "id": 86,
+      "name": "Relocation.com"
+    },
+    {
+      "id": 87,
+      "name": "SEM Agent"
+    },
+    {
+      "id": 88,
+      "name": "SEM Vantage"
+    },
+    {
+      "id": 89,
+      "name": "Yellow Pages"
+    }
+  ],
+  "LEAD_SOURCE_TYPE": [
+    {
+      "id": 90,
+      "name": "11000"
+    },
+    {
+      "id": 91,
+      "name": "11001"
+    },
+    {
+      "id": 92,
+      "name": "11002"
+    },
+    {
+      "id": 93,
+      "name": "11003"
+    },
+    {
+      "id": 94,
+      "name": "11004"
+    },
+    {
+      "id": 95,
+      "name": "11005"
+    },
+    {
+      "id": 96,
+      "name": "11006"
+    },
+    {
+      "id": 97,
+      "name": "11007"
+    },
+    {
+      "id": 98,
+      "name": "11111"
+    }
+  ],
+  "LEAD_STATUS": [
+    {
+      "id": 99,
+      "name": "Converted"
+    },
+    {
+      "id": 100,
+      "name": "Dead"
+    },
+    {
+      "id": 101,
+      "name": "Dead"
+    },
+    {
+      "id": 102,
+      "name": "Dead"
+    },
+    {
+      "id": 103,
+      "name": "New"
+    },
+    {
+      "id": 104,
+      "name": "Working"
+    },
+    {
+      "id": 105,
+      "name": "Working"
+    },
+    {
+      "id": 106,
+      "name": "Working"
+    },
+    {
+      "id": 107,
+      "name": "Working"
+    }
+  ],
+  "LEAD_TYPE": [
+    {
+      "id": 108,
+      "name": "Consumer"
+    },
+    {
+      "id": 109,
+      "name": "National Account"
+    },
+    {
+      "id": 110,
+      "name": "OA Survey"
+    },
+    {
+      "id": 111,
+      "name": "Government"
+    }
+  ],
+  "MKT_CHNL": [
+    {
+      "id": 112,
+      "name": "Affinity"
+    },
+    {
+      "id": 113,
+      "name": "Interactive"
+    },
+    {
+      "id": 114,
+      "name": "Lead Buying"
+    },
+    {
+      "id": 115,
+      "name": "Other"
+    },
+    {
+      "id": 116,
+      "name": "Referrals"
+    },
+    {
+      "id": 117,
+      "name": "Telephone"
+    },
+    {
+      "id": 118,
+      "name": "Sirva Military"
+    }
+  ],
+  "Move_Type": [
+    {
+      "id": 119,
+      "name": "Interstate"
+    },
+    {
+      "id": 120,
+      "name": "Local US"
+    },
+    {
+      "id": 121,
+      "name": "Intrastate"
+    },
+    {
+      "id": 122,
+      "name": "O&I"
+    },
+    {
+      "id": 123,
+      "name": "Military"
+    },
+    {
+      "id": 124,
+      "name": "International"
+    },
+    {
+      "id": 125,
+      "name": "Cross Border"
+    },
+    {
+      "id": 126,
+      "name": "Interprovincial"
+    },
+    {
+      "id": 127,
+      "name": "Intraprovincial"
+    },
+    {
+      "id": 128,
+      "name": "Alaska"
+    },
+    {
+      "id": 129,
+      "name": "Hawaii"
+    },
+    {
+      "id": 130,
+      "name": "Local/Intra"
+    },
+    {
+      "id": 131,
+      "name": "Local Canada"
+    }
+  ],
+  "OWN_OR_RENT": [
+    {
+      "id": 132,
+      "name": "Own"
+    },
+    {
+      "id": 133,
+      "name": "Rent"
+    }
+  ],
+  "PHONE_TYPE": [
+    {
+      "id": 134,
+      "name": "Home"
+    },
+    {
+      "id": 135,
+      "name": "Work"
+    },
+    {
+      "id": 136,
+      "name": "Mobile/Cell"
+    }
+  ],
+  "PREFER_TIME": [
+    {
+      "id": 137,
+      "name": "AM"
+    },
+    {
+      "id": 138,
+      "name": "Either"
+    },
+    {
+      "id": 139,
+      "name": "PM"
+    }
+  ],
+  "Prefered Lang": [
+    {
+      "id": 140,
+      "name": "English"
+    },
+    {
+      "id": 141,
+      "name": "French"
+    }
+  ],
+  "PREMISE_TYPE_CD": [
+    {
+      "id": 142,
+      "name": "Apartment"
+    },
+    {
+      "id": 143,
+      "name": "Business"
+    },
+    {
+      "id": 144,
+      "name": "Single Family House"
+    }
+  ],
+  "SHIPPER_TYPE": [
+    {
+      "id": 145,
+      "name": "Consumer"
+    },
+    {
+      "id": 146,
+      "name": "National Account"
+    },
+    {
+      "id": 147,
+      "name": "OA Survey"
+    },
+    {
+      "id": 148,
+      "name": "Military"
+    },
+    {
+      "id": 149,
+      "name": "GVT"
+    },
+    {
+      "id": 150,
+      "name": "Non-GVT"
+    }
+  ],
+  "SIRVA_CATALOG": [
+    {
+      "id": 152,
+      "name": "Canada Flag"
+    },
+    {
+      "id": 153,
+      "name": "Canadian Govt.Flag"
+    },
+    {
+      "id": 154,
+      "name": "Domestic Flag"
+    },
+    {
+      "id": 155,
+      "name": "International Flag"
+    }
+  ],
+  "SOURCE_NAME": [
+    {
+      "id": 156,
+      "name": "Affiliate Marketing"
+    },
+    {
+      "id": 157,
+      "name": "Agent Affinity"
+    },
+    {
+      "id": 158,
+      "name": "Agent Microsites"
+    },
+    {
+      "id": 159,
+      "name": "Agent Website"
+    },
+    {
+      "id": 160,
+      "name": "Aggregator Leads"
+    },
+    {
+      "id": 161,
+      "name": "Billboards/Outdoor"
+    },
+    {
+      "id": 162,
+      "name": "Bookfresh"
+    },
+    {
+      "id": 163,
+      "name": "Corporate Affinity"
+    },
+    {
+      "id": 164,
+      "name": "Customer Referrals"
+    },
+    {
+      "id": 165,
+      "name": "Direct Mail"
+    },
+    {
+      "id": 166,
+      "name": "Directory Assistance"
+    },
+    {
+      "id": 167,
+      "name": "Display Banners"
+    },
+    {
+      "id": 168,
+      "name": "Door Hangers"
+    },
+    {
+      "id": 169,
+      "name": "Email Marketing"
+    },
+    {
+      "id": 170,
+      "name": "Internet Radio"
+    },
+    {
+      "id": 171,
+      "name": "Internet Yellow Pages"
+    },
+    {
+      "id": 172,
+      "name": "Local Search Websites"
+    },
+    {
+      "id": 173,
+      "name": "Magazine Advertisements"
+    },
+    {
+      "id": 174,
+      "name": "Mobile Search"
+    },
+    {
+      "id": 175,
+      "name": "Mortgage Referrals"
+    },
+    {
+      "id": 176,
+      "name": "Newspaper Advertisements"
+    },
+    {
+      "id": 177,
+      "name": "Other"
+    },
+    {
+      "id": 178,
+      "name": "Paid Search"
+    },
+    {
+      "id": 179,
+      "name": "Past Customers"
+    },
+    {
+      "id": 180,
+      "name": "Print Yellow Pages"
+    },
+    {
+      "id": 181,
+      "name": "Radio/TV"
+    },
+    {
+      "id": 182,
+      "name": "Realtor Leads"
+    },
+    {
+      "id": 183,
+      "name": "Sales Groups"
+    },
+    {
+      "id": 184,
+      "name": "Select Leads"
+    },
+    {
+      "id": 185,
+      "name": "Self Storage Facilities"
+    },
+    {
+      "id": 186,
+      "name": "Social Media"
+    },
+    {
+      "id": 187,
+      "name": "Telemarketing"
+    },
+    {
+      "id": 188,
+      "name": "Text Link Ads"
+    },
+    {
+      "id": 189,
+      "name": "Truck Signs"
+    },
+    {
+      "id": 190,
+      "name": "White Pages"
+    }
+  ],
+  "DELIVERY_MODE": [
+    {
+      "id": 191,
+      "name": "Air"
+    },
+    {
+      "id": 192,
+      "name": "Road"
+    },
+    {
+      "id": 193,
+      "name": "Sea"
+    }
+  ],
+  "UQ_DISPOSITION": [
+    {
+      "id": 194,
+      "name": "New"
+    },
+    {
+      "id": 195,
+      "name": "Fax/busy "
+    },
+    {
+      "id": 196,
+      "name": "No answer"
+    },
+    {
+      "id": 197,
+      "name": "Left voicemail"
+    },
+    {
+      "id": 198,
+      "name": "Prefer call back"
+    },
+    {
+      "id": 199,
+      "name": "Do not call requested"
+    },
+    {
+      "id": 200,
+      "name": "Not interested"
+    },
+    {
+      "id": 201,
+      "name": "Wrong/disconnected #"
+    },
+    {
+      "id": 202,
+      "name": "Converted to qualified"
+    }
+  ],
+  "SYNC_STATUS": [
+    {
+      "id": 203,
+      "name": "Pending"
+    },
+    {
+      "id": 204,
+      "name": "Completed"
+    },
+    {
+      "id": 205,
+      "name": "Error"
+    }
+  ],
+  "MR_MS": [
+    {
+      "id": 206,
+      "name": "Dr."
+    },
+    {
+      "id": 207,
+      "name": "Miss."
+    },
+    {
+      "id": 208,
+      "name": "Mr."
+    },
+    {
+      "id": 209,
+      "name": "Mrs."
+    },
+    {
+      "id": 210,
+      "name": "Ms."
+    },
+    {
+      "id": 211,
+      "name": "Prof."
+    }
+  ],
+  "SHORT_DAY_NAME": [
+    {
+      "id": 212,
+      "name": "Fr"
+    },
+    {
+      "id": 213,
+      "name": "Mo"
+    },
+    {
+      "id": 214,
+      "name": "Sa"
+    },
+    {
+      "id": 215,
+      "name": "Su"
+    },
+    {
+      "id": 216,
+      "name": "Th"
+    },
+    {
+      "id": 217,
+      "name": "Tu"
+    },
+    {
+      "id": 218,
+      "name": "We"
+    }
+  ],
+  "SHORT_MONTH_NAME": [
+    {
+      "id": 219,
+      "name": "Apr"
+    },
+    {
+      "id": 221,
+      "name": "Dec"
+    },
+    {
+      "id": 222,
+      "name": "Feb"
+    },
+    {
+      "id": 223,
+      "name": "Jan"
+    },
+    {
+      "id": 224,
+      "name": "Jul"
+    },
+    {
+      "id": 225,
+      "name": "Jun"
+    },
+    {
+      "id": 226,
+      "name": "Mar"
+    },
+    {
+      "id": 227,
+      "name": "May"
+    },
+    {
+      "id": 228,
+      "name": "Nov"
+    },
+    {
+      "id": 229,
+      "name": "Oct"
+    },
+    {
+      "id": 230,
+      "name": "Sep"
+    }
+  ],
+  "SHORT_MONTH_NAME ": [
+    {
+      "id": 220,
+      "name": "Aug"
+    }
+  ],
+  "AM_PM": [
+    {
+      "id": 231,
+      "name": "am"
+    },
+    {
+      "id": 232,
+      "name": "pm"
+    }
+  ],
+  "GENDER": [
+    {
+      "id": 233,
+      "name": "Female"
+    },
+    {
+      "id": 234,
+      "name": "Male"
+    },
+    {
+      "id": 235,
+      "name": "Unknown"
+    }
+  ],
+  "Address Type LOV": [
+    {
+      "id": 236,
+      "name": "Extra Delivery 1"
+    },
+    {
+      "id": 237,
+      "name": "Extra Delivery 2"
+    },
+    {
+      "id": 238,
+      "name": "Extra Delivery 3"
+    },
+    {
+      "id": 239,
+      "name": "Extra Delivery 4"
+    },
+    {
+      "id": 240,
+      "name": "Extra Delivery 5"
+    },
+    {
+      "id": 241,
+      "name": "Extra Pickup 1"
+    },
+    {
+      "id": 242,
+      "name": "Extra Pickup 2"
+    },
+    {
+      "id": 243,
+      "name": "Extra Pickup 3"
+    },
+    {
+      "id": 244,
+      "name": "Extra Pickup 4"
+    },
+    {
+      "id": 245,
+      "name": "Extra Pickup 5"
+    },
+    {
+      "id": 246,
+      "name": "Main Destination"
+    },
+    {
+      "id": 247,
+      "name": "Main Origin"
+    },
+    {
+      "id": 248,
+      "name": "Perm Dlv"
+    },
+    {
+      "id": 249,
+      "name": "Perm PU"
+    },
+    {
+      "id": 250,
+      "name": "Self Stg Dlv"
+    },
+    {
+      "id": 251,
+      "name": "Self Stg PU"
+    },
+    {
+      "id": 252,
+      "name": "SIT at Destination"
+    },
+    {
+      "id": 253,
+      "name": "SIT at Origin"
+    },
+    {
+      "id": 254,
+      "name": "Extra Pickup 6"
+    }
+  ],
+  "COUNTRY": [
+    {
+      "id": 255,
+      "name": "Afghanistan"
+    },
+    {
+      "id": 256,
+      "name": "Albania"
+    },
+    {
+      "id": 257,
+      "name": "Algeria"
+    },
+    {
+      "id": 258,
+      "name": "American Samoa"
+    },
+    {
+      "id": 259,
+      "name": "Andorra"
+    },
+    {
+      "id": 260,
+      "name": "Angola"
+    },
+    {
+      "id": 261,
+      "name": "Anguilla"
+    },
+    {
+      "id": 262,
+      "name": "Antarctica"
+    },
+    {
+      "id": 263,
+      "name": "Antigua and Barbuda"
+    },
+    {
+      "id": 264,
+      "name": "Argentina"
+    },
+    {
+      "id": 265,
+      "name": "Armenia"
+    },
+    {
+      "id": 266,
+      "name": "Aruba"
+    },
+    {
+      "id": 267,
+      "name": "Australia"
+    },
+    {
+      "id": 268,
+      "name": "Austria"
+    },
+    {
+      "id": 269,
+      "name": "Azerbaijan"
+    },
+    {
+      "id": 270,
+      "name": "Bahamas"
+    },
+    {
+      "id": 271,
+      "name": "Bahrain"
+    },
+    {
+      "id": 272,
+      "name": "Bangladesh"
+    },
+    {
+      "id": 273,
+      "name": "Barbados"
+    },
+    {
+      "id": 274,
+      "name": "Belarus"
+    },
+    {
+      "id": 275,
+      "name": "Belgium"
+    },
+    {
+      "id": 276,
+      "name": "Belize"
+    },
+    {
+      "id": 277,
+      "name": "Benin"
+    },
+    {
+      "id": 278,
+      "name": "Bermuda"
+    },
+    {
+      "id": 279,
+      "name": "Bhutan"
+    },
+    {
+      "id": 280,
+      "name": "Bolivia"
+    },
+    {
+      "id": 281,
+      "name": "Bosnia and Herzegovina"
+    },
+    {
+      "id": 282,
+      "name": "Botswana"
+    },
+    {
+      "id": 283,
+      "name": "Bouvet Island"
+    },
+    {
+      "id": 284,
+      "name": "Brazil"
+    },
+    {
+      "id": 285,
+      "name": "British Indian Ocean Territory"
+    },
+    {
+      "id": 286,
+      "name": "British Virgin Islands"
+    },
+    {
+      "id": 287,
+      "name": "Brunei Darussalam"
+    },
+    {
+      "id": 288,
+      "name": "Bulgaria"
+    },
+    {
+      "id": 289,
+      "name": "Burkina Faso"
+    },
+    {
+      "id": 290,
+      "name": "Burundi"
+    },
+    {
+      "id": 291,
+      "name": "CA"
+    },
+    {
+      "id": 292,
+      "name": "Cambodia"
+    },
+    {
+      "id": 293,
+      "name": "Cameroon"
+    },
+    {
+      "id": 294,
+      "name": "Cape Verde"
+    },
+    {
+      "id": 295,
+      "name": "Cayman Islands"
+    },
+    {
+      "id": 296,
+      "name": "Central African Republic"
+    },
+    {
+      "id": 297,
+      "name": "Chad"
+    },
+    {
+      "id": 298,
+      "name": "Chile"
+    },
+    {
+      "id": 299,
+      "name": "China"
+    },
+    {
+      "id": 300,
+      "name": "Christmas Island"
+    },
+    {
+      "id": 301,
+      "name": "Cocos"
+    },
+    {
+      "id": 302,
+      "name": "Colombia"
+    },
+    {
+      "id": 303,
+      "name": "Comoros"
+    },
+    {
+      "id": 304,
+      "name": "Congo"
+    },
+    {
+      "id": 305,
+      "name": "Cook Islands"
+    },
+    {
+      "id": 306,
+      "name": "Costa Rica"
+    },
+    {
+      "id": 307,
+      "name": "Croatia"
+    },
+    {
+      "id": 308,
+      "name": "Cuba"
+    },
+    {
+      "id": 309,
+      "name": "Cyprus"
+    },
+    {
+      "id": 310,
+      "name": "Czech Republic"
+    },
+    {
+      "id": 311,
+      "name": "Democratic Republic of the Congo"
+    },
+    {
+      "id": 312,
+      "name": "Denmark"
+    },
+    {
+      "id": 313,
+      "name": "Djibouti"
+    },
+    {
+      "id": 314,
+      "name": "Dominica"
+    },
+    {
+      "id": 315,
+      "name": "Dominican Republic"
+    },
+    {
+      "id": 316,
+      "name": "East Timor"
+    },
+    {
+      "id": 317,
+      "name": "Ecuador"
+    },
+    {
+      "id": 318,
+      "name": "Egypt"
+    },
+    {
+      "id": 319,
+      "name": "El Salvador"
+    },
+    {
+      "id": 320,
+      "name": "Equatorial Guinea"
+    },
+    {
+      "id": 321,
+      "name": "Eritrea"
+    },
+    {
+      "id": 322,
+      "name": "Estonia"
+    },
+    {
+      "id": 323,
+      "name": "Ethiopia"
+    },
+    {
+      "id": 324,
+      "name": "Falkland Islands"
+    },
+    {
+      "id": 325,
+      "name": "Faroe Islands"
+    },
+    {
+      "id": 326,
+      "name": "Fiji"
+    },
+    {
+      "id": 327,
+      "name": "Finland"
+    },
+    {
+      "id": 328,
+      "name": "France"
+    },
+    {
+      "id": 329,
+      "name": "France, Metropolitan"
+    },
+    {
+      "id": 330,
+      "name": "French Guiana"
+    },
+    {
+      "id": 331,
+      "name": "French Polynesia"
+    },
+    {
+      "id": 332,
+      "name": "French Southern Territories"
+    },
+    {
+      "id": 333,
+      "name": "Gabon"
+    },
+    {
+      "id": 334,
+      "name": "Gambia"
+    },
+    {
+      "id": 335,
+      "name": "Georgia"
+    },
+    {
+      "id": 336,
+      "name": "Germany"
+    },
+    {
+      "id": 337,
+      "name": "Ghana"
+    },
+    {
+      "id": 338,
+      "name": "Gibraltar"
+    },
+    {
+      "id": 339,
+      "name": "Greece"
+    },
+    {
+      "id": 340,
+      "name": "Greenland"
+    },
+    {
+      "id": 341,
+      "name": "Grenada"
+    },
+    {
+      "id": 342,
+      "name": "Guadeloupe"
+    },
+    {
+      "id": 343,
+      "name": "Guam"
+    },
+    {
+      "id": 344,
+      "name": "Guatemala"
+    },
+    {
+      "id": 345,
+      "name": "Guernsey"
+    },
+    {
+      "id": 346,
+      "name": "Guinea"
+    },
+    {
+      "id": 347,
+      "name": "Guinea-Bissau"
+    },
+    {
+      "id": 348,
+      "name": "Guyana"
+    },
+    {
+      "id": 349,
+      "name": "Haiti"
+    },
+    {
+      "id": 350,
+      "name": "Heard and McDonald Islands"
+    },
+    {
+      "id": 351,
+      "name": "Honduras"
+    },
+    {
+      "id": 352,
+      "name": "Hong Kong"
+    },
+    {
+      "id": 353,
+      "name": "Hungary"
+    },
+    {
+      "id": 354,
+      "name": "Iceland"
+    },
+    {
+      "id": 355,
+      "name": "India"
+    },
+    {
+      "id": 356,
+      "name": "Indonesia"
+    },
+    {
+      "id": 357,
+      "name": "Iran"
+    },
+    {
+      "id": 358,
+      "name": "Iraq"
+    },
+    {
+      "id": 359,
+      "name": "Ireland"
+    },
+    {
+      "id": 360,
+      "name": "Israel"
+    },
+    {
+      "id": 361,
+      "name": "Italy"
+    },
+    {
+      "id": 362,
+      "name": "Ivory Coast"
+    },
+    {
+      "id": 363,
+      "name": "Jamaica"
+    },
+    {
+      "id": 364,
+      "name": "Japan"
+    },
+    {
+      "id": 365,
+      "name": "Jersey"
+    },
+    {
+      "id": 366,
+      "name": "Jordan"
+    },
+    {
+      "id": 367,
+      "name": "Kazakhstan"
+    },
+    {
+      "id": 368,
+      "name": "Kenya"
+    },
+    {
+      "id": 369,
+      "name": "Kiribati"
+    },
+    {
+      "id": 370,
+      "name": "Kosovo"
+    },
+    {
+      "id": 371,
+      "name": "Kuwait"
+    },
+    {
+      "id": 372,
+      "name": "Kyrgyzstan"
+    },
+    {
+      "id": 373,
+      "name": "Laos"
+    },
+    {
+      "id": 374,
+      "name": "Latvia"
+    },
+    {
+      "id": 375,
+      "name": "Lebanon"
+    },
+    {
+      "id": 376,
+      "name": "Lesotho"
+    },
+    {
+      "id": 377,
+      "name": "Liberia"
+    },
+    {
+      "id": 378,
+      "name": "Libya"
+    },
+    {
+      "id": 379,
+      "name": "Liechtenstein"
+    },
+    {
+      "id": 380,
+      "name": "Lithuania"
+    },
+    {
+      "id": 381,
+      "name": "Luxembourg"
+    },
+    {
+      "id": 382,
+      "name": "Macau"
+    },
+    {
+      "id": 383,
+      "name": "Macedonia"
+    },
+    {
+      "id": 384,
+      "name": "Madagascar"
+    },
+    {
+      "id": 385,
+      "name": "Malawi"
+    },
+    {
+      "id": 386,
+      "name": "Malaysia"
+    },
+    {
+      "id": 387,
+      "name": "Maldives"
+    },
+    {
+      "id": 388,
+      "name": "Mali"
+    },
+    {
+      "id": 389,
+      "name": "Malta"
+    },
+    {
+      "id": 390,
+      "name": "Man (Isle of)"
+    },
+    {
+      "id": 391,
+      "name": "Marshall Islands"
+    },
+    {
+      "id": 392,
+      "name": "Martinique"
+    },
+    {
+      "id": 393,
+      "name": "Mauritania"
+    },
+    {
+      "id": 394,
+      "name": "Mauritius"
+    },
+    {
+      "id": 395,
+      "name": "Mayotte"
+    },
+    {
+      "id": 396,
+      "name": "Mexico"
+    },
+    {
+      "id": 397,
+      "name": "Micronesia"
+    },
+    {
+      "id": 398,
+      "name": "Moldova"
+    },
+    {
+      "id": 399,
+      "name": "Monaco"
+    },
+    {
+      "id": 400,
+      "name": "Mongolia"
+    },
+    {
+      "id": 401,
+      "name": "Montserrat"
+    },
+    {
+      "id": 402,
+      "name": "Morocco"
+    },
+    {
+      "id": 403,
+      "name": "Mozambique"
+    },
+    {
+      "id": 404,
+      "name": "Myanmar"
+    },
+    {
+      "id": 405,
+      "name": "Namibia"
+    },
+    {
+      "id": 406,
+      "name": "Nauru"
+    },
+    {
+      "id": 407,
+      "name": "Nepal"
+    },
+    {
+      "id": 408,
+      "name": "Netherlands"
+    },
+    {
+      "id": 409,
+      "name": "Netherlands Antilles"
+    },
+    {
+      "id": 410,
+      "name": "New Caledonia"
+    },
+    {
+      "id": 411,
+      "name": "New Zealand"
+    },
+    {
+      "id": 412,
+      "name": "Nicaragua"
+    },
+    {
+      "id": 413,
+      "name": "Niger"
+    },
+    {
+      "id": 414,
+      "name": "Nigeria"
+    },
+    {
+      "id": 415,
+      "name": "Niue"
+    },
+    {
+      "id": 416,
+      "name": "Norfolk Island"
+    },
+    {
+      "id": 417,
+      "name": "North Korea"
+    },
+    {
+      "id": 418,
+      "name": "Northern Mariana Islands"
+    },
+    {
+      "id": 419,
+      "name": "Norway"
+    },
+    {
+      "id": 420,
+      "name": "Oman"
+    },
+    {
+      "id": 421,
+      "name": "Pakistan"
+    },
+    {
+      "id": 422,
+      "name": "Palau"
+    },
+    {
+      "id": 423,
+      "name": "Panama"
+    },
+    {
+      "id": 424,
+      "name": "Papua New Guinea"
+    },
+    {
+      "id": 425,
+      "name": "Paraguay"
+    },
+    {
+      "id": 426,
+      "name": "Peru"
+    },
+    {
+      "id": 427,
+      "name": "Philippines"
+    },
+    {
+      "id": 428,
+      "name": "Pitcairn"
+    },
+    {
+      "id": 429,
+      "name": "Poland"
+    },
+    {
+      "id": 430,
+      "name": "Portugal"
+    },
+    {
+      "id": 431,
+      "name": "Puerto Rico"
+    },
+    {
+      "id": 432,
+      "name": "Qatar"
+    },
+    {
+      "id": 433,
+      "name": "Reunion"
+    },
+    {
+      "id": 434,
+      "name": "Romania"
+    },
+    {
+      "id": 435,
+      "name": "Russia"
+    },
+    {
+      "id": 436,
+      "name": "Russian Federation"
+    },
+    {
+      "id": 437,
+      "name": "Rwanda"
+    },
+    {
+      "id": 438,
+      "name": "S. Georgia and S. Sandwich Islands"
+    },
+    {
+      "id": 439,
+      "name": "Saint Kitts and Nevis"
+    },
+    {
+      "id": 440,
+      "name": "Saint Lucia"
+    },
+    {
+      "id": 441,
+      "name": "Saint Vincent and the Grenadin"
+    },
+    {
+      "id": 442,
+      "name": "Samoa"
+    },
+    {
+      "id": 443,
+      "name": "San Marino"
+    },
+    {
+      "id": 444,
+      "name": "Sao Tome and Principe"
+    },
+    {
+      "id": 445,
+      "name": "Saudi Arabia"
+    },
+    {
+      "id": 446,
+      "name": "Senegal"
+    },
+    {
+      "id": 447,
+      "name": "Serbia"
+    },
+    {
+      "id": 448,
+      "name": "Seychelles"
+    },
+    {
+      "id": 449,
+      "name": "Sierra Leone"
+    },
+    {
+      "id": 450,
+      "name": "Singapore"
+    },
+    {
+      "id": 451,
+      "name": "Slovakia"
+    },
+    {
+      "id": 452,
+      "name": "Slovenia"
+    },
+    {
+      "id": 453,
+      "name": "Solomon Islands"
+    },
+    {
+      "id": 454,
+      "name": "Somalia"
+    },
+    {
+      "id": 455,
+      "name": "South Africa"
+    },
+    {
+      "id": 456,
+      "name": "South Korea"
+    },
+    {
+      "id": 457,
+      "name": "Spain"
+    },
+    {
+      "id": 458,
+      "name": "Sri Lanka"
+    },
+    {
+      "id": 459,
+      "name": "St. Helena"
+    },
+    {
+      "id": 460,
+      "name": "St. Pierre and Miquelon"
+    },
+    {
+      "id": 461,
+      "name": "Sudan"
+    },
+    {
+      "id": 462,
+      "name": "Suriname"
+    },
+    {
+      "id": 463,
+      "name": "Svalbard and Jan Mayen Islands"
+    },
+    {
+      "id": 464,
+      "name": "Swaziland"
+    },
+    {
+      "id": 465,
+      "name": "Sweden"
+    },
+    {
+      "id": 466,
+      "name": "Switzerland"
+    },
+    {
+      "id": 467,
+      "name": "Syria"
+    },
+    {
+      "id": 468,
+      "name": "Taiwan"
+    },
+    {
+      "id": 469,
+      "name": "Tajikistan"
+    },
+    {
+      "id": 470,
+      "name": "Tanzania"
+    },
+    {
+      "id": 471,
+      "name": "Thailand"
+    },
+    {
+      "id": 472,
+      "name": "Togo"
+    },
+    {
+      "id": 473,
+      "name": "Tokelau"
+    },
+    {
+      "id": 474,
+      "name": "Tonga"
+    },
+    {
+      "id": 475,
+      "name": "Trinidad and Tobago"
+    },
+    {
+      "id": 476,
+      "name": "Tunisia"
+    },
+    {
+      "id": 477,
+      "name": "Turkey"
+    },
+    {
+      "id": 478,
+      "name": "Turkmenistan"
+    },
+    {
+      "id": 479,
+      "name": "Turks and Caicos Islands"
+    },
+    {
+      "id": 480,
+      "name": "Tuvalu"
+    },
+    {
+      "id": 481,
+      "name": "Uganda"
+    },
+    {
+      "id": 482,
+      "name": "Ukraine"
+    },
+    {
+      "id": 483,
+      "name": "United Arab Emirates"
+    },
+    {
+      "id": 484,
+      "name": "United Kingdom"
+    },
+    {
+      "id": 485,
+      "name": "Uruguay"
+    },
+    {
+      "id": 486,
+      "name": "US"
+    },
+    {
+      "id": 487,
+      "name": "US Minor Outlying Islands"
+    },
+    {
+      "id": 488,
+      "name": "Virgin Islands"
+    },
+    {
+      "id": 489,
+      "name": "Uzbekistan"
+    },
+    {
+      "id": 490,
+      "name": "Vanuatu"
+    },
+    {
+      "id": 491,
+      "name": "Vatican City State"
+    },
+    {
+      "id": 492,
+      "name": "Venezuela"
+    },
+    {
+      "id": 493,
+      "name": "Viet Nam"
+    },
+    {
+      "id": 494,
+      "name": "Wallis and Futuna Islands"
+    },
+    {
+      "id": 495,
+      "name": "Western Sahara"
+    },
+    {
+      "id": 496,
+      "name": "Yemen"
+    },
+    {
+      "id": 497,
+      "name": "Yugoslavia"
+    },
+    {
+      "id": 498,
+      "name": "Zambia"
+    },
+    {
+      "id": 499,
+      "name": "Zimbabwe"
+    }
+  ],
+  "COUNTRY_CODE": [
+    {
+      "id": 500,
+      "name": "Albania"
+    },
+    {
+      "id": 501,
+      "name": "Argentina"
+    },
+    {
+      "id": 502,
+      "name": "Australia"
+    },
+    {
+      "id": 503,
+      "name": "Austria"
+    },
+    {
+      "id": 504,
+      "name": "Belgium"
+    },
+    {
+      "id": 505,
+      "name": "Brazil"
+    },
+    {
+      "id": 506,
+      "name": "Canada"
+    },
+    {
+      "id": 507,
+      "name": "Chile"
+    },
+    {
+      "id": 508,
+      "name": "China"
+    },
+    {
+      "id": 509,
+      "name": "Colombia"
+    },
+    {
+      "id": 510,
+      "name": "Czech Republic"
+    },
+    {
+      "id": 511,
+      "name": "Denmark"
+    },
+    {
+      "id": 512,
+      "name": "Finland"
+    },
+    {
+      "id": 513,
+      "name": "France"
+    },
+    {
+      "id": 514,
+      "name": "Germany"
+    },
+    {
+      "id": 515,
+      "name": "Ghana"
+    },
+    {
+      "id": 516,
+      "name": "Gibraltar"
+    },
+    {
+      "id": 517,
+      "name": "Greece"
+    },
+    {
+      "id": 518,
+      "name": "Greenland"
+    },
+    {
+      "id": 519,
+      "name": "Grenada"
+    },
+    {
+      "id": 520,
+      "name": "Guadeloupe"
+    },
+    {
+      "id": 521,
+      "name": "Guam"
+    },
+    {
+      "id": 522,
+      "name": "Guatemala"
+    },
+    {
+      "id": 523,
+      "name": "Guinea"
+    },
+    {
+      "id": 524,
+      "name": "Guinea-bissau"
+    },
+    {
+      "id": 525,
+      "name": "Guyana"
+    },
+    {
+      "id": 526,
+      "name": "Haiti"
+    },
+    {
+      "id": 527,
+      "name": "Heard and Mc Donald Islands"
+    },
+    {
+      "id": 528,
+      "name": "Holy See (Vatican City State)"
+    },
+    {
+      "id": 529,
+      "name": "Honduras"
+    },
+    {
+      "id": 530,
+      "name": "Hong Kong"
+    },
+    {
+      "id": 531,
+      "name": "Hungary"
+    },
+    {
+      "id": 532,
+      "name": "Iceland"
+    },
+    {
+      "id": 533,
+      "name": "Ireland"
+    },
+    {
+      "id": 534,
+      "name": "Israel"
+    },
+    {
+      "id": 535,
+      "name": "Italy"
+    },
+    {
+      "id": 536,
+      "name": "Japan"
+    },
+    {
+      "id": 537,
+      "name": "Korea"
+    },
+    {
+      "id": 538,
+      "name": "Lithuania"
+    },
+    {
+      "id": 539,
+      "name": "Luxembourg"
+    },
+    {
+      "id": 540,
+      "name": "Mexico"
+    },
+    {
+      "id": 541,
+      "name": "Netherlands"
+    },
+    {
+      "id": 542,
+      "name": "New Zealand"
+    },
+    {
+      "id": 543,
+      "name": "Norway"
+    },
+    {
+      "id": 544,
+      "name": "Philippines"
+    },
+    {
+      "id": 545,
+      "name": "Portugal"
+    },
+    {
+      "id": 546,
+      "name": "Romania"
+    },
+    {
+      "id": 547,
+      "name": "Singapore"
+    },
+    {
+      "id": 548,
+      "name": "South Africa"
+    },
+    {
+      "id": 549,
+      "name": "South Georgia and the South Sandwich Islands"
+    },
+    {
+      "id": 550,
+      "name": "Spain"
+    },
+    {
+      "id": 551,
+      "name": "Sweden"
+    },
+    {
+      "id": 552,
+      "name": "Switzerland"
+    },
+    {
+      "id": 553,
+      "name": "Taiwan"
+    },
+    {
+      "id": 554,
+      "name": "Turkey"
+    },
+    {
+      "id": 555,
+      "name": "United Kingdom"
+    },
+    {
+      "id": 556,
+      "name": "Uruguay"
+    },
+    {
+      "id": 557,
+      "name": "United States"
+    }
+  ],
+  "Sirva Canadian State Picklist": [
+    {
+      "id": 558,
+      "name": "AB"
+    },
+    {
+      "id": 559,
+      "name": "BC"
+    },
+    {
+      "id": 560,
+      "name": "MB"
+    },
+    {
+      "id": 561,
+      "name": "NB"
+    },
+    {
+      "id": 562,
+      "name": "NL"
+    },
+    {
+      "id": 563,
+      "name": "NS"
+    },
+    {
+      "id": 564,
+      "name": "NT"
+    },
+    {
+      "id": 565,
+      "name": "NU"
+    },
+    {
+      "id": 566,
+      "name": "ON"
+    },
+    {
+      "id": 567,
+      "name": "PE"
+    },
+    {
+      "id": 568,
+      "name": "QC"
+    },
+    {
+      "id": 569,
+      "name": "SK"
+    },
+    {
+      "id": 570,
+      "name": "YT"
+    }
+  ],
+  "STATE_ABBREV": [
+    {
+      "id": 571,
+      "name": "AA"
+    },
+    {
+      "id": 572,
+      "name": "AB"
+    },
+    {
+      "id": 573,
+      "name": "AE"
+    },
+    {
+      "id": 574,
+      "name": "AK"
+    },
+    {
+      "id": 575,
+      "name": "AL"
+    },
+    {
+      "id": 576,
+      "name": "AP"
+    },
+    {
+      "id": 577,
+      "name": "AR"
+    },
+    {
+      "id": 578,
+      "name": "AS"
+    },
+    {
+      "id": 579,
+      "name": "AZ"
+    },
+    {
+      "id": 580,
+      "name": "BC"
+    },
+    {
+      "id": 581,
+      "name": "CA"
+    },
+    {
+      "id": 582,
+      "name": "CO"
+    },
+    {
+      "id": 583,
+      "name": "CT"
+    },
+    {
+      "id": 584,
+      "name": "DC"
+    },
+    {
+      "id": 585,
+      "name": "DE"
+    },
+    {
+      "id": 586,
+      "name": "FL"
+    },
+    {
+      "id": 587,
+      "name": "FM"
+    },
+    {
+      "id": 588,
+      "name": "GA"
+    },
+    {
+      "id": 589,
+      "name": "GU"
+    },
+    {
+      "id": 590,
+      "name": "HI"
+    },
+    {
+      "id": 591,
+      "name": "IA"
+    },
+    {
+      "id": 592,
+      "name": "ID"
+    },
+    {
+      "id": 593,
+      "name": "IL"
+    },
+    {
+      "id": 594,
+      "name": "IN"
+    },
+    {
+      "id": 595,
+      "name": "KS"
+    },
+    {
+      "id": 596,
+      "name": "KY"
+    },
+    {
+      "id": 597,
+      "name": "LA"
+    },
+    {
+      "id": 598,
+      "name": "MA"
+    },
+    {
+      "id": 599,
+      "name": "MB"
+    },
+    {
+      "id": 600,
+      "name": "MD"
+    },
+    {
+      "id": 601,
+      "name": "ME"
+    },
+    {
+      "id": 602,
+      "name": "MH"
+    },
+    {
+      "id": 603,
+      "name": "MI"
+    },
+    {
+      "id": 604,
+      "name": "MN"
+    },
+    {
+      "id": 605,
+      "name": "MO"
+    },
+    {
+      "id": 606,
+      "name": "MP"
+    },
+    {
+      "id": 607,
+      "name": "MS"
+    },
+    {
+      "id": 608,
+      "name": "MT"
+    },
+    {
+      "id": 609,
+      "name": "National"
+    },
+    {
+      "id": 610,
+      "name": "NB"
+    },
+    {
+      "id": 611,
+      "name": "NC"
+    },
+    {
+      "id": 612,
+      "name": "ND"
+    },
+    {
+      "id": 613,
+      "name": "NE"
+    },
+    {
+      "id": 614,
+      "name": "NH"
+    },
+    {
+      "id": 615,
+      "name": "NJ"
+    },
+    {
+      "id": 616,
+      "name": "NL"
+    },
+    {
+      "id": 617,
+      "name": "NM"
+    },
+    {
+      "id": 618,
+      "name": "NS"
+    },
+    {
+      "id": 619,
+      "name": "NT"
+    },
+    {
+      "id": 620,
+      "name": "NU"
+    },
+    {
+      "id": 621,
+      "name": "NV"
+    },
+    {
+      "id": 622,
+      "name": "NY"
+    },
+    {
+      "id": 623,
+      "name": "OH"
+    },
+    {
+      "id": 624,
+      "name": "OK"
+    },
+    {
+      "id": 625,
+      "name": "ON"
+    },
+    {
+      "id": 626,
+      "name": "OR"
+    },
+    {
+      "id": 627,
+      "name": "PA"
+    },
+    {
+      "id": 628,
+      "name": "PE"
+    },
+    {
+      "id": 629,
+      "name": "PR"
+    },
+    {
+      "id": 630,
+      "name": "PW"
+    },
+    {
+      "id": 631,
+      "name": "QC"
+    },
+    {
+      "id": 632,
+      "name": "QL"
+    },
+    {
+      "id": 633,
+      "name": "RI"
+    },
+    {
+      "id": 634,
+      "name": "SA"
+    },
+    {
+      "id": 635,
+      "name": "SC"
+    },
+    {
+      "id": 636,
+      "name": "SD"
+    },
+    {
+      "id": 637,
+      "name": "SK"
+    },
+    {
+      "id": 638,
+      "name": "TN"
+    },
+    {
+      "id": 639,
+      "name": "TS"
+    },
+    {
+      "id": 640,
+      "name": "TX"
+    },
+    {
+      "id": 641,
+      "name": "US-Central"
+    },
+    {
+      "id": 642,
+      "name": "US-East"
+    },
+    {
+      "id": 643,
+      "name": "US-West"
+    },
+    {
+      "id": 644,
+      "name": "UT"
+    },
+    {
+      "id": 645,
+      "name": "VA"
+    },
+    {
+      "id": 646,
+      "name": "VI"
+    },
+    {
+      "id": 647,
+      "name": "VT"
+    },
+    {
+      "id": 648,
+      "name": "WA"
+    },
+    {
+      "id": 649,
+      "name": "WI"
+    },
+    {
+      "id": 650,
+      "name": "WV"
+    },
+    {
+      "id": 651,
+      "name": "WY"
+    },
+    {
+      "id": 652,
+      "name": "YK"
+    },
+    {
+      "id": 653,
+      "name": "YT"
+    }
+  ],
+  "Pricing Tariff LOV": [
+    {
+      "id": 654,
+      "name": "Local"
+    },
+    {
+      "id": 655,
+      "name": "PriceLock"
+    },
+    {
+      "id": 656,
+      "name": "PriceLock GRR"
+    },
+    {
+      "id": 657,
+      "name": "Blue Express"
+    },
+    {
+      "id": 658,
+      "name": "TPG"
+    },
+    {
+      "id": 659,
+      "name": "Allied Express"
+    },
+    {
+      "id": 660,
+      "name": "TPG GRR"
+    },
+    {
+      "id": 661,
+      "name": "400N"
+    },
+    {
+      "id": 662,
+      "name": "104G"
+    },
+    {
+      "id": 663,
+      "name": "Capacity Plus"
+    },
+    {
+      "id": 664,
+      "name": "Local/Intrastate"
+    },
+    {
+      "id": 665,
+      "name": "Truckload Express"
+    },
+    {
+      "id": 666,
+      "name": "TX Max4"
+    },
+    {
+      "id": 667,
+      "name": "UAS"
+    },
+    {
+      "id": 668,
+      "name": "NAVL-12A"
+    },
+    {
+      "id": 669,
+      "name": "ALLV-2A"
+    },
+    {
+      "id": 670,
+      "name": "CA Max4"
+    },
+    {
+      "id": 671,
+      "name": "Canada Govt."
+    },
+    {
+      "id": 672,
+      "name": "Intra - 400N"
+    },
+    {
+      "id": 673,
+      "name": "Canada Non-Govt"
+    },
+    {
+      "id": 674,
+      "name": "Canada Intraprovincial"
+    },
+    {
+      "id": 675,
+      "name": "Canada Local"
+    },
+    {
+      "id": 676,
+      "name": "Auto Only"
+    },
+    {
+      "id": 677,
+      "name": "AVL"
+    }
+  ],
+  "Estimate_Type": [
+    {
+      "id": 678,
+      "name": "Binding"
+    },
+    {
+      "id": 679,
+      "name": "Non Binding"
+    },
+    {
+      "id": 680,
+      "name": "Not To Exceed"
+    }
+  ],
+  "VALUATION_DEDUCTIBLE_LOV": [
+    {
+      "id": 681,
+      "name": "Actual Cash Value"
+    },
+    {
+      "id": 682,
+      "name": "Declared Value"
+    },
+    {
+      "id": 683,
+      "name": "ECP - $0 Ded"
+    },
+    {
+      "id": 684,
+      "name": "ECP - $250 Ded"
+    },
+    {
+      "id": 685,
+      "name": "ECP - $500 Ded"
+    },
+    {
+      "id": 686,
+      "name": "MVP - $0 Ded"
+    },
+    {
+      "id": 687,
+      "name": "MVP - $250 Ded"
+    },
+    {
+      "id": 688,
+      "name": "MVP - $500 Ded"
+    },
+    {
+      "id": 689,
+      "name": "$0 Ded"
+    },
+    {
+      "id": 690,
+      "name": "$250 Ded"
+    },
+    {
+      "id": 691,
+      "name": "$500 Ded"
+    },
+    {
+      "id": 692,
+      "name": "FVP $0 Deductible"
+    },
+    {
+      "id": 693,
+      "name": "FVP $250 Deductible"
+    },
+    {
+      "id": 694,
+      "name": "FVP $500 Deductible"
+    },
+    {
+      "id": 811,
+      "name": "$0.60/lb. Released"
+    }
+  ],
+  "VALUATION_BRACKETS_LOV": [
+    {
+      "id": 695,
+      "name": "$6,000"
+    },
+    {
+      "id": 696,
+      "name": "$10,000"
+    },
+    {
+      "id": 697,
+      "name": "$15,000"
+    },
+    {
+      "id": 698,
+      "name": "$20,000"
+    },
+    {
+      "id": 699,
+      "name": "$25,000"
+    },
+    {
+      "id": 700,
+      "name": "$30,000"
+    },
+    {
+      "id": 701,
+      "name": "$35,000"
+    },
+    {
+      "id": 702,
+      "name": "$40,000"
+    },
+    {
+      "id": 703,
+      "name": "$50,000"
+    },
+    {
+      "id": 704,
+      "name": "$60,000"
+    },
+    {
+      "id": 705,
+      "name": "$75,000"
+    },
+    {
+      "id": 706,
+      "name": "$100,000"
+    },
+    {
+      "id": 707,
+      "name": "$125,000"
+    },
+    {
+      "id": 708,
+      "name": "$150,000"
+    },
+    {
+      "id": 709,
+      "name": "$175,000"
+    },
+    {
+      "id": 710,
+      "name": "$200,000"
+    },
+    {
+      "id": 711,
+      "name": "$225,000"
+    },
+    {
+      "id": 712,
+      "name": "$250,000"
+    },
+    {
+      "id": 713,
+      "name": "Over $250,000"
+    },
+    {
+      "id": 714,
+      "name": "$5,000"
+    }
+  ],
+  "Sirva_YM_LOV": [
+    {
+      "id": 715,
+      "name": "Level 1"
+    },
+    {
+      "id": 716,
+      "name": "Level 2"
+    },
+    {
+      "id": 717,
+      "name": "Level 3"
+    },
+    {
+      "id": 718,
+      "name": "Level 4"
+    },
+    {
+      "id": 719,
+      "name": "Level 5"
+    },
+    {
+      "id": 720,
+      "name": "Level 6"
+    },
+    {
+      "id": 721,
+      "name": "Level 7"
+    },
+    {
+      "id": 722,
+      "name": "Level 8"
+    },
+    {
+      "id": 723,
+      "name": "Level 9"
+    },
+    {
+      "id": 724,
+      "name": "Level 10"
+    },
+    {
+      "id": 725,
+      "name": "Level 11"
+    },
+    {
+      "id": 726,
+      "name": "Level 12"
+    },
+    {
+      "id": 727,
+      "name": "Level 13"
+    },
+    {
+      "id": 728,
+      "name": "Level 14"
+    },
+    {
+      "id": 729,
+      "name": "Level 15"
+    },
+    {
+      "id": 800,
+      "name": "Level 16"
+    },
+    {
+      "id": 801,
+      "name": "Level 17"
+    },
+    {
+      "id": 802,
+      "name": "Level 18"
+    },
+    {
+      "id": 803,
+      "name": "Level 19"
+    },
+    {
+      "id": 804,
+      "name": "Level 20"
+    }
+  ],
+  "Time_LOV": [
+    {
+      "id": 730,
+      "name": "Regular Time"
+    },
+    {
+      "id": 731,
+      "name": "Time-And-A-Half"
+    },
+    {
+      "id": 732,
+      "name": "Over Time"
+    },
+    {
+      "id": 733,
+      "name": "Double Time"
+    }
+  ],
+  "LineHaul_Mode_LOV": [
+    {
+      "id": 734,
+      "name": "Distance Rate"
+    },
+    {
+      "id": 735,
+      "name": "Hourly Rate"
+    },
+    {
+      "id": 736,
+      "name": "Per Piece Rate"
+    }
+  ],
+  "Payment_Method": [
+    {
+      "id": 737,
+      "name": "AM"
+    },
+    {
+      "id": 738,
+      "name": "AV"
+    },
+    {
+      "id": 739,
+      "name": "CCK"
+    },
+    {
+      "id": 740,
+      "name": "CHK"
+    },
+    {
+      "id": 741,
+      "name": "CRN"
+    },
+    {
+      "id": 742,
+      "name": "CSH"
+    },
+    {
+      "id": 743,
+      "name": "DN"
+    },
+    {
+      "id": 744,
+      "name": "MA"
+    },
+    {
+      "id": 745,
+      "name": "MO"
+    },
+    {
+      "id": 746,
+      "name": "NO"
+    },
+    {
+      "id": 747,
+      "name": "PCK"
+    },
+    {
+      "id": 748,
+      "name": "VI"
+    }
+  ],
+  "SIRVA_QLAB_DENSITY": [
+    {
+      "id": 749,
+      "name": "3"
+    },
+    {
+      "id": 750,
+      "name": "3.25"
+    },
+    {
+      "id": 751,
+      "name": "3.5"
+    },
+    {
+      "id": 752,
+      "name": "3.75"
+    },
+    {
+      "id": 753,
+      "name": "4"
+    },
+    {
+      "id": 754,
+      "name": "4.25"
+    },
+    {
+      "id": 755,
+      "name": "4.5"
+    },
+    {
+      "id": 756,
+      "name": "4.75"
+    },
+    {
+      "id": 757,
+      "name": "5"
+    },
+    {
+      "id": 758,
+      "name": "5.25"
+    },
+    {
+      "id": 759,
+      "name": "5.5"
+    },
+    {
+      "id": 760,
+      "name": "5.75"
+    },
+    {
+      "id": 761,
+      "name": "6"
+    },
+    {
+      "id": 762,
+      "name": "6.25"
+    },
+    {
+      "id": 763,
+      "name": "6.5"
+    },
+    {
+      "id": 764,
+      "name": "6.75"
+    },
+    {
+      "id": 765,
+      "name": "7"
+    },
+    {
+      "id": 766,
+      "name": "7.25"
+    },
+    {
+      "id": 767,
+      "name": "7.5"
+    },
+    {
+      "id": 768,
+      "name": "7.75"
+    },
+    {
+      "id": 769,
+      "name": "8"
+    },
+    {
+      "id": 770,
+      "name": "8.25"
+    },
+    {
+      "id": 771,
+      "name": "8.5"
+    },
+    {
+      "id": 772,
+      "name": "8.75"
+    },
+    {
+      "id": 773,
+      "name": "9"
+    },
+    {
+      "id": 774,
+      "name": "9.25"
+    },
+    {
+      "id": 775,
+      "name": "9.5"
+    },
+    {
+      "id": 776,
+      "name": "9.75"
+    },
+    {
+      "id": 777,
+      "name": "10"
+    },
+    {
+      "id": 778,
+      "name": "10.25"
+    },
+    {
+      "id": 779,
+      "name": "10.5"
+    },
+    {
+      "id": 780,
+      "name": "10.75"
+    },
+    {
+      "id": 781,
+      "name": "11"
+    },
+    {
+      "id": 782,
+      "name": "11.25"
+    },
+    {
+      "id": 783,
+      "name": "11.5"
+    },
+    {
+      "id": 784,
+      "name": "11.75"
+    },
+    {
+      "id": 785,
+      "name": "12"
+    },
+    {
+      "id": 786,
+      "name": "12.25"
+    },
+    {
+      "id": 787,
+      "name": "12.5"
+    },
+    {
+      "id": 788,
+      "name": "12.75"
+    },
+    {
+      "id": 789,
+      "name": "13"
+    },
+    {
+      "id": 790,
+      "name": "13.25"
+    },
+    {
+      "id": 791,
+      "name": "13.5"
+    },
+    {
+      "id": 792,
+      "name": "13.75"
+    },
+    {
+      "id": 793,
+      "name": "14"
+    },
+    {
+      "id": 794,
+      "name": "14.25"
+    },
+    {
+      "id": 795,
+      "name": "14.5"
+    },
+    {
+      "id": 796,
+      "name": "14.75"
+    },
+    {
+      "id": 797,
+      "name": "15"
+    }
+  ],
+  "VALUATION_EXTRACTION": [
+    {
+      "id": 805,
+      "name": "150"
+    },
+    {
+      "id": 806,
+      "name": "150"
+    }
+  ],
+  "VALUATION_FREEFVP_LOV": [
+    {
+      "id": 807,
+      "name": "Free"
+    },
+    {
+      "id": 808,
+      "name": "FVPFlatCharge"
+    },
+    {
+      "id": 809,
+      "name": "IncreasedBaseLiability"
+    }
+  ],
+  "SITValuation_FREQ": [
+    {
+      "id": 812,
+      "name": "Day"
+    },
+    {
+      "id": 813,
+      "name": "Month"
+    }
+  ],
+  "UNKNOWN": [
+    {
+      "id": 814,
+      "name": null
+    },
+    {
+      "id": 815,
+      "name": null
+    },
+    {
+      "id": 816,
+      "name": null
+    },
+    {
+      "id": 1057,
+      "name": null
+    },
+    {
+      "id": 1058,
+      "name": null
+    },
+    {
+      "id": 1059,
+      "name": null
+    },
+    {
+      "id": 1060,
+      "name": null
+    },
+    {
+      "id": 1061,
+      "name": null
+    },
+    {
+      "id": 1062,
+      "name": null
+    },
+    {
+      "id": 1074,
+      "name": null
+    },
+    {
+      "id": 1075,
+      "name": null
+    },
+    {
+      "id": 1076,
+      "name": null
+    },
+    {
+      "id": 1077,
+      "name": null
+    },
+    {
+      "id": 1078,
+      "name": null
+    },
+    {
+      "id": 1079,
+      "name": null
+    },
+    {
+      "id": 1080,
+      "name": null
+    },
+    {
+      "id": 1081,
+      "name": null
+    },
+    {
+      "id": 1082,
+      "name": null
+    },
+    {
+      "id": 1083,
+      "name": null
+    }
+  ],
+  "Reference_Type": [
+    {
+      "id": 817,
+      "name": "ABL"
+    },
+    {
+      "id": 818,
+      "name": "AC"
+    },
+    {
+      "id": 819,
+      "name": "ADN"
+    },
+    {
+      "id": 820,
+      "name": "BDG"
+    },
+    {
+      "id": 821,
+      "name": "BLN"
+    },
+    {
+      "id": 822,
+      "name": "CCN"
+    },
+    {
+      "id": 823,
+      "name": "CHG"
+    },
+    {
+      "id": 824,
+      "name": "CID"
+    },
+    {
+      "id": 825,
+      "name": "CLI"
+    },
+    {
+      "id": 826,
+      "name": "CLK"
+    },
+    {
+      "id": 827,
+      "name": "CO"
+    },
+    {
+      "id": 828,
+      "name": "DEC"
+    },
+    {
+      "id": 829,
+      "name": "DIV"
+    },
+    {
+      "id": 830,
+      "name": "EMP"
+    },
+    {
+      "id": 831,
+      "name": "ETA"
+    },
+    {
+      "id": 832,
+      "name": "FDO"
+    },
+    {
+      "id": 833,
+      "name": "FMO"
+    },
+    {
+      "id": 834,
+      "name": "FN"
+    },
+    {
+      "id": 835,
+      "name": "FPP"
+    },
+    {
+      "id": 836,
+      "name": "GBL"
+    },
+    {
+      "id": 837,
+      "name": "GEE"
+    },
+    {
+      "id": 838,
+      "name": "ID"
+    },
+    {
+      "id": 839,
+      "name": "LMP"
+    },
+    {
+      "id": 840,
+      "name": "LOA"
+    },
+    {
+      "id": 841,
+      "name": "MHG"
+    },
+    {
+      "id": 842,
+      "name": "MO"
+    },
+    {
+      "id": 843,
+      "name": "MTN"
+    },
+    {
+      "id": 844,
+      "name": "NC"
+    },
+    {
+      "id": 845,
+      "name": "OA"
+    },
+    {
+      "id": 846,
+      "name": "ORD"
+    },
+    {
+      "id": 847,
+      "name": "ORG"
+    },
+    {
+      "id": 848,
+      "name": "PN"
+    },
+    {
+      "id": 849,
+      "name": "PO"
+    },
+    {
+      "id": 850,
+      "name": "RA"
+    },
+    {
+      "id": 851,
+      "name": "RAA"
+    },
+    {
+      "id": 852,
+      "name": "RDC"
+    },
+    {
+      "id": 853,
+      "name": "REQ"
+    },
+    {
+      "id": 854,
+      "name": "RGA"
+    },
+    {
+      "id": 855,
+      "name": "RIN"
+    },
+    {
+      "id": 856,
+      "name": "SBL"
+    },
+    {
+      "id": 857,
+      "name": "SC"
+    },
+    {
+      "id": 858,
+      "name": "SEC"
+    },
+    {
+      "id": 859,
+      "name": "SO"
+    },
+    {
+      "id": 860,
+      "name": "SRN"
+    },
+    {
+      "id": 861,
+      "name": "SSN"
+    },
+    {
+      "id": 862,
+      "name": "SYS"
+    },
+    {
+      "id": 863,
+      "name": "TFC"
+    },
+    {
+      "id": 864,
+      "name": "VIT"
+    }
+  ],
+  "ExportToExcel": [
+    {
+      "id": 869,
+      "name": "Option"
+    }
+  ],
+  "ExpotBatchSize": [
+    {
+      "id": 870,
+      "name": "BatchSize"
+    }
+  ],
+  "DashboardSPTimeout": [
+    {
+      "id": 872,
+      "name": "DashboardSPTimeout"
+    }
+  ],
+  "Shipment_Type": [
+    {
+      "id": 873,
+      "name": "HHG"
+    },
+    {
+      "id": 874,
+      "name": "O&I"
+    }
+  ],
+  "NonMSPUserRoleType": [
+    {
+      "id": 883,
+      "name": "Driver"
+    },
+    {
+      "id": 884,
+      "name": "Crew"
+    }
+  ],
+  "WGT_ADD_CODE_CONSUMER": [
+    {
+      "id": 885,
+      "name": "V019"
+    },
+    {
+      "id": 886,
+      "name": "V186"
+    },
+    {
+      "id": 887,
+      "name": "V343"
+    },
+    {
+      "id": 888,
+      "name": "V414"
+    },
+    {
+      "id": 889,
+      "name": "V179"
+    }
+  ],
+  "UserType": [
+    {
+      "id": 896,
+      "name": "Intl"
+    },
+    {
+      "id": 897,
+      "name": "UsCanada"
+    }
+  ],
+  "International_Modes": [
+    {
+      "id": 898,
+      "name": "Sea"
+    },
+    {
+      "id": 899,
+      "name": "Air"
+    },
+    {
+      "id": 900,
+      "name": "Land"
+    }
+  ],
+  "IntlCountry": [
+    {
+      "id": 901,
+      "name": "China"
+    },
+    {
+      "id": 902,
+      "name": "Hong Kong"
+    },
+    {
+      "id": 903,
+      "name": "Malaysia"
+    },
+    {
+      "id": 904,
+      "name": "Singapore"
+    },
+    {
+      "id": 905,
+      "name": "India"
+    },
+    {
+      "id": 906,
+      "name": "UAE"
+    },
+    {
+      "id": 1393,
+      "name": "New Zealand"
+    },
+    {
+      "id": 1394,
+      "name": "Australia"
+    }
+  ],
+  "Residence_Type": [
+    {
+      "id": 907,
+      "name": "Condominum"
+    },
+    {
+      "id": 908,
+      "name": "HDB Appartment walk up"
+    },
+    {
+      "id": 909,
+      "name": "HDB Appartment with lift access"
+    },
+    {
+      "id": 910,
+      "name": "Hotel"
+    },
+    {
+      "id": 911,
+      "name": "Landed Property"
+    },
+    {
+      "id": 912,
+      "name": "Office"
+    },
+    {
+      "id": 913,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 914,
+      "name": "Serviced Appartment"
+    },
+    {
+      "id": 915,
+      "name": "Town House"
+    },
+    {
+      "id": 917,
+      "name": "Duplex"
+    },
+    {
+      "id": 918,
+      "name": "High Rise Appartment"
+    },
+    {
+      "id": 919,
+      "name": "Hotel"
+    },
+    {
+      "id": 920,
+      "name": "Low Rise Appartment"
+    },
+    {
+      "id": 921,
+      "name": "Penthouse"
+    },
+    {
+      "id": 922,
+      "name": "Office"
+    },
+    {
+      "id": 923,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 924,
+      "name": "Serviced Appartments"
+    },
+    {
+      "id": 925,
+      "name": "Villa"
+    },
+    {
+      "id": 1283,
+      "name": "Condominium"
+    },
+    {
+      "id": 1284,
+      "name": "Hotel"
+    },
+    {
+      "id": 1285,
+      "name": "High Rise Appartment"
+    },
+    {
+      "id": 1286,
+      "name": "Landed Property"
+    },
+    {
+      "id": 1287,
+      "name": "Office"
+    },
+    {
+      "id": 1288,
+      "name": "Row House"
+    },
+    {
+      "id": 1289,
+      "name": "Serviced Appartments"
+    },
+    {
+      "id": 1290,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 1291,
+      "name": "Town House"
+    },
+    {
+      "id": 1292,
+      "name": "Villa"
+    },
+    {
+      "id": 1293,
+      "name": "Hotel"
+    },
+    {
+      "id": 1294,
+      "name": "High Rise Appartment"
+    },
+    {
+      "id": 1295,
+      "name": "Landed Property"
+    },
+    {
+      "id": 1296,
+      "name": "Low Rise Appartment with lift"
+    },
+    {
+      "id": 1297,
+      "name": "Office"
+    },
+    {
+      "id": 1298,
+      "name": "Serviced Appartments"
+    },
+    {
+      "id": 1299,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 1300,
+      "name": "Town House"
+    },
+    {
+      "id": 1301,
+      "name": "Village House"
+    },
+    {
+      "id": 1302,
+      "name": "Walkup Appartment"
+    },
+    {
+      "id": 1303,
+      "name": "Condo"
+    },
+    {
+      "id": 1304,
+      "name": "Hotel"
+    },
+    {
+      "id": 1305,
+      "name": "Landed Property"
+    },
+    {
+      "id": 1306,
+      "name": "Landed Property Gated"
+    },
+    {
+      "id": 1307,
+      "name": "Office"
+    },
+    {
+      "id": 1308,
+      "name": "Serviced Appartments"
+    },
+    {
+      "id": 1309,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 1310,
+      "name": "Town House"
+    },
+    {
+      "id": 1311,
+      "name": "Compound"
+    },
+    {
+      "id": 1312,
+      "name": "Hotel"
+    },
+    {
+      "id": 1313,
+      "name": "High Rise Appartment"
+    },
+    {
+      "id": 1314,
+      "name": "Line House"
+    },
+    {
+      "id": 1315,
+      "name": "Office"
+    },
+    {
+      "id": 1316,
+      "name": "Serviced Appartments"
+    },
+    {
+      "id": 1317,
+      "name": "Self Storage Unit"
+    },
+    {
+      "id": 1318,
+      "name": "Town House"
+    },
+    {
+      "id": 1319,
+      "name": "Villa"
+    }
+  ],
+  "Inter_Move_Types": [
+    {
+      "id": 927,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 928,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 929,
+      "name": "Intercity Local Removal"
+    },
+    {
+      "id": 930,
+      "name": "Intercity Local Removal - Agent Booked"
+    },
+    {
+      "id": 931,
+      "name": "Local Removal"
+    },
+    {
+      "id": 932,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 933,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 934,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 935,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 936,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 937,
+      "name": "Local Removal"
+    },
+    {
+      "id": 938,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 939,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 940,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 941,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 942,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 943,
+      "name": "Intercity Local Removal"
+    },
+    {
+      "id": 944,
+      "name": "Intercity Local Removal - Agent Booked"
+    },
+    {
+      "id": 945,
+      "name": "Local Removal"
+    },
+    {
+      "id": 946,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 947,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 948,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 949,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 950,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 951,
+      "name": "Local Removal"
+    },
+    {
+      "id": 952,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 953,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 954,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 955,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 956,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 957,
+      "name": "Intercity Local Removal"
+    },
+    {
+      "id": 958,
+      "name": "Intercity Local Removal - Agent Booked"
+    },
+    {
+      "id": 959,
+      "name": "Local Removal"
+    },
+    {
+      "id": 960,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 961,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 962,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 963,
+      "name": "Export - Own Booked"
+    },
+    {
+      "id": 964,
+      "name": "Export - Agent Booked"
+    },
+    {
+      "id": 965,
+      "name": "Intercity Local Removal"
+    },
+    {
+      "id": 966,
+      "name": "Intercity Local Removal - Agent Booked"
+    },
+    {
+      "id": 967,
+      "name": "Local Removal"
+    },
+    {
+      "id": 968,
+      "name": "Local Removal - Agent Booked"
+    },
+    {
+      "id": 969,
+      "name": "Business Relocation"
+    },
+    {
+      "id": 970,
+      "name": "Business Relocation - Agent Booked"
+    },
+    {
+      "id": 971,
+      "name": "Crate Hire"
+    },
+    {
+      "id": 1126,
+      "name": " Inter City"
+    },
+    {
+      "id": 1127,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1128,
+      "name": " Inter City"
+    },
+    {
+      "id": 1129,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1130,
+      "name": " Inter City"
+    },
+    {
+      "id": 1131,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1132,
+      "name": " Inter City"
+    },
+    {
+      "id": 1133,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1134,
+      "name": " Inter City"
+    },
+    {
+      "id": 1135,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1136,
+      "name": " Inter City"
+    },
+    {
+      "id": 1137,
+      "name": "Inter City Agent Booked"
+    },
+    {
+      "id": 1401,
+      "name": "Business relocation"
+    },
+    {
+      "id": 1402,
+      "name": "Country"
+    },
+    {
+      "id": 1403,
+      "name": "Country to store"
+    },
+    {
+      "id": 1404,
+      "name": "Export"
+    },
+    {
+      "id": 1405,
+      "name": "Import"
+    },
+    {
+      "id": 1406,
+      "name": "Interstate"
+    },
+    {
+      "id": 1407,
+      "name": "Local"
+    },
+    {
+      "id": 1408,
+      "name": "Local to store"
+    },
+    {
+      "id": 1409,
+      "name": "Store out"
+    },
+    {
+      "id": 1410,
+      "name": "Store out, interstate"
+    },
+    {
+      "id": 1412,
+      "name": "Business relocation"
+    },
+    {
+      "id": 1413,
+      "name": "Country"
+    },
+    {
+      "id": 1414,
+      "name": "Country to store"
+    },
+    {
+      "id": 1415,
+      "name": "Export"
+    },
+    {
+      "id": 1416,
+      "name": "Import"
+    },
+    {
+      "id": 1417,
+      "name": "Interstate"
+    },
+    {
+      "id": 1418,
+      "name": "Local"
+    },
+    {
+      "id": 1419,
+      "name": "Local to store"
+    },
+    {
+      "id": 1420,
+      "name": "Store out"
+    },
+    {
+      "id": 1421,
+      "name": "Store out, interstate"
+    },
+    {
+      "id": 1546,
+      "name": "Salvage Collection"
+    },
+    {
+      "id": 1547,
+      "name": "Salvage Collection"
+    }
+  ],
+  "Inter_ItemUse_Types": [
+    {
+      "id": 972,
+      "name": "Residence"
+    },
+    {
+      "id": 973,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 974,
+      "name": "Air Freight"
+    },
+    {
+      "id": 975,
+      "name": "Storage"
+    },
+    {
+      "id": 976,
+      "name": "Not Going"
+    },
+    {
+      "id": 977,
+      "name": "2nd Addr"
+    },
+    {
+      "id": 978,
+      "name": "Disposal"
+    },
+    {
+      "id": 979,
+      "name": "Local Move"
+    },
+    {
+      "id": 980,
+      "name": "Optional Item"
+    },
+    {
+      "id": 981,
+      "name": "Residence"
+    },
+    {
+      "id": 982,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 983,
+      "name": "Air Freight"
+    },
+    {
+      "id": 984,
+      "name": "Storage"
+    },
+    {
+      "id": 985,
+      "name": "Not Going"
+    },
+    {
+      "id": 986,
+      "name": "2nd Addr"
+    },
+    {
+      "id": 987,
+      "name": "3rd Addr"
+    },
+    {
+      "id": 988,
+      "name": "Disposal"
+    },
+    {
+      "id": 989,
+      "name": "Local Move"
+    },
+    {
+      "id": 990,
+      "name": "Optional Item"
+    },
+    {
+      "id": 991,
+      "name": "Residence"
+    },
+    {
+      "id": 992,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 993,
+      "name": "Air Freight"
+    },
+    {
+      "id": 994,
+      "name": "Storage"
+    },
+    {
+      "id": 995,
+      "name": "Not Going"
+    },
+    {
+      "id": 996,
+      "name": "Address2"
+    },
+    {
+      "id": 997,
+      "name": "Address3"
+    },
+    {
+      "id": 998,
+      "name": "Disposal"
+    },
+    {
+      "id": 999,
+      "name": "Local Move"
+    },
+    {
+      "id": 1000,
+      "name": "Optional Item"
+    },
+    {
+      "id": 1001,
+      "name": "Residence"
+    },
+    {
+      "id": 1002,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 1003,
+      "name": "Air Freight"
+    },
+    {
+      "id": 1004,
+      "name": "Storage"
+    },
+    {
+      "id": 1005,
+      "name": "Not Going"
+    },
+    {
+      "id": 1006,
+      "name": "Optional"
+    },
+    {
+      "id": 1007,
+      "name": "Address2"
+    },
+    {
+      "id": 1008,
+      "name": "Charity"
+    },
+    {
+      "id": 1009,
+      "name": "Pack Day 1"
+    },
+    {
+      "id": 1010,
+      "name": "Pack Day 2"
+    },
+    {
+      "id": 1011,
+      "name": "Pack Day 3"
+    },
+    {
+      "id": 1012,
+      "name": "Pack Day 4"
+    },
+    {
+      "id": 1013,
+      "name": "Disposal"
+    },
+    {
+      "id": 1014,
+      "name": "Local Move"
+    },
+    {
+      "id": 1015,
+      "name": "Residence"
+    },
+    {
+      "id": 1016,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 1017,
+      "name": "Air Freight"
+    },
+    {
+      "id": 1018,
+      "name": "Storage"
+    },
+    {
+      "id": 1019,
+      "name": "Not Going"
+    },
+    {
+      "id": 1020,
+      "name": "Address2"
+    },
+    {
+      "id": 1021,
+      "name": "Address3"
+    },
+    {
+      "id": 1022,
+      "name": "Optional"
+    },
+    {
+      "id": 1023,
+      "name": "LCL"
+    },
+    {
+      "id": 1024,
+      "name": "Domestic Move"
+    },
+    {
+      "id": 1025,
+      "name": "Residence"
+    },
+    {
+      "id": 1026,
+      "name": "Sea Freight"
+    },
+    {
+      "id": 1027,
+      "name": "Air Freight"
+    },
+    {
+      "id": 1028,
+      "name": "Storage"
+    },
+    {
+      "id": 1029,
+      "name": "Not Going"
+    },
+    {
+      "id": 1030,
+      "name": "Address2"
+    },
+    {
+      "id": 1031,
+      "name": "Address3"
+    },
+    {
+      "id": 1032,
+      "name": "Optional"
+    },
+    {
+      "id": 1383,
+      "name": "Local Move"
+    },
+    {
+      "id": 1423,
+      "name": "Store"
+    },
+    {
+      "id": 1424,
+      "name": "Sea freight"
+    },
+    {
+      "id": 1425,
+      "name": "Road freight"
+    },
+    {
+      "id": 1426,
+      "name": "Address 2"
+    },
+    {
+      "id": 1427,
+      "name": "Air freight"
+    },
+    {
+      "id": 1428,
+      "name": "Optional"
+    },
+    {
+      "id": 1429,
+      "name": "Not Going"
+    },
+    {
+      "id": 1430,
+      "name": "Residence"
+    },
+    {
+      "id": 1431,
+      "name": "Store"
+    },
+    {
+      "id": 1432,
+      "name": "Sea freight"
+    },
+    {
+      "id": 1433,
+      "name": "Road freight"
+    },
+    {
+      "id": 1434,
+      "name": "Address 2"
+    },
+    {
+      "id": 1435,
+      "name": "Air freight"
+    },
+    {
+      "id": 1436,
+      "name": "Optional"
+    },
+    {
+      "id": 1437,
+      "name": "Not Going"
+    },
+    {
+      "id": 1438,
+      "name": "Residence"
+    },
+    {
+      "id": 1460,
+      "name": "Address 3"
+    }
+  ],
+  "Inter_NoteTemplates_Types": [
+    {
+      "id": 1033,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1034,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1035,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1036,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1037,
+      "name": "Heavy Item"
+    },
+    {
+      "id": 1038,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1039,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1040,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1041,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1042,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1043,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1044,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1045,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1046,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1047,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1048,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1049,
+      "name": "Moisture Absorbers"
+    },
+    {
+      "id": 1050,
+      "name": "Original Box"
+    },
+    {
+      "id": 1051,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1052,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1053,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1054,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1055,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1056,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1163,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1164,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1165,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1166,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1167,
+      "name": "Heavy Item"
+    },
+    {
+      "id": 1168,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1169,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1170,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1171,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1172,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1173,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1174,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1175,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1176,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1177,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1178,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1179,
+      "name": "Moisture Absorbers"
+    },
+    {
+      "id": 1180,
+      "name": "Original Box"
+    },
+    {
+      "id": 1181,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1182,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1183,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1184,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1185,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1186,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1187,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1188,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1189,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1190,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1191,
+      "name": "Heavy Item"
+    },
+    {
+      "id": 1192,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1193,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1194,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1195,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1196,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1197,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1198,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1199,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1200,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1201,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1202,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1203,
+      "name": "Moisture Absorbers"
+    },
+    {
+      "id": 1204,
+      "name": "Original Box"
+    },
+    {
+      "id": 1205,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1206,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1207,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1208,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1209,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1210,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1211,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1212,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1213,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1214,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1215,
+      "name": "Heavy Item"
+    },
+    {
+      "id": 1216,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1217,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1218,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1219,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1220,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1221,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1222,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1223,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1224,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1225,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1226,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1227,
+      "name": "Original Box"
+    },
+    {
+      "id": 1228,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1229,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1230,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1231,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1232,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1233,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1234,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1235,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1236,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1237,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1238,
+      "name": "Heavy Item"
+    },
+    {
+      "id": 1239,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1240,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1241,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1242,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1243,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1244,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1245,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1246,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1247,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1248,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1249,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1250,
+      "name": "Original Box"
+    },
+    {
+      "id": 1251,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1252,
+      "name": "Packing Material"
+    },
+    {
+      "id": 1253,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1254,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1255,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1256,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1257,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1258,
+      "name": "To Be Crated(Large)"
+    },
+    {
+      "id": 1259,
+      "name": "To Be Crated(Medium)"
+    },
+    {
+      "id": 1260,
+      "name": "To Be Crated(Small)"
+    },
+    {
+      "id": 1261,
+      "name": "To Be Crated(Picture)"
+    },
+    {
+      "id": 1262,
+      "name": "Handyman Required"
+    },
+    {
+      "id": 1263,
+      "name": "IKEA-assembly not guaranteed"
+    },
+    {
+      "id": 1264,
+      "name": "Crating Declined"
+    },
+    {
+      "id": 1265,
+      "name": "Dismantle by Handyman"
+    },
+    {
+      "id": 1266,
+      "name": "Dismantle by Allied"
+    },
+    {
+      "id": 1267,
+      "name": "Dismantle by Customer"
+    },
+    {
+      "id": 1268,
+      "name": "Recommended don't disassemble"
+    },
+    {
+      "id": 1269,
+      "name": "Factory packed / wrapped"
+    },
+    {
+      "id": 1270,
+      "name": "Fragile Item"
+    },
+    {
+      "id": 1271,
+      "name": "Hand Hoisting"
+    },
+    {
+      "id": 1272,
+      "name": "Hoisting/ Crane lifting"
+    },
+    {
+      "id": 1273,
+      "name": "Original Box"
+    },
+    {
+      "id": 1274,
+      "name": "Owner Packed"
+    },
+    {
+      "id": 1275,
+      "name": "Special Care and Attention"
+    },
+    {
+      "id": 1276,
+      "name": "Special Handling Required"
+    },
+    {
+      "id": 1277,
+      "name": "Special Wrapping"
+    },
+    {
+      "id": 1278,
+      "name": "Specialist Required"
+    },
+    {
+      "id": 1279,
+      "name": "Stair Carry"
+    },
+    {
+      "id": 1462,
+      "name": "Double bubble & hard cardboard wrap"
+    },
+    {
+      "id": 1463,
+      "name": "Electrician"
+    },
+    {
+      "id": 1464,
+      "name": "Handyman"
+    },
+    {
+      "id": 1465,
+      "name": "Heavy item"
+    },
+    {
+      "id": 1466,
+      "name": "Crating declined"
+    },
+    {
+      "id": 1467,
+      "name": "Fragile item"
+    },
+    {
+      "id": 1469,
+      "name": "Double bubble & hard cardboard wrap"
+    },
+    {
+      "id": 1470,
+      "name": "Electrician"
+    },
+    {
+      "id": 1471,
+      "name": "Handyman"
+    },
+    {
+      "id": 1472,
+      "name": "Heavy item"
+    },
+    {
+      "id": 1473,
+      "name": "Crating declined"
+    },
+    {
+      "id": 1474,
+      "name": "Fragile item"
+    },
+    {
+      "id": 1542,
+      "name": "Extra Man"
+    },
+    {
+      "id": 1543,
+      "name": "Dismantled by Owner"
+    },
+    {
+      "id": 1544,
+      "name": "Extra Man"
+    },
+    {
+      "id": 1545,
+      "name": "Dismantled by Owner"
+    },
+    {
+      "id": 1548,
+      "name": "Disassembly"
+    },
+    {
+      "id": 1549,
+      "name": "Disassembly"
+    }
+  ],
+  "TransferType": [
+    {
+      "id": 1063,
+      "name": "AAS"
+    },
+    {
+      "id": 1064,
+      "name": "CAS"
+    },
+    {
+      "id": 1065,
+      "name": "Warm Transfer"
+    },
+    {
+      "id": 1066,
+      "name": "Cold Transfer"
+    },
+    {
+      "id": 1067,
+      "name": "VS"
+    },
+    {
+      "id": 1442,
+      "name": "OAS"
+    }
+  ],
+  "DashboardCharts": [
+    {
+      "id": 1068,
+      "name": "Amcharts"
+    }
+  ],
+  "International_Status": [
+    {
+      "id": 1071,
+      "name": "Inquiry"
+    },
+    {
+      "id": 1072,
+      "name": "Pending"
+    },
+    {
+      "id": 1380,
+      "name": "Booked"
+    },
+    {
+      "id": 1381,
+      "name": "Lost"
+    },
+    {
+      "id": 1382,
+      "name": "Cancelled"
+    }
+  ],
+  "RevisedEstimate_Auto_SendType": [
+    {
+      "id": 1073,
+      "name": "0"
+    }
+  ],
+  "Canada_Pricing_Country_code": [
+    {
+      "id": 1084,
+      "name": "CAN"
+    },
+    {
+      "id": 1085,
+      "name": "USA"
+    },
+    {
+      "id": 1450,
+      "name": "CDL"
+    },
+    {
+      "id": 1451,
+      "name": "FTM"
+    },
+    {
+      "id": 1452,
+      "name": "INU"
+    },
+    {
+      "id": 1453,
+      "name": "LAB"
+    },
+    {
+      "id": 1454,
+      "name": "NUN"
+    },
+    {
+      "id": 1455,
+      "name": "NWT"
+    },
+    {
+      "id": 1456,
+      "name": "YUK"
+    }
+  ],
+  "Method_Of_Invoice": [
+    {
+      "id": 1086,
+      "name": "COD"
+    },
+    {
+      "id": 1457,
+      "name": "Agent to Bills"
+    },
+    {
+      "id": 1458,
+      "name": " Van Line to Bills"
+    }
+  ],
+  "ProductTax": [
+    {
+      "id": 1087,
+      "name": "GST"
+    },
+    {
+      "id": 1088,
+      "name": "HST"
+    },
+    {
+      "id": 1089,
+      "name": "QST"
+    },
+    {
+      "id": 1123,
+      "name": "GSTBK"
+    },
+    {
+      "id": 1124,
+      "name": "GSTonAR"
+    }
+  ],
+  "PricingOption": [
+    {
+      "id": 1090,
+      "name": "Not Applicable"
+    },
+    {
+      "id": 1091,
+      "name": "Standard Price"
+    },
+    {
+      "id": 1125,
+      "name": "TPG"
+    }
+  ],
+  "UnitOfMeasure": [
+    {
+      "id": 1092,
+      "name": "$100"
+    },
+    {
+      "id": 1093,
+      "name": "$1000"
+    },
+    {
+      "id": 1094,
+      "name": "Carton"
+    },
+    {
+      "id": 1095,
+      "name": "Cover"
+    },
+    {
+      "id": 1096,
+      "name": "Cubic Ft."
+    },
+    {
+      "id": 1097,
+      "name": "Cwt"
+    },
+    {
+      "id": 1098,
+      "name": "Days"
+    },
+    {
+      "id": 1099,
+      "name": "Dollars"
+    },
+    {
+      "id": 1100,
+      "name": "Each"
+    },
+    {
+      "id": 1101,
+      "name": "Flat"
+    },
+    {
+      "id": 1102,
+      "name": "Hours"
+    },
+    {
+      "id": 1103,
+      "name": "lb"
+    },
+    {
+      "id": 1104,
+      "name": "Mile"
+    },
+    {
+      "id": 1105,
+      "name": "Miles"
+    }
+  ],
+  "PricingTemplateOwner": [
+    {
+      "id": 1106,
+      "name": "North American"
+    },
+    {
+      "id": 1107,
+      "name": "Allied"
+    }
+  ],
+  "CanadaPricingMethod": [
+    {
+      "id": 1108,
+      "name": "Cost Plus Margin"
+    },
+    {
+      "id": 1109,
+      "name": "Cost Plus Markup"
+    },
+    {
+      "id": 1110,
+      "name": "Tariff Less Discount"
+    },
+    {
+      "id": 1111,
+      "name": "Minumum Margin"
+    },
+    {
+      "id": 1112,
+      "name": "Sell Minimum"
+    },
+    {
+      "id": 1113,
+      "name": "Sell Flat Rate "
+    },
+    {
+      "id": 1114,
+      "name": "Added to Percent"
+    },
+    {
+      "id": 1115,
+      "name": "Not Applicable"
+    }
+  ],
+  "CanadaSchedule": [
+    {
+      "id": 1116,
+      "name": "Blue"
+    },
+    {
+      "id": 1117,
+      "name": "Green"
+    },
+    {
+      "id": 1118,
+      "name": "Yellow"
+    },
+    {
+      "id": 1119,
+      "name": "Red"
+    },
+    {
+      "id": 1120,
+      "name": "Gold"
+    },
+    {
+      "id": 1121,
+      "name": "Platinum"
+    },
+    {
+      "id": 1122,
+      "name": "Black"
+    },
+    {
+      "id": 1282,
+      "name": "White"
+    }
+  ],
+  "Auto_Rush_Fee": [
+    {
+      "id": 1138,
+      "name": "RushFee"
+    }
+  ],
+  "InterRoomSurveyWeightExclude": [
+    {
+      "id": 1280,
+      "name": "Not To Ship"
+    },
+    {
+      "id": 1281,
+      "name": "Items Not Moving"
+    }
+  ],
+  "CaliforniaCountyList": [
+    {
+      "id": 1320,
+      "name": "Alameda County"
+    },
+    {
+      "id": 1321,
+      "name": "Alpine County"
+    },
+    {
+      "id": 1322,
+      "name": "Amador County"
+    },
+    {
+      "id": 1323,
+      "name": "Butte County"
+    },
+    {
+      "id": 1324,
+      "name": "Calaveras County"
+    },
+    {
+      "id": 1325,
+      "name": "Colusa County"
+    },
+    {
+      "id": 1326,
+      "name": "Contra Costa County"
+    },
+    {
+      "id": 1327,
+      "name": "Del Norte County"
+    },
+    {
+      "id": 1328,
+      "name": "El Dorado County"
+    },
+    {
+      "id": 1329,
+      "name": "Fresno County"
+    },
+    {
+      "id": 1330,
+      "name": "Glenn County"
+    },
+    {
+      "id": 1331,
+      "name": "Humboldt County"
+    },
+    {
+      "id": 1332,
+      "name": "Imperial County"
+    },
+    {
+      "id": 1333,
+      "name": "Inyo County"
+    },
+    {
+      "id": 1334,
+      "name": "Kern County"
+    },
+    {
+      "id": 1335,
+      "name": "Kings County"
+    },
+    {
+      "id": 1336,
+      "name": "Lake County"
+    },
+    {
+      "id": 1337,
+      "name": "Lassen County"
+    },
+    {
+      "id": 1338,
+      "name": "Los Angeles County"
+    },
+    {
+      "id": 1339,
+      "name": "Madera County"
+    },
+    {
+      "id": 1340,
+      "name": "Marin County"
+    },
+    {
+      "id": 1341,
+      "name": "Mariposa County"
+    },
+    {
+      "id": 1342,
+      "name": "Mendocino County"
+    },
+    {
+      "id": 1343,
+      "name": "Merced County"
+    },
+    {
+      "id": 1344,
+      "name": "Modoc County"
+    },
+    {
+      "id": 1345,
+      "name": "Mono County"
+    },
+    {
+      "id": 1346,
+      "name": "Monterey County"
+    },
+    {
+      "id": 1347,
+      "name": "Napa County"
+    },
+    {
+      "id": 1348,
+      "name": "Nevada County"
+    },
+    {
+      "id": 1349,
+      "name": "Orange County"
+    },
+    {
+      "id": 1350,
+      "name": "Placer County"
+    },
+    {
+      "id": 1351,
+      "name": "Plumas County"
+    },
+    {
+      "id": 1352,
+      "name": "Riverside County"
+    },
+    {
+      "id": 1353,
+      "name": "Sacramento County"
+    },
+    {
+      "id": 1354,
+      "name": "San Benito County"
+    },
+    {
+      "id": 1355,
+      "name": "San Bernardino County"
+    },
+    {
+      "id": 1356,
+      "name": "San Diego County"
+    },
+    {
+      "id": 1357,
+      "name": "San Francisco County"
+    },
+    {
+      "id": 1358,
+      "name": "San Joaquin County"
+    },
+    {
+      "id": 1359,
+      "name": "San Luis Obispo County"
+    },
+    {
+      "id": 1360,
+      "name": "San Mateo County"
+    },
+    {
+      "id": 1361,
+      "name": "Santa Barbara County"
+    },
+    {
+      "id": 1362,
+      "name": "Santa Clara County"
+    },
+    {
+      "id": 1363,
+      "name": "Shasta County"
+    },
+    {
+      "id": 1364,
+      "name": "Sierra County"
+    },
+    {
+      "id": 1365,
+      "name": "Siskiyou County"
+    },
+    {
+      "id": 1366,
+      "name": "Solano County"
+    },
+    {
+      "id": 1367,
+      "name": "Santa Cruz County"
+    },
+    {
+      "id": 1368,
+      "name": "Sonoma County"
+    },
+    {
+      "id": 1369,
+      "name": "Stanislaus County"
+    },
+    {
+      "id": 1370,
+      "name": "Sutter County"
+    },
+    {
+      "id": 1371,
+      "name": "Tehama County"
+    },
+    {
+      "id": 1372,
+      "name": "Toulumne County"
+    },
+    {
+      "id": 1373,
+      "name": "Trinity County"
+    },
+    {
+      "id": 1374,
+      "name": "Tulare County"
+    },
+    {
+      "id": 1375,
+      "name": "Ventura County"
+    },
+    {
+      "id": 1376,
+      "name": "Yolo County"
+    },
+    {
+      "id": 1377,
+      "name": "Yuba County"
+    }
+  ],
+  "MobileSyncLeadSurveyDateTime": [
+    {
+      "id": 1379,
+      "name": "SurveyDate"
+    },
+    {
+      "id": 1391,
+      "name": "SurveyDate"
+    }
+  ],
+  "IntlSurveyType": [
+    {
+      "id": 1384,
+      "name": "Email"
+    },
+    {
+      "id": 1385,
+      "name": "Inspect"
+    },
+    {
+      "id": 1386,
+      "name": "Non-Surveyed"
+    },
+    {
+      "id": 1387,
+      "name": "Phone"
+    },
+    {
+      "id": 1388,
+      "name": "ReSurvey"
+    },
+    {
+      "id": 1389,
+      "name": "Self Survey"
+    },
+    {
+      "id": 1390,
+      "name": "Video"
+    }
+  ],
+  "MobilePdfDocumentSync": [
+    {
+      "id": 1392,
+      "name": "MobilePdfDocumentSyncFlag"
+    }
+  ],
+  "LMPMoveTypeConfigFlag": [
+    {
+      "id": 1395,
+      "name": "0"
+    }
+  ],
+  "ESignPdfFile_Sequence": [
+    {
+      "id": 1396,
+      "name": "StandardMovePacket"
+    },
+    {
+      "id": 1397,
+      "name": "DOV"
+    },
+    {
+      "id": 1398,
+      "name": "EOS"
+    },
+    {
+      "id": 1399,
+      "name": "Inventory"
+    },
+    {
+      "id": 1400,
+      "name": "Waiver"
+    }
+  ],
+  "IntlRateRequestEmailAddress": [
+    {
+      "id": 1439,
+      "name": "Allied.Rates@SIRVA.com"
+    },
+    {
+      "id": 1440,
+      "name": "nairates@SIRVA.com"
+    }
+  ],
+  "AgencySMTPBrandEmailAddress": [
+    {
+      "id": 1443,
+      "name": "AVL"
+    },
+    {
+      "id": 1444,
+      "name": "NAVL"
+    },
+    {
+      "id": 1447,
+      "name": "AVL"
+    },
+    {
+      "id": 1448,
+      "name": "NAVL"
+    }
+  ],
+  "enableSistrs": [
+    {
+      "id": 1449,
+      "name": "1"
+    }
+  ],
+  "ESigDataTagMax": [
+    {
+      "id": 1459,
+      "name": "visibility"
+    },
+    {
+      "id": 1519,
+      "name": "visibility"
+    }
+  ],
+  "IntlChkListDriveWay": [
+    {
+      "id": 1475,
+      "name": "None"
+    },
+    {
+      "id": 1476,
+      "name": "Steep"
+    },
+    {
+      "id": 1477,
+      "name": "Flat"
+    },
+    {
+      "id": 1478,
+      "name": "Long"
+    }
+  ],
+  "IntlChkListDriveWayLength": [
+    {
+      "id": 1479,
+      "name": "5"
+    },
+    {
+      "id": 1480,
+      "name": "10"
+    },
+    {
+      "id": 1481,
+      "name": "15"
+    },
+    {
+      "id": 1482,
+      "name": "50+"
+    },
+    {
+      "id": 1483,
+      "name": "100+"
+    }
+  ],
+  "IntlChkListAdjoiningResidenceObstructed": [
+    {
+      "id": 1484,
+      "name": "Yes"
+    },
+    {
+      "id": 1485,
+      "name": "No"
+    },
+    {
+      "id": 1486,
+      "name": "N/A"
+    }
+  ],
+  "IntlChkListStreetAccess": [
+    {
+      "id": 1487,
+      "name": "Wide"
+    },
+    {
+      "id": 1488,
+      "name": "Narrow"
+    },
+    {
+      "id": 1489,
+      "name": "Steep"
+    },
+    {
+      "id": 1490,
+      "name": "Flat"
+    },
+    {
+      "id": 1491,
+      "name": "Normal"
+    },
+    {
+      "id": 1492,
+      "name": "Oneway"
+    },
+    {
+      "id": 1493,
+      "name": "Cul de sac"
+    },
+    {
+      "id": 1494,
+      "name": "Roundabout"
+    },
+    {
+      "id": 1495,
+      "name": "Speed humps"
+    },
+    {
+      "id": 1496,
+      "name": "Permit required"
+    },
+    {
+      "id": 1497,
+      "name": "No through road"
+    }
+  ],
+  "IntlChkListTreeOrPowerlines": [
+    {
+      "id": 1498,
+      "name": "Overhanging"
+    },
+    {
+      "id": 1499,
+      "name": "Low"
+    }
+  ],
+  "IntlChkListTreeOrPowerlinesActions": [
+    {
+      "id": 1500,
+      "name": "Care required"
+    },
+    {
+      "id": 1501,
+      "name": "Use low vehicle"
+    }
+  ],
+  "IntlChkListStepsCount": [
+    {
+      "id": 1502,
+      "name": "< 10"
+    },
+    {
+      "id": 1503,
+      "name": "< 20"
+    },
+    {
+      "id": 1504,
+      "name": "20+"
+    }
+  ],
+  "IntlChkListSteps": [
+    {
+      "id": 1505,
+      "name": "Internal"
+    },
+    {
+      "id": 1506,
+      "name": "External"
+    }
+  ],
+  "IntlChkListResidence": [
+    {
+      "id": 1507,
+      "name": "Single storey"
+    },
+    {
+      "id": 1508,
+      "name": "Split level"
+    },
+    {
+      "id": 1509,
+      "name": "Multi storey"
+    },
+    {
+      "id": 1510,
+      "name": "Apartment"
+    }
+  ],
+  "IntlChkListTypesOfLift": [
+    {
+      "id": 1511,
+      "name": "Passenger"
+    },
+    {
+      "id": 1512,
+      "name": "Goods"
+    },
+    {
+      "id": 1513,
+      "name": "N/A"
+    }
+  ],
+  "IntlChkListParking": [
+    {
+      "id": 1514,
+      "name": "DriveWay"
+    },
+    {
+      "id": 1515,
+      "name": "On road"
+    }
+  ],
+  "IntlChkListVehicleSize": [
+    {
+      "id": 1516,
+      "name": "Small"
+    },
+    {
+      "id": 1517,
+      "name": "Rigid"
+    },
+    {
+      "id": 1518,
+      "name": "Semi"
+    }
+  ],
+  "Canada_SelfHaul_LOV": [
+    {
+      "id": 1520,
+      "name": "No"
+    },
+    {
+      "id": 1521,
+      "name": "Self"
+    },
+    {
+      "id": 1522,
+      "name": "Crew Through"
+    }
+  ],
+  "IntlChkListCarryDistance": [
+    {
+      "id": 1523,
+      "name": "< 10"
+    },
+    {
+      "id": 1524,
+      "name": "< 20"
+    },
+    {
+      "id": 1525,
+      "name": "< 50"
+    },
+    {
+      "id": 1526,
+      "name": "50+"
+    }
+  ],
+  "PMQuoteShipmentType": [
+    {
+      "id": 1527,
+      "name": "Door"
+    },
+    {
+      "id": 1528,
+      "name": "Port"
+    },
+    {
+      "id": 1529,
+      "name": "Warehouse"
+    }
+  ],
+  "PMQuoteShipmentMode": [
+    {
+      "id": 1530,
+      "name": "AIR"
+    },
+    {
+      "id": 1531,
+      "name": "FCL"
+    },
+    {
+      "id": 1532,
+      "name": "LCL"
+    }
+  ],
+  "PMQuoteShipmentContainerSize": [
+    {
+      "id": 1533,
+      "name": "20'"
+    },
+    {
+      "id": 1534,
+      "name": "40'"
+    },
+    {
+      "id": 1535,
+      "name": "40HC'"
+    },
+    {
+      "id": 1536,
+      "name": "45HC'"
+    }
+  ],
+  "InternationalRelocationReason": [
+    {
+      "id": 1537,
+      "name": "Relocating to the country for the first time"
+    },
+    {
+      "id": 1538,
+      "name": "Returning to home country after more than 1 year abroad"
+    },
+    {
+      "id": 1539,
+      "name": "Shipping items to a friend / relative"
+    },
+    {
+      "id": 1540,
+      "name": "Moving items to a 2nd residence / holiday home"
+    },
+    {
+      "id": 1541,
+      "name": "Other"
+    }
+  ]
+}
